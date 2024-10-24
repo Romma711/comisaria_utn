@@ -2,4 +2,4 @@ public class Gestora {
 
 }
 
-//TODO registro de Visitas
+//TODO registro de Visitas, Departamentos, Calabozos, Perrera.
