@@ -9,5 +9,5 @@ public enum T_Raza {
     PASTOR_BELGA,
     MALINOIS,
     SCHNAUZER,
-    CRUZA;
+    CRUZA
 }

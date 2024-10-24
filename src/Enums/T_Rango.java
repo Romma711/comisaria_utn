@@ -9,5 +9,5 @@ public enum T_Rango {
     CAPITAN,
     INSPECTOR,
     COMISIONADO,
-    SUPERINTENDENTE;
+    SUPERINTENDENTE
 }

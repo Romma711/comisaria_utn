@@ -11,5 +11,5 @@ public enum T_Depto {
     LIMPIEZA,
     SECRETARIA,
     ADMINISTRACION,
-    RECURSOS_HUMANOS;
+    RECURSOS_HUMANOS
 }
