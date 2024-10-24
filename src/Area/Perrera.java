@@ -2,7 +2,6 @@ package Area;
 
 import Entidades.Perro;
 import Interfaces.ABML;
-
 import java.util.ArrayList;
 
 public class Perrera implements ABML<Perro> {

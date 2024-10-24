@@ -1,9 +1,8 @@
 package Almacen;
-///region IMPORTS
+
 import Interfaces.AL;
 import java.util.ArrayList;
 import java.util.UUID;
-///endregion
 
 public class Caso implements AL<Evidencia> {
     private UUID idCaso;

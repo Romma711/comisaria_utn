@@ -1,9 +1,8 @@
 package Almacen;
-///region IMPORTS
+
 import Interfaces.AL;
 import java.util.ArrayList;
 import java.util.UUID;
-///endregion
 
 public class Registro implements AL<Modificacion> {
     private UUID idRegistro;

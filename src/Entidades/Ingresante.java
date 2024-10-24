@@ -3,13 +3,14 @@ package Entidades;
 import java.util.Date;
 import java.util.UUID;
 
-public abstract class Ingresante {
+public abstract class Ingresante extends Persona{
     private Date fechaIngreso;
     private String razon, nroCasillero;
     private UUID id;
     private Integer cantidadVisitas;
 
-    public Ingresante(Date fechaIngreso, String razon, String nroCasillero, UUID id, Integer cantidadVisitas) {
+    public Ingresante(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, Date fechaIngreso, String razon, String nroCasillero, Integer cantidadVisitas) {
+        super(dni, nombre, apellido, direccion, telefono, edad, genero);
         id = UUID.randomUUID();
         this.fechaIngreso = fechaIngreso;
         this.razon = razon;
@@ -39,6 +40,9 @@ public abstract class Ingresante {
     public UUID getId() {
         return id;
     }
+    protected void setId(UUID id) {
+        this.id = id;
+    }
     public Integer getCantidadVisitas() {
         return cantidadVisitas;
     }
@@ -59,3 +63,5 @@ public abstract class Ingresante {
                 '}';
     }
 }
+
+// TODO modificar el ToString()

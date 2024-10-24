@@ -5,5 +5,9 @@ public enum T_Raza {
     DOBERMAN,
     GOLDEN,
     LABRADOR,
+    ROTTWEILER,
+    PASTOR_BELGA,
+    MALINOIS,
+    SCHNAUZER,
     CRUZA;
 }

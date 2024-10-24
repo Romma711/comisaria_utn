@@ -1,12 +1,11 @@
 package Area;
-///region IMPORTS
+
 import Enums.T_Estado;
 import Interfaces.ABML;
 import Entidades.Procesado;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.UUID;
-///endregion
 
 public class Calabozo implements ABML<Procesado> {
     private UUID idCalabozo;

@@ -1,8 +1,8 @@
 package Almacen;
-///region IMPORTS
+
 import Enums.T_Evidencia;
 import java.util.UUID;
-///endregion
+
 
 public class Evidencia {
     private UUID idEvidencia;

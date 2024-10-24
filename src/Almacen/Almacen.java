@@ -1,11 +1,9 @@
 package Almacen;
-///region IMPORTS
+
 import Enums.T_Material;
-import Interfaces.ABML;
 import Interfaces.AL;
 import java.util.ArrayList;
 import java.util.HashMap;
-///endregion
 
 public class Almacen implements AL<Registro> {
     private HashMap<T_Material, ArrayList<Registro>> almacen;

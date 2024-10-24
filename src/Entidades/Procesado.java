@@ -1,9 +1,9 @@
 package Entidades;
-///region IMPORTS
+
 import Enums.T_Estado;
 import java.util.Date;
 import java.util.UUID;
-///endregion
+
 
 public class Procesado extends Ingresante {
     private String comentario;
@@ -11,7 +11,9 @@ public class Procesado extends Ingresante {
     private UUID idCalabozo;
     private T_Estado estado;
 
-    public Procesado(String comentario, Date fechaEgreso, UUID idCalabozo, T_Estado estado) {
+    public Procesado(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, Date fechaIngreso, String razon, String nroCasillero, Integer cantidadVisitas, String comentario, Date fechaEgreso, UUID idCalabozo, T_Estado estado) {
+        super(dni, nombre, apellido, direccion, telefono, edad, genero, fechaIngreso, razon, nroCasillero, cantidadVisitas);
+        super.setId(UUID.randomUUID());
         this.comentario = comentario;
         this.fechaEgreso = fechaEgreso;
         this.idCalabozo = idCalabozo;
@@ -45,4 +47,16 @@ public class Procesado extends Ingresante {
     }
     ///endregion
 
+
+    @Override
+    public String toString() {
+        return "Procesado{" +
+                "comentario='" + comentario + '\'' +
+                ", fechaEgreso=" + fechaEgreso +
+                ", idCalabozo=" + idCalabozo +
+                ", estado=" + estado +
+                '}';
+    }
 }
+
+// TODO modificar el ToString()

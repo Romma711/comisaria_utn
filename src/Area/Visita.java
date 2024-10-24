@@ -1,8 +1,7 @@
 package Area;
-///region IMPORTS
+
 import Enums.T_Sector;
 import java.util.UUID;
-///endregion
 
 public class Visita {
     private UUID idVisita, idProcesado, idVisitante;

@@ -8,7 +8,7 @@ public class Modificacion {
     private Date ultimaModificacion;
 
     public Modificacion(UUID idOperador, Date ultimaModificacion) {
-        this.idOperador = idOperador;
+        idOperador = UUID.randomUUID();
         this.ultimaModificacion = ultimaModificacion;
     }
 

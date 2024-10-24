@@ -1,10 +1,9 @@
 package Area;
-///region IMPORTS
+
 import Enums.T_Depto;
 import Entidades.Persona;
 import Interfaces.ABML;
 import java.util.ArrayList;
-///endregion
 
 public class Departamento<T extends Persona> implements ABML<T> {
     private ArrayList<T> listaEmpleados;
