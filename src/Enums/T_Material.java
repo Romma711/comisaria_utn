@@ -1,6 +1,8 @@
 package Enums;
 
 public enum T_Material {
-    CASO,
-    MATERIAL_POLICIAL;
+    ARMA,
+    MUESTRA,
+    ESCRITURA,
+    ANALISIS;
 }

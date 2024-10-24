@@ -1,18 +1,18 @@
 package Almacen;
 
-import Enums.T_Material;
+import Enums.T_Registro;
 import Interfaces.AL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Almacen implements AL<Registro> {
-    private HashMap<T_Material, ArrayList<Registro>> almacen;
+    private HashMap<T_Registro, ArrayList<Registro>> almacen;
 
     public Almacen() {
         almacen = new HashMap<>();
     }
 
-    public boolean nuevoMaterial(T_Material material) {
+    public boolean nuevoMaterial(T_Registro material) {
         if (almacen.containsKey(material)) {
             return false;
         } else {
@@ -28,7 +28,7 @@ public class Almacen implements AL<Registro> {
 
     @Override
     public void listar() {
-        for (T_Material clave : almacen.keySet()) {
+        for (T_Registro clave : almacen.keySet()) {
             ArrayList<Registro> valor = almacen.get(clave);
             System.out.println("Material: " + clave + "\nRegistros:\n" + valor.toString());
         }

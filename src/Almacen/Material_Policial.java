@@ -1,26 +1,37 @@
 package Almacen;
 
+import Enums.T_Material;
+
 import java.util.UUID;
 
 public class Material_Policial {
-    private UUID propiedad;
+    private UUID idPropietario;
+    private T_Material tipo;
 
-    public Material_Policial(UUID propiedad) {
-        this.propiedad = propiedad;
+    public Material_Policial(UUID idPropietario, T_Material tipo) {
+        super();
+        this.idPropietario = idPropietario;
+        this.tipo = tipo;
     }
 
     ///region GETTERS & SETTERS
-    public UUID getPropiedad() {
-        return propiedad;
+    public UUID getIdPropietario() {
+        return idPropietario;
     }
-    public void setPropiedad(UUID propiedad) {
-        this.propiedad = propiedad;
+    public void setIdPropietario(UUID idPropietario) {
+        this.idPropietario = idPropietario;
+    }
+    public T_Material getTipo() {
+        return tipo;
+    }
+    public void setTipo(T_Material tipo) {
+        this.tipo = tipo;
     }
     ///endregion
 
 
     @Override
     public String toString() {
-        return "Material propiedad del id: " + propiedad;
+        return "Material propiedad del id: " + idPropietario;
     }
 }

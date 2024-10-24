@@ -4,13 +4,12 @@ import Interfaces.AL;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Caso implements AL<Evidencia> {
-    private UUID idCaso;
+public class Caso extends Registro implements AL<Evidencia> {
     private ArrayList<Evidencia> caja;
     private String comentario;
 
     public Caso(String comentario) {
-        this.idCaso = UUID.randomUUID();
+        super();
         caja = new ArrayList<>();
         this.comentario = comentario;
     }

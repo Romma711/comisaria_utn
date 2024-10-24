@@ -2,22 +2,17 @@ package Almacen;
 
 import java.util.UUID;
 
-public class Denuncia{
-    private UUID idDenuncia;
+public class Denuncia extends Registro{
     private String dniDenunciante, dniDenunciado, declaracion;
 
     public Denuncia(String dniDenunciante, String dniDenunciado, String declaracion) {
-        idDenuncia = UUID.randomUUID();
+        super();
         this.dniDenunciante = dniDenunciante;
         this.dniDenunciado = dniDenunciado;
         this.declaracion = declaracion;
     }
 
     ///region GETTERS & SETTERS
-    public UUID getIdDenuncia() {
-        return idDenuncia;
-    }
-
     public String getDniDenunciante() {
         return dniDenunciante;
     }
@@ -46,8 +41,7 @@ public class Denuncia{
     @Override
     public String toString() {
         return "Denuncia \n" +
-                "idDenuncia=" + idDenuncia +
-                ", dniDenunciante='" + dniDenunciante + '\'' +
+                "dniDenunciante='" + dniDenunciante + '\'' +
                 ", dniDenunciado='" + dniDenunciado + '\'' +
                 "\nDeclaracion: " + declaracion;
     }

@@ -5,19 +5,25 @@ import java.util.UUID;
 
 public class Modificacion {
     private UUID idOperador;
-    private Date ultimaModificacion;
+    private Date fechaModificacion;
 
-    public Modificacion(UUID idOperador, Date ultimaModificacion) {
+    public Modificacion(UUID idOperador, Date fechaModificacion) {
         idOperador = UUID.randomUUID();
-        this.ultimaModificacion = ultimaModificacion;
+        this.fechaModificacion = fechaModificacion;
     }
 
     ///region GETTERS
     public UUID getIdOperador() {
         return idOperador;
     }
-    public Date getUltimaModificacion() {
-        return ultimaModificacion;
+    public void setIdOperador(UUID idOperador) {
+        this.idOperador = idOperador;
+    }
+    public Date getFechaModificacion() {
+        return fechaModificacion;
+    }
+    public void setFechaModificacion(Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
     ///endregion
 
@@ -26,7 +32,7 @@ public class Modificacion {
     public String toString() {
         return "Modificacion {" +
                 "idOperador=" + idOperador +
-                ", ultimaModificacion=" + ultimaModificacion +
+                ", ultimaModificacion=" + fechaModificacion +
                 '}';
     }
 }

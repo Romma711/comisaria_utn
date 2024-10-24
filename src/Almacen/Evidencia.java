@@ -1,15 +1,15 @@
 package Almacen;
 
-import Enums.T_Evidencia;
+import Enums.T_Material;
 import java.util.UUID;
 
 
 public class Evidencia {
     private UUID idEvidencia;
-    private T_Evidencia tipo;
+    private T_Material tipo;
     private String lugar;
 
-    public Evidencia(T_Evidencia tipo, String lugar) {
+    public Evidencia(T_Material tipo, String lugar) {
         idEvidencia = UUID.randomUUID();
         this.tipo = tipo;
         this.lugar = lugar;
@@ -20,11 +20,11 @@ public class Evidencia {
         return idEvidencia;
     }
 
-    public T_Evidencia getTipo() {
+    public T_Material getTipo() {
         return tipo;
     }
 
-    public void setTipo(T_Evidencia tipo) {
+    public void setTipo(T_Material tipo) {
         this.tipo = tipo;
     }
 

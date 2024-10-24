@@ -7,5 +7,9 @@ public enum T_Depto {
     TRANSITO,
     SEGURIDAD,
     CIENTIFICA,
-    FORMACION;
+    FORMACION,
+    LIMPIEZA,
+    SECRETARIA,
+    ADMINISTRACION,
+    RECURSOS_HUMANOS;
 }

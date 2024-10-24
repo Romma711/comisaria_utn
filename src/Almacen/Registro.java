@@ -4,26 +4,29 @@ import Interfaces.AL;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Registro implements AL<Modificacion> {
-    private UUID idRegistro;
+public abstract class Registro {
+    private UUID id;
     private ArrayList<Modificacion> modificaciones;
 
     public Registro() {
-        idRegistro = UUID.randomUUID();
+        id = UUID.randomUUID();
         modificaciones = new ArrayList<>();
     }
 
-    ///region AL
-    @Override
-    public boolean agregar(Modificacion dato) {
+    ///region AL de Registro
+    public boolean agregarMod(Modificacion dato) {
         return modificaciones.add(dato);
     }
-
-    @Override
-    public void listar() {
+    public void listarMods() {
         for (Modificacion modificacion : modificaciones) {
             System.out.println(modificacion.toString());
         }
+    }
+    ///endregion
+
+    ///region GETTERS & SETTERS
+    public UUID getId() {
+        return id;
     }
     ///endregion
 }

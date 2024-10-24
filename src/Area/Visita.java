@@ -61,7 +61,6 @@ public class Visita {
     }
     ///endregion
 
-
     @Override
     public String toString() {
         return "Visita{" +
