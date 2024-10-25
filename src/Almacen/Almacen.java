@@ -5,6 +5,7 @@ import Interfaces.AL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class Almacen implements AL<Registro> {
     private HashMap<T_Registro, ArrayList<Registro>> almacen;
 
@@ -12,27 +13,33 @@ public class Almacen implements AL<Registro> {
         almacen = new HashMap<>();
     }
 
-    public boolean nuevoMaterial(T_Registro material) {
-        if (almacen.containsKey(material)) {
-            return false;
-        } else {
-            almacen.put(material, new ArrayList<>());
-            return true;
+    public void agregarAlAlmacen(T_Registro tipoRegistro, Registro nuevoRegistro) {
+        ArrayList<Registro> listaRegistros = almacen.get(tipoRegistro);
+        if (listaRegistros == null) {
+            listaRegistros = new ArrayList<>();
+            almacen.put(tipoRegistro,listaRegistros);
         }
+        listaRegistros.add(nuevoRegistro);
     }
 
+    ///region AL
     @Override
-    public boolean agregar(Registro dato) {
+    public boolean agregarNoModifcable(Registro dato) {
         return true;
     }
-
     @Override
-    public void listar() {
+    public String lista() {
+        String listado = "";
         for (T_Registro clave : almacen.keySet()) {
             ArrayList<Registro> valor = almacen.get(clave);
-            System.out.println("Material: " + clave + "\nRegistros:\n" + valor.toString());
+            listado = listado.concat("Material: " + clave+ "\n");
+            for (Registro reg : valor) {
+                listado = listado.concat("Registros:\n" + reg.toString());
+            }
         }
+        return listado;
     }
+    ///endregion
 }
 
-//TODO ver nuevoMaterial() y agregar()
+//TODO revisar listar() con pruebas en consola.

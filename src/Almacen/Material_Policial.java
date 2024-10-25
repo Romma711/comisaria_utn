@@ -1,10 +1,10 @@
 package Almacen;
 
 import Enums.T_Material;
-
 import java.util.UUID;
 
-public class Material_Policial {
+
+public class Material_Policial extends Registro {
     private UUID idPropietario;
     private T_Material tipo;
 
@@ -29,9 +29,10 @@ public class Material_Policial {
     }
     ///endregion
 
-
     @Override
     public String toString() {
-        return "Material propiedad del id: " + idPropietario;
+        return "Material policial:" +
+                "ID: " + super.getId() +
+                "propiedad del id: " + idPropietario;
     }
 }

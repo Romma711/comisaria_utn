@@ -1,8 +1,8 @@
 package Almacen;
 
-import Interfaces.AL;
 import java.util.ArrayList;
 import java.util.UUID;
+
 
 public abstract class Registro {
     private UUID id;
@@ -29,4 +29,23 @@ public abstract class Registro {
         return id;
     }
     ///endregion
+
+    public String listar() {
+        String listado = "";
+        int i = 0;
+        for (Modificacion mods : modificaciones) {
+            i++;
+            listado = listado.concat(i +"- ");
+            listado = listado.concat(mods.toString());
+            listado = listado.concat("\n");
+        }
+        return listado;
+    }
+
+    @Override
+    public String toString() {
+        return "Registro:" +
+                "\nID: " + id + '\n' +
+                listar();
+    }
 }

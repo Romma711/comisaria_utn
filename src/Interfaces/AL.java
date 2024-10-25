@@ -1,6 +1,6 @@
 package Interfaces;
 
 public interface AL<T> {
-    public boolean agregar(T dato);
-    public void listar();
+    public boolean agregarNoModifcable(T dato);
+    public String lista();
 }

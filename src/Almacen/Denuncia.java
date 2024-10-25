@@ -1,7 +1,5 @@
 package Almacen;
 
-import java.util.UUID;
-
 public class Denuncia extends Registro{
     private String dniDenunciante, dniDenunciado, declaracion;
 
@@ -16,23 +14,18 @@ public class Denuncia extends Registro{
     public String getDniDenunciante() {
         return dniDenunciante;
     }
-
     public void setDniDenunciante(String dniDenunciante) {
         this.dniDenunciante = dniDenunciante;
     }
-
     public String getDniDenunciado() {
         return dniDenunciado;
     }
-
     public void setDniDenunciado(String dniDenunciado) {
         this.dniDenunciado = dniDenunciado;
     }
-
     public String getDeclaracion() {
         return declaracion;
     }
-
     public void setDeclaracion(String declaracion) {
         this.declaracion = declaracion;
     }
@@ -41,8 +34,12 @@ public class Denuncia extends Registro{
     @Override
     public String toString() {
         return "Denuncia \n" +
-                "dniDenunciante='" + dniDenunciante + '\'' +
-                ", dniDenunciado='" + dniDenunciado + '\'' +
+                "ID de la denuncia: " + super.getId() +
+                "\nDNI del denunciante: " + dniDenunciante +
+                "\nDNI del denunciado: " + dniDenunciado +
                 "\nDeclaracion: " + declaracion;
+
     }
 }
+
+//TODO revisar toString() con pruebas en consola.
