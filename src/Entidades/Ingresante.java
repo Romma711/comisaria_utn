@@ -54,7 +54,8 @@ public abstract class Ingresante extends Persona{
 
     @Override
     public String toString() {
-        return "Ingresante{" +
+        return super.toString() +
+                ", Ingresante{" +
                 "id=" + id +
                 ", fechaIngreso=" + fechaIngreso +
                 ", razon='" + razon + '\'' +
