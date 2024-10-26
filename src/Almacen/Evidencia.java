@@ -5,18 +5,21 @@ import java.util.UUID;
 
 
 public class Evidencia {
-    private UUID idEvidencia;
+    private static Integer cont = 0;
+    private Integer idEvidencia;
     private T_Material tipo;
-    private String lugar;
+    private String paradero, analisis;
 
-    public Evidencia(T_Material tipo, String lugar) {
-        idEvidencia = UUID.randomUUID();
+    public Evidencia(T_Material tipo, String paradero, String analisis) {
+        cont++;
+        idEvidencia = cont;
         this.tipo = tipo;
-        this.lugar = lugar;
+        this.paradero = paradero;
+        this.analisis = analisis;
     }
 
     ///region GETTERS & SETTERS
-    public UUID getIdEvidencia() {
+    public Integer getIdEvidencia() {
         return idEvidencia;
     }
     public T_Material getTipo() {
@@ -25,20 +28,26 @@ public class Evidencia {
     public void setTipo(T_Material tipo) {
         this.tipo = tipo;
     }
-    public String getLugar() {
-        return lugar;
+    public String getParadero() {
+        return paradero;
     }
-    public void setLugar(String lugar) {
-        this.lugar = lugar;
+    public void setParadero(String paradero) {
+        this.paradero = paradero;
+    }
+    public String getAnalisis() {
+        return analisis;
+    }
+    public void setAnalisis(String analisis) {
+        this.analisis = analisis;
     }
     ///endregion
 
     @Override
     public String toString() {
         return "Evidencia:" +
-                "\nID de la evidencia: " + idEvidencia +
-                "\nTipo: " + tipo +
-                "\nLugar: '" + lugar + '\n';
+                "\n    ID de la evidencia: " + idEvidencia +
+                "\n    Tipo: " + tipo +
+                "\n    Lugar: " + paradero +
+                "\n    Analisis: " + analisis + "\n    ------------------------------------\n";
     }
 }
-

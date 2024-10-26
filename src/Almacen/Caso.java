@@ -28,26 +28,28 @@ public class Caso extends Registro implements AL<Evidencia> {
     public boolean agregarNoModifcable(Evidencia dato) {
         return caja.add(dato);
     }
+
     @Override
     public String lista() {
         String listado = "";
         int i = 0;
         for (Evidencia evidencia : caja) {
             i++;
-            listado = listado.concat(i + "- ");
-            System.out.println(evidencia.toString());
+            listado = listado.concat("    " + i + "- ");
+            listado = listado.concat(evidencia.toString());
         }
-        return null;
+        return listado;
     }
     ///endregion
 
     @Override
     public String toString() {
         return "Caso:" +
-                "\nComentario del caso: " + comentario +
-                "\n" + lista();
+                "\n  ID del caso: " + super.getId() +
+                "\n  Comentario del caso: " + comentario +
+                "\n" + lista() +
+                super.toString();
     }
 }
-
 
 //TODO revisar listar() con pruebas en consola.

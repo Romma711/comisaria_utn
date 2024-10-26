@@ -5,11 +5,13 @@ import java.util.UUID;
 
 
 public abstract class Registro {
-    private UUID id;
+    private static Integer cont = 10000;
+    private Integer id;
     private ArrayList<Modificacion> modificaciones;
 
     public Registro() {
-        id = UUID.randomUUID();
+        cont++;
+        id = cont;
         modificaciones = new ArrayList<>();
     }
 
@@ -25,12 +27,12 @@ public abstract class Registro {
     ///endregion
 
     ///region GETTERS & SETTERS
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
     ///endregion
 
-    public String listaRegistros() {
+    public String listaModificaciones() {
         String listado = "";
         int i = 0;
         for (Modificacion mods : modificaciones) {
@@ -39,14 +41,13 @@ public abstract class Registro {
             listado = listado.concat(mods.toString());
             listado = listado.concat("\n");
         }
+        listado = listado.concat("\n\n----------------------------------------------------\n");
         return listado;
     }
 
     @Override
     public String toString() {
-        return "Registro:" +
-                "\nID: " + id + '\n' +
-                listaRegistros();
+        return listaModificaciones();
     }
 }
 

@@ -33,12 +33,12 @@ public class Denuncia extends Registro{
 
     @Override
     public String toString() {
-        return "Denuncia \n" +
-                "ID de la denuncia: " + super.getId() +
-                "\nDNI del denunciante: " + dniDenunciante +
-                "\nDNI del denunciado: " + dniDenunciado +
-                "\nDeclaracion: " + declaracion;
-
+        return "Denuncia:" +
+                "\n  ID de la denuncia: " + super.getId() +
+                "\n  DNI del denunciante: " + dniDenunciante +
+                "\n  DNI del denunciado: " + dniDenunciado +
+                "\n  Declaracion: " + declaracion +
+                super.toString();
     }
 }
 
