@@ -42,4 +42,5 @@ public class Almacen implements AL<Registro> {
     ///endregion
 }
 
+
 //TODO revisar listar() con pruebas en consola.

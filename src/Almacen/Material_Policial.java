@@ -36,3 +36,4 @@ public class Material_Policial extends Registro {
                 "propiedad del id: " + idPropietario;
     }
 }
+

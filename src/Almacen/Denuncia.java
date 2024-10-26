@@ -42,4 +42,5 @@ public class Denuncia extends Registro{
     }
 }
 
+
 //TODO revisar toString() con pruebas en consola.
