@@ -30,7 +30,7 @@ public abstract class Registro {
     }
     ///endregion
 
-    public String listar() {
+    public String listaRegistros() {
         String listado = "";
         int i = 0;
         for (Modificacion mods : modificaciones) {
@@ -46,6 +46,6 @@ public abstract class Registro {
     public String toString() {
         return "Registro:" +
                 "\nID: " + id + '\n' +
-                listar();
+                listaRegistros();
     }
 }
