@@ -2,6 +2,7 @@ import Almacen.Almacen;
 import Area.Calabozo;
 import Area.Departamento;
 import Enums.T_Depto;
+import Enums.T_Rango;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,10 @@ public class Gestora {
     public void crearDepto(T_Depto tipo){
         ArrayList<Departamento>depto = new ArrayList<>();
         menuDeptos.put(tipo,depto);
+    }
+    public void sacarDepto(T_Depto tipo){
+        ArrayList<Departamento>depto = new ArrayList<>();
+        menuDeptos.remove(tipo,depto);
     }
 
     public void menuAlmacenes() {
@@ -60,15 +65,24 @@ public class Gestora {
             selector = lector.nextInt();
             switch (selector) {
                 case 1:
+                    System.out.println("Digame el Departamento que quiere Crear 1.INVESTIGACION 2.NARCOTICOS 3.COMUNICACIONES 4.TRANSITO \n" +
+                    " 5.SEGURIDAD 6.CIENTIFICA 7.FORMACION 8.LIMPIEZA 9.SECRETARIA 10.ADMINISTRACION 11.RECURSOS_HUMANOS");
                     //TODO menuDepto.get(T_Depto).agregar() con todas las funciones de crear y validaciones
                     break;
                 case 2:
+                    System.out.println("Digame el Departamento que quiere Crear 1.INVESTIGACION 2.NARCOTICOS 3.COMUNICACIONES 4.TRANSITO \n" +
+                    " 5.SEGURIDAD 6.CIENTIFICA 7.FORMACION 8.LIMPIEZA 9.SECRETARIA 10.ADMINISTRACION 11.RECURSOS_HUMANOS");
+
                     //TODO menuDepto.get(T_Depto).darDeBaja() con todas las funciones de crear y validaciones
                     break;
                 case 3:
+                    System.out.println("Digame el Departamento que quiere ver 1.INVESTIGACION 2.NARCOTICOS 3.COMUNICACIONES 4.TRANSITO \n" +
+                    " 5.SEGURIDAD 6.CIENTIFICA 7.FORMACION 8.LIMPIEZA 9.SECRETARIA 10.ADMINISTRACION 11.RECURSOS_HUMANOS");
+
                     //TODO menuDepto.get(T_depto).modificar() Con validaciones
                     break;
                 case 4:
+
                     //TODO menuDeptos.get(T_Depto).listar();
                     break;
                 default:
@@ -135,4 +149,7 @@ public class Gestora {
             }
         }while (selector != 0);
     }
+
+
 }
+
