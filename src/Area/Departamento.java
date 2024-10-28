@@ -35,7 +35,7 @@ public class Departamento <T extends Personal> implements ABML<T> {
         while (i < listaEmpleados.size() && !found) {
             if (Objects.equals(dato.getDni(), listaEmpleados.get(i).getDni())) {
                 found = true;
-                moficarPersonal(listaEmpleados.get(i).getDni());
+                moficarPersonal(i);
             }
             i++;
         }
@@ -56,125 +56,78 @@ public class Departamento <T extends Personal> implements ABML<T> {
 
 
 /////////////*************************se puede mejorar**********************\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    public void moficarPersonal(String dni) {
-        int i = buscarPorDNI(dni), e = 0;
-        Scanner scan = new Scanner(System.in);
-        boolean flag = true;
-        if (i != -1) {
-            System.out.println(listaEmpleados.get(i).toString());
-            System.out.println("¿Qué quieres modificar? \n");
 
-            if (listaEmpleados.get(i) instanceof MiembroFuerza) {
-                do {
-                    System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario 6.SerialArma 7.Condecoraciones 8.Rango\n");
-                    e = scan.nextInt();
-                } while (e < 1 || e > 8);
-                MiembroFuerza miembro = (MiembroFuerza) listaEmpleados.get(i);
-                listaEmpleados.set(i, (T) modificarPoli(miembro, e));
-            } else if (listaEmpleados.get(i) instanceof Personal) {
-                do {
-                    System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario\n");
-                    e = scan.nextInt();
-                } while (e < 1 || e > 5);
-                Personal miembro = (Personal) listaEmpleados.get(i);
-                listaEmpleados.set(i, (T) modificarPoli(miembro, e));
-            } else {
-                System.out.println("Miembro no encontrado \n");
-            }
-        }
-        System.out.println(listaEmpleados.get(i).toString());
 
-    }
-
-    public void modificarPersonal(String dni){
-        int i = buscarPorDNI(dni), e = 0;
+    public void moficarPersonal(int lugar){
         int selector;
         Scanner scan = new Scanner(System.in);
-        boolean flag = true;
-        if (i != -1) {
-            System.out.println(listaEmpleados.get(i).toString());
+        if (lugar != -1) {
+            System.out.println(listaEmpleados.get(lugar).toString());
             System.out.println("¿Qué quieres modificar? \n");
-            if(listaEmpleados.get(i) instanceof MiembroFuerza) System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario 6.SerialArma 7.Condecoraciones 8.Rango\n");
-            else System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario\n");
-            selector=scan.nextInt();
+            if(listaEmpleados.get(lugar) instanceof MiembroFuerza){
+                do {
+                    System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario 6.SerialArma 7.Condecoraciones 8.Rango\n");
+                    selector = scan.nextInt();
+                } while (selector < 1 || selector > 8);
+            }else {
+                do {
+                    System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario\n");
+                    selector = scan.nextInt();
+                } while (selector < 1 || selector > 5);
+            }
             switch (selector){
                 case 1:
                     System.out.println("Insertar el nuevo Teléfono\n");
-                    listaEmpleados.get(i).setTelefono(scan.next());
+                    listaEmpleados.get(lugar).setTelefono(scan.next());
                     break;
                 case 2:
                     System.out.println("Insertar el nuevo DNI\n");
-                    listaEmpleados.get(i).setDni(scan.next());
+                    listaEmpleados.get(lugar).setDni(scan.next());
                     break;
                 case 3:
                     System.out.println("Insertar la nueva Edad\n");
-                    listaEmpleados.get(i).setEdad(scan.nextInt());
+                    listaEmpleados.get(lugar).setEdad(scan.nextInt());
                     break;
                 case 4:
+                    int e = 0;
                     do {
                         System.out.println("Insertar el nuevo Género 1.M 2.F\n");
                         e = scan.nextInt();
                     } while (e < 1 || e > 2);
-                    listaEmpleados.get(i).setGenero(Genero(e));
+                    listaEmpleados.get(lugar).setGenero(Genero(e));
                     break;
                 case 5:
                     System.out.println("Insertar el nuevo Salario \n");
-                    listaEmpleados.get(i).setSalario(scan.nextDouble());
+                    ((Personal)listaEmpleados.get(lugar)).setSalario(scan.nextDouble());
                     break;
                 default:
-                    if(listaEmpleados.get(i) instanceof MiembroFuerza){
-                        modificarPoli(listaEmpleados.get(i),selector);
+                    if(listaEmpleados.get(lugar) instanceof MiembroFuerza){
+                        modificarPoli((MiembroFuerza)listaEmpleados.get(lugar),selector);
                     }
                     break;
             }
-            if (listaEmpleados.get(i) instanceof MiembroFuerza) {
-                do {
-                    System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario 6.SerialArma 7.Condecoraciones 8.Rango\n");
-                    e = scan.nextInt();
-                } while (e < 1 || e > 8);
-                MiembroFuerza miembro = (MiembroFuerza) listaEmpleados.get(i);
-                listaEmpleados.set(i, (T) modificarPoli(miembro, e));
-            } else if (listaEmpleados.get(i) instanceof Personal) {
-                do {
-                    System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario\n");
-                    e = scan.nextInt();
-                } while (e < 1 || e > 5);
-                Personal miembro = (Personal) listaEmpleados.get(i);
-                listaEmpleados.set(i, (T) modificarPoli(miembro, e));
-            } else {
-                System.out.println("Miembro no encontrado \n");
-            }
         }
-        System.out.println(listaEmpleados.get(i).toString());
+        System.out.println(listaEmpleados.get(lugar).toString());
     }
 
-    public Persona modificarPoli(Persona miembroFuerza, int i) {
-        System.out.println(miembroFuerza.toString());
+    public void modificarPoli(MiembroFuerza miembroFuerza, int i) {
         Scanner scan = new Scanner(System.in);
         switch (i) {
             case 6:
-                if (miembroFuerza instanceof MiembroFuerza) {
-                    System.out.println("Insertar el nuevo SerialArma \n");
-                    ((MiembroFuerza) miembroFuerza).setSerialArma(scan.next());
-                }
+                System.out.println("Insertar el nuevo SerialArma \n");
+                miembroFuerza.setSerialArma(scan.next());
                 break;
             case 7:
-                if (miembroFuerza instanceof MiembroFuerza) {
-                    System.out.println("Insertar el nuevo número de Condecoraciones \n");
-                    ((MiembroFuerza) miembroFuerza).setCondecoraciones(scan.nextInt());
-                }
+                System.out.println("Insertar el nuevo número de Condecoraciones \n");
+                miembroFuerza.setCondecoraciones(scan.nextInt());
                 break;
             case 8:
-                if (miembroFuerza instanceof MiembroFuerza) {
-                    System.out.println("Seleccione el rango 1.SUPERINTENDENTE 2.SARGENTO 3.SUBTENIENTE 4.TENIENTE 5.TENIENTE_PRIMERO" +
-                            " 6.CAPITAN 7.INSPECTOR 8.COMISIONADO 9.OFICIAL");
-                    ((MiembroFuerza) miembroFuerza).setRango(rango(scan.nextInt()));
-                }
+                System.out.println("Seleccione el rango 1.SUPERINTENDENTE 2.SARGENTO 3.SUBTENIENTE 4.TENIENTE 5.TENIENTE_PRIMERO" +
+                        " 6.CAPITAN 7.INSPECTOR 8.COMISIONADO 9.OFICIAL");
+                miembroFuerza.setRango(rango(scan.nextInt()));
                 break;
         }
-        return miembroFuerza;
     }
-
 
     public Character Genero(int i) {
         if (i == 1) return 'm';
