@@ -2,21 +2,24 @@ package Entidades;
 
 import java.util.UUID;
 
-public class Personal  extends Persona{
-    private UUID legajo;
+public class Personal extends Persona{
+    private Integer legajo;
     private Integer horasDiarias;
     private Double salario, horasTotalesMes;
+    private String tarea;
+    private static Integer cont=100000;
 
     public Personal(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, Integer horasDiarias, Double salario, Double horasTotalesMes) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero);
-        legajo = UUID.randomUUID();
+        legajo = cont;
+        cont++;
         this.horasDiarias = horasDiarias;
         this.salario = salario;
         this.horasTotalesMes = horasTotalesMes;
     }
 
     ///region GETTERS & SETTERS
-    public UUID getLegajo() {
+    public Integer getLegajo() {
         return legajo;
     }
     public Integer getHorasDiarias() {

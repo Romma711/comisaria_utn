@@ -10,14 +10,15 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Departamento <T extends Persona> implements ABML<T> {
+public class Departamento <T extends Personal> implements ABML<T> {
     private ArrayList<T> listaEmpleados;
     private T_Depto depto;
-    private ArrayList<String> tareas;
+    private String tareas;
 
     /// region ABML
     @Override
     public boolean agregar(T dato) {
+
         return listaEmpleados.add(dato);
     }
 
@@ -85,53 +86,87 @@ public class Departamento <T extends Persona> implements ABML<T> {
 
     }
 
+    public void modificarPersonal(String dni){
+        int i = buscarPorDNI(dni), e = 0;
+        int selector;
+        Scanner scan = new Scanner(System.in);
+        boolean flag = true;
+        if (i != -1) {
+            System.out.println(listaEmpleados.get(i).toString());
+            System.out.println("¿Qué quieres modificar? \n");
+            if(listaEmpleados.get(i) instanceof MiembroFuerza) System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario 6.SerialArma 7.Condecoraciones 8.Rango\n");
+            else System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario\n");
+            selector=scan.nextInt();
+            switch (selector){
+                case 1:
+                    System.out.println("Insertar el nuevo Teléfono\n");
+                    listaEmpleados.get(i).setTelefono(scan.next());
+                    break;
+                case 2:
+                    System.out.println("Insertar el nuevo DNI\n");
+                    listaEmpleados.get(i).setDni(scan.next());
+                    break;
+                case 3:
+                    System.out.println("Insertar la nueva Edad\n");
+                    listaEmpleados.get(i).setEdad(scan.nextInt());
+                    break;
+                case 4:
+                    do {
+                        System.out.println("Insertar el nuevo Género 1.M 2.F\n");
+                        e = scan.nextInt();
+                    } while (e < 1 || e > 2);
+                    listaEmpleados.get(i).setGenero(Genero(e));
+                    break;
+                case 5:
+                    System.out.println("Insertar el nuevo Salario \n");
+                    listaEmpleados.get(i).setSalario(scan.nextDouble());
+                    break;
+                default:
+                    if(listaEmpleados.get(i) instanceof MiembroFuerza){
+                        modificarPoli(listaEmpleados.get(i),selector);
+                    }
+                    break;
+            }
+            if (listaEmpleados.get(i) instanceof MiembroFuerza) {
+                do {
+                    System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario 6.SerialArma 7.Condecoraciones 8.Rango\n");
+                    e = scan.nextInt();
+                } while (e < 1 || e > 8);
+                MiembroFuerza miembro = (MiembroFuerza) listaEmpleados.get(i);
+                listaEmpleados.set(i, (T) modificarPoli(miembro, e));
+            } else if (listaEmpleados.get(i) instanceof Personal) {
+                do {
+                    System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario\n");
+                    e = scan.nextInt();
+                } while (e < 1 || e > 5);
+                Personal miembro = (Personal) listaEmpleados.get(i);
+                listaEmpleados.set(i, (T) modificarPoli(miembro, e));
+            } else {
+                System.out.println("Miembro no encontrado \n");
+            }
+        }
+        System.out.println(listaEmpleados.get(i).toString());
+    }
+
     public Persona modificarPoli(Persona miembroFuerza, int i) {
         System.out.println(miembroFuerza.toString());
         Scanner scan = new Scanner(System.in);
         switch (i) {
-            case 1:
-                System.out.println("Dime el nuevo Teléfono\n");
-                miembroFuerza.setTelefono(scan.next());
-                break;
-            case 2:
-                System.out.println("Dime el nuevo DNI\n");
-                miembroFuerza.setDni(scan.next());
-                break;
-            case 3:
-                System.out.println("Dime la nueva Edad\n");
-                miembroFuerza.setEdad(scan.nextInt());
-                break;
-            case 4:
-                int e;
-                do {
-                    System.out.println("Dime el nuevo Género 1.M 2.F\n");
-                    e = scan.nextInt();
-                } while (e < 1 || e > 2);
-                miembroFuerza.setGenero(Genero(e));
-                break;
-            case 5:
-                System.out.println("Dime el nuevo Salario \n");
-                if (miembroFuerza instanceof MiembroFuerza) {
-                    ((MiembroFuerza) miembroFuerza).setSalario(scan.nextDouble());
-                } else if (miembroFuerza instanceof Personal) {
-                    ((Personal) miembroFuerza).setSalario(scan.nextDouble());
-                }
-                break;
             case 6:
                 if (miembroFuerza instanceof MiembroFuerza) {
-                    System.out.println("Dime el nuevo SerialArma \n");
+                    System.out.println("Insertar el nuevo SerialArma \n");
                     ((MiembroFuerza) miembroFuerza).setSerialArma(scan.next());
                 }
                 break;
             case 7:
                 if (miembroFuerza instanceof MiembroFuerza) {
-                    System.out.println("Dime el nuevo número de Condecoraciones \n");
+                    System.out.println("Insertar el nuevo número de Condecoraciones \n");
                     ((MiembroFuerza) miembroFuerza).setCondecoraciones(scan.nextInt());
                 }
                 break;
             case 8:
                 if (miembroFuerza instanceof MiembroFuerza) {
-                    System.out.println("Dime el rango 1.SUPERINTENDENTE 2.SARGENTO 3.SUBTENIENTE 4.TENIENTE 5.TENIENTE_PRIMERO" +
+                    System.out.println("Seleccione el rango 1.SUPERINTENDENTE 2.SARGENTO 3.SUBTENIENTE 4.TENIENTE 5.TENIENTE_PRIMERO" +
                             " 6.CAPITAN 7.INSPECTOR 8.COMISIONADO 9.OFICIAL");
                     ((MiembroFuerza) miembroFuerza).setRango(rango(scan.nextInt()));
                 }
