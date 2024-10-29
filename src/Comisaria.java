@@ -2,18 +2,17 @@ import Almacen.Almacen;
 import Area.Calabozo;
 import Area.Departamento;
 import Enums.T_Depto;
-import Enums.T_Rango;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Gestora {
+public class Comisaria {
     private final HashMap<T_Depto, ArrayList<Departamento>>menuDeptos;
     private Almacen almacen;
     private Calabozo calabozo;
 
-    public Gestora(){
+    public Comisaria(){
         menuDeptos= new HashMap<>();
     }
 
