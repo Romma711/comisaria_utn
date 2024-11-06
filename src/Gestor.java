@@ -1,7 +1,4 @@
-import Almacen.Denuncia;
-import Almacen.Evidencia;
-import Almacen.Material_Policial;
-import Almacen.Modificacion;
+import Almacen.*;
 import Entidades.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,8 +49,22 @@ public class Gestor {
                 }
             }
         }
+        if(obj instanceof Registro){
+            convertirRegistro(json,(Registro) obj);
+            if(obj instanceof Material_Policial){
+                convertirMaterialPolicial(json,(Material_Policial) obj);
+            }
+            if(obj instanceof Denuncia){
+                convertirDenuncia(json,(Denuncia) obj);
+            }
+            if(obj instanceof Caso){
+                convertirCaso(json,(Caso) obj);
+            }
+
+        }
         return json;
     }
+    //region convertir a json
     private static void convertirPersona(JSONObject json, Persona obj){
         json.put("nombre",obj.getNombre());
         json.put("apellido",obj.getApellido());
@@ -119,12 +130,26 @@ public class Gestor {
         json.put("declaracion",obj.getDeclaracion());
     }
 
-    private static void convertirCaso(JSONObject json,JSONArray array, String obj){
+    private static void convertirCaso(JSONObject json, Caso obj){
+        JSONArray array = new JSONArray();
+        JSONObject aux = new JSONObject();
+        for(int i=0; i<obj.retornarLength();i++){
+            convertirEvidencia(aux,obj.retornarEvidencia(i));
+            array.put(aux);
+        }
         json.put("comentarios",obj);
         json.put("evidencias",array);
     }
-    private static void convertirCaso(JSONObject json,JSONArray array, int obj) {
+    private static void convertirRegistro(JSONObject json, Registro obj) {
+        JSONArray array = new JSONArray();
+        JSONObject aux = new JSONObject();
+        for(int i=0; i<obj.retornarLenght();i++){
+            convertirModificacion(aux,obj.retornarPosicion(i));
+            array.put(aux);
+        }
         json.put("id_registro", obj);
         json.put("modificaciones", array);
     }
+    //endregion
+
 }

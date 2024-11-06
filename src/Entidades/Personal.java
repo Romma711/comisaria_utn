@@ -18,7 +18,7 @@ public class Personal extends Persona{
         this.horasTotalesMes = horasTotalesMes;
     }
 
-    ///region GETTERS & SETTERS
+    //region GETTERS & SETTERS
     public Integer getLegajo() {
         return legajo;
     }
@@ -40,7 +40,14 @@ public class Personal extends Persona{
     public void setHorasTotalesMes(Double horasTotalesMes) {
         this.horasTotalesMes = horasTotalesMes;
     }
-    ///endregion
+    public String getTarea() {
+        return tarea;
+    }
+    public void setTarea(String tarea) {
+        this.tarea = tarea;
+    }
+
+    //endregion
 
 
     @Override

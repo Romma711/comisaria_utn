@@ -22,6 +22,12 @@ public class Caso extends Registro implements AL<Evidencia> {
         this.comentario = comentario;
     }
     ///endregion
+    public int retornarLength(){
+        return caja.size();
+    }
+    public Evidencia retornarEvidencia(int i){
+        return caja.get(i);
+    }
 
     ///region AL
     @Override

@@ -24,6 +24,12 @@ public abstract class Registro {
             System.out.println(modificacion.toString());
         }
     }
+    public Modificacion retornarPosicion(int i){
+        return modificaciones.get(1);
+    }
+    public int retornarLenght(){
+        return modificaciones.size();
+    }
     ///endregion
 
     ///region GETTERS & SETTERS
