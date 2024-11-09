@@ -1,17 +1,17 @@
 package Entidades;
 
-import java.util.Date;
-import java.util.UUID;
+import java.time.LocalDate;
 
 public abstract class Ingresante extends Persona{
-    private Date fechaIngreso;
+    private static int contadorId = 100000;
+    private final int id;
+    private LocalDate fechaIngreso;
     private String razon, nroCasillero;
-    private UUID id;
     private Integer cantidadVisitas;
 
-    public Ingresante(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, Date fechaIngreso, String razon, String nroCasillero, Integer cantidadVisitas) {
+    public Ingresante(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, LocalDate fechaIngreso, String razon, String nroCasillero, Integer cantidadVisitas) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero);
-        id = UUID.randomUUID();
+        this.id = contadorId++;
         this.fechaIngreso = fechaIngreso;
         this.razon = razon;
         this.nroCasillero = nroCasillero;
@@ -19,33 +19,38 @@ public abstract class Ingresante extends Persona{
     }
 
     ///region GETTERS & SETTERS
-    public Date getFechaIngreso() {
+    public LocalDate getFechaIngreso() {
         return fechaIngreso;
     }
-    public void setFechaIngreso(Date fechaIngreso) {
+
+    public void setFechaIngreso(LocalDate fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
+
     public String getRazon() {
         return razon;
     }
+
     public void setRazon(String razon) {
         this.razon = razon;
     }
+
     public String getNroCasillero() {
         return nroCasillero;
     }
+
     public void setNroCasillero(String nroCasillero) {
         this.nroCasillero = nroCasillero;
     }
-    public UUID getId() {
+
+    public int getId() {
         return id;
     }
-    protected void setId(UUID id) {
-        this.id = id;
-    }
+
     public Integer getCantidadVisitas() {
         return cantidadVisitas;
     }
+
     public void setCantidadVisitas(Integer cantidadVisitas) {
         this.cantidadVisitas = cantidadVisitas;
     }

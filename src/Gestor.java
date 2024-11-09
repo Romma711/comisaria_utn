@@ -103,7 +103,7 @@ public class Gestor {
     private static void convertirProcesado(JSONObject json, Procesado obj){
         json.put("comentario",obj.getComentario());
         json.put("fecha_egreso",obj.getFechaEgreso());
-        json.put("id_calabozo",obj.getIdCalabozo());
+        json.put("id_calabozo",obj.getId());
         json.put("estado",obj.getEstado().getClass());
     }
 
