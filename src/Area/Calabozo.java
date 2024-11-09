@@ -24,12 +24,16 @@ public class Calabozo implements ABML<Procesado> {
     public boolean agregar(Procesado dato) {
         return reclusos.add(dato);
     }
-
     @Override
     public boolean eliminar(Procesado dato) {
         return reclusos.remove(dato);
     }
-
+    @Override
+    public void listar() {
+        for (Procesado procesado: reclusos) {
+            System.out.println(procesado.toString());
+        }
+    }
     @Override
     public void modificar(Procesado dato) {
         Scanner scan = new Scanner(System.in);
@@ -61,12 +65,10 @@ public class Calabozo implements ABML<Procesado> {
             }
         }
     }
-
     private void cambiarComentario(Procesado dato, Scanner scan){
         System.out.println("Ingrese el nuevo comentario");
         dato.setComentario(scan.nextLine());
     }
-
     private void cambiarEstado(Procesado dato, Scanner scan){
         System.out.println("Ingrese: 'P' para 'Procesado', 'I' para 'Indultado', 'D' para 'Detenido', 'M' para 'Migrado'");
         T_Estado estado = T_Estado.PROCESADO;
@@ -97,7 +99,6 @@ public class Calabozo implements ABML<Procesado> {
         }
         dato.setEstado(estado);
     }
-
     private void cambiarFechaEgreso(Procesado dato, Scanner scan){
         System.out.println("Ingrese la fecha de egreso con formato YYYY-MM-DD:");
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -113,13 +114,6 @@ public class Calabozo implements ABML<Procesado> {
             } catch (DateTimeParseException e){
                 System.out.println("Formato de fecha invalido. Por favor ingrese en el formato YYYY-MM-DD.");
             }
-        }
-    }
-
-    @Override
-    public void listar() {
-        for (Procesado procesado: reclusos) {
-            System.out.println(procesado.toString());
         }
     }
 }

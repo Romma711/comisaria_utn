@@ -50,8 +50,6 @@ public abstract class Ingresante extends Persona{
         this.cantidadVisitas = cantidadVisitas;
     }
     ///endregion
-
-
     @Override
     public String toString() {
         return super.toString() +

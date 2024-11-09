@@ -3,137 +3,112 @@ package Area;
 import Entidades.MiembroFuerza;
 import Entidades.Personal;
 import Enums.T_Depto;
-import Entidades.Persona;
 import Enums.T_Rango;
-import Interfaces.ABML;
+import Exceptions.NoEncontradoException;
+import Exceptions.NoHayNadieEnLista;
+import Exceptions.YaExisteException;
+
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Departamento <T extends Personal> implements ABML<T> {
-    private ArrayList<T> listaEmpleados;
-    private T_Depto depto;
-    private String tareas;
+public class Departamento <T extends Personal> {
+    private HashMap<T_Depto, ArrayList<T>>listaDepartamentos;
 
-    /// region ABML
-    @Override
-    public boolean agregar(T dato) {
-
-        return listaEmpleados.add(dato);
+    public Departamento() {
+        listaDepartamentos = new HashMap<>();
     }
 
-    @Override
-    public boolean eliminar(T dato) {
-        return listaEmpleados.remove(dato);
+    public boolean agregarAlDepartamento(T_Depto tipoDepto, T dato) throws YaExisteException {
+        ArrayList<T> depto = listaDepartamentos.get(tipoDepto);
+        if (depto == null) {
+            depto = new ArrayList<>();
+            listaDepartamentos.put(tipoDepto,depto);
+        }
+        if(!depto.add(dato)){
+            throw new YaExisteException("el personal que intenta agregar ya existe dentro de la lista");
+        }
+        return depto.add(dato);
     }
 
-
-    @Override
-    public void modificar(T dato) {
-        boolean found = false;
-        int i = 0;
-        while (i < listaEmpleados.size() && !found) {
-            if (Objects.equals(dato.getDni(), listaEmpleados.get(i).getDni())) {
-                found = true;
-                moficarPersonal(i);
+    public boolean eliminarDelDepartamento(T_Depto tipoDepto, T dato) throws NoEncontradoException {
+        Boolean flag=false;
+        for(int i = 0; i < listaDepartamentos.get(tipoDepto).size(); i++){
+            if(listaDepartamentos.get(tipoDepto).get(i).equals(dato)){
+                listaDepartamentos.get(tipoDepto).get(i).setActivo(false);
+                flag=true;
+                break;
             }
-            i++;
         }
-        if (!found) {
-            System.out.println("Empleado no encontrado.");
+        if(!flag){
+            throw new NoEncontradoException("No se encontro el personal seleccionado");
         }
+        return flag;
+    }
+    public boolean listar(T_Depto tipoDepto) throws NoHayNadieEnLista {
+        ArrayList<T> person= listaDepartamentos.get(tipoDepto);
+        if(person!=null){
+            System.out.println("nombre del Departamento" + tipoDepto + "\n");
+            for (T persona: person){
+                System.out.println(persona.toString());
+            }
+        }else {
+            throw new NoHayNadieEnLista("No hay personas aqui");
+        }
+        return person!=null;
     }
 
-    @Override
-    public void listar() {
-        System.out.println("\n Nombre del departamento  " + depto + "\n");
-        for (Persona person : listaEmpleados) {
-            System.out.println(listaEmpleados.toString());
-        }
-    }
-
-    /// endregion
-
-
-/////////////*************************se puede mejorar**********************\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-
-    public void moficarPersonal(int lugar){
-        int selector;
+    public void moficarPersonal(T_Depto tipoDepto, int lugar, int selector)  {
         Scanner scan = new Scanner(System.in);
         if (lugar != -1) {
-            System.out.println(listaEmpleados.get(lugar).toString());
-            System.out.println("¿Qué quieres modificar? \n");
-            if(listaEmpleados.get(lugar) instanceof MiembroFuerza){
-                do {
-                    System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario 6.SerialArma 7.Condecoraciones 8.Rango\n");
-                    selector = scan.nextInt();
-                } while (selector < 1 || selector > 8);
-            }else {
-                do {
-                    System.out.println("1.Telefono 2.DNI 3.Edad 4.Género 5.Salario\n");
-                    selector = scan.nextInt();
-                } while (selector < 1 || selector > 5);
-            }
-            switch (selector){
+            switch (selector) {
                 case 1:
-                    System.out.println("Insertar el nuevo Teléfono\n");
-                    listaEmpleados.get(lugar).setTelefono(scan.next());
+                    listaDepartamentos.get(tipoDepto).get(lugar).setTelefono(scan.next());
                     break;
                 case 2:
-                    System.out.println("Insertar el nuevo DNI\n");
-                    listaEmpleados.get(lugar).setDni(scan.next());
+                    listaDepartamentos.get(tipoDepto).get(lugar).setDni(scan.next());
                     break;
                 case 3:
-                    System.out.println("Insertar la nueva Edad\n");
-                    listaEmpleados.get(lugar).setEdad(scan.nextInt());
+                    listaDepartamentos.get(tipoDepto).get(lugar).setEdad(scan.nextInt());
                     break;
                 case 4:
                     int e = 0;
                     do {
-                        System.out.println("Insertar el nuevo Género 1.M 2.F\n");
                         e = scan.nextInt();
                     } while (e < 1 || e > 2);
-                    listaEmpleados.get(lugar).setGenero(Genero(e));
+                    listaDepartamentos.get(tipoDepto).get(lugar).setGenero(Genero(e));
                     break;
                 case 5:
-                    System.out.println("Insertar el nuevo Salario \n");
-                    ((Personal)listaEmpleados.get(lugar)).setSalario(scan.nextDouble());
-                    break;
-                default:
-                    if(listaEmpleados.get(lugar) instanceof MiembroFuerza){
-                        modificarPoli((MiembroFuerza)listaEmpleados.get(lugar),selector);
+                    try {
+                        listaDepartamentos.get(tipoDepto).get(lugar).setSalario(scan.nextDouble());
+                    }catch (InputMismatchException a){
+                        a.printStackTrace();
                     }
                     break;
+                case 6:
+                    if(listaDepartamentos.get(tipoDepto).get(lugar) instanceof  MiembroFuerza){
+                        ((MiembroFuerza) listaDepartamentos.get(tipoDepto).get(lugar)).setSerialArma(scan.toString());
+                    }
+                    break;
+                case 7:
+                    if(listaDepartamentos.get(tipoDepto).get(lugar) instanceof  MiembroFuerza){
+                        ((MiembroFuerza) listaDepartamentos.get(tipoDepto).get(lugar)).setCondecoraciones(scan.nextInt());
+                    }
+                    break;
+                case 8:
+                    if(listaDepartamentos.get(tipoDepto).get(lugar) instanceof  MiembroFuerza){
+                        ((MiembroFuerza) listaDepartamentos.get(tipoDepto).get(lugar)).setRango(rango(scan.nextInt()));
+                    }
+                    break;
+
             }
         }
-        System.out.println(listaEmpleados.get(lugar).toString());
     }
-
-    public void modificarPoli(MiembroFuerza miembroFuerza, int i) {
-        Scanner scan = new Scanner(System.in);
-        switch (i) {
-            case 6:
-                System.out.println("Insertar el nuevo SerialArma \n");
-                miembroFuerza.setSerialArma(scan.next());
-                break;
-            case 7:
-                System.out.println("Insertar el nuevo número de Condecoraciones \n");
-                miembroFuerza.setCondecoraciones(scan.nextInt());
-                break;
-            case 8:
-                System.out.println("Seleccione el rango 1.SUPERINTENDENTE 2.SARGENTO 3.SUBTENIENTE 4.TENIENTE 5.TENIENTE_PRIMERO" +
-                        " 6.CAPITAN 7.INSPECTOR 8.COMISIONADO 9.OFICIAL");
-                miembroFuerza.setRango(rango(scan.nextInt()));
-                break;
-        }
-    }
-
     public Character Genero(int i) {
         if (i == 1) return 'm';
         else return 'f';
     }
-
     public T_Rango rango(int i) {
         return switch (i) {
             case 1 -> T_Rango.SUPERINTENDENTE;
@@ -147,15 +122,5 @@ public class Departamento <T extends Personal> implements ABML<T> {
             default -> T_Rango.OFICIAL;
         };
     }
-
-    public int buscarPorDNI(String DNI) {
-        for (int i = 0; i < listaEmpleados.size(); i++) {
-            if (Objects.equals(DNI, listaEmpleados.get(i).getDni())) {
-                return i;
-            }
-        }
-        return -1;
-    }
 }
-
 // TODO modificar, listar del ABML

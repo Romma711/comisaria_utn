@@ -7,12 +7,14 @@ public class Personal extends Persona{
     private Integer horasDiarias;
     private Double salario, horasTotalesMes;
     private String tarea;
+    private boolean activo;
     private static Integer cont=100000;
 
     public Personal(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, Integer horasDiarias, Double salario, Double horasTotalesMes) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero);
         legajo = cont;
         cont++;
+        this.activo = true;
         this.horasDiarias = horasDiarias;
         this.salario = salario;
         this.horasTotalesMes = horasTotalesMes;
@@ -46,8 +48,15 @@ public class Personal extends Persona{
     public void setTarea(String tarea) {
         this.tarea = tarea;
     }
+    public boolean isActivo() {
+        return activo;
+    }
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
 
-    //endregion
+
+//endregion
 
 
     @Override
