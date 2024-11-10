@@ -1,5 +1,7 @@
 package Almacen;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -25,10 +27,13 @@ public abstract class Registro {
         }
     }
     public Modificacion retornarPosicion(int i){
-        return modificaciones.get(1);
+        return modificaciones.get(i);
     }
     public int retornarLenght(){
         return modificaciones.size();
+    }
+    protected void setId (Integer id) {
+        this.id = id;
     }
     ///endregion
 
@@ -37,6 +42,8 @@ public abstract class Registro {
         return id;
     }
     ///endregion
+
+    public abstract Registro jsonToThisClass(JSONObject jason);
 
     public String listaModificaciones() {
         String listado = "";

@@ -1,6 +1,8 @@
 package Almacen;
 
 import Enums.T_Material;
+import org.json.JSONObject;
+
 import java.util.UUID;
 
 
@@ -16,6 +18,8 @@ public class Evidencia {
         this.tipo = tipo;
         this.paradero = paradero;
         this.analisis = analisis;
+    }
+    public Evidencia() {
     }
 
     ///region GETTERS & SETTERS
@@ -40,7 +44,21 @@ public class Evidencia {
     public void setAnalisis(String analisis) {
         this.analisis = analisis;
     }
+    private void setIdEvidencia(Integer idEvidencia) {
+        this.idEvidencia = idEvidencia;
+    }
     ///endregion
+
+    public Evidencia jsonToThisClass(JSONObject jason) {
+        Evidencia evidencia = new Evidencia();
+
+        evidencia.setTipo(jason.getEnum(T_Material.class,"tipo"));
+        evidencia.setParadero(jason.getString("paradero"));
+        evidencia.setAnalisis(jason.getString("analisis"));
+        evidencia.setIdEvidencia(jason.getInt("idEvidencia"));
+
+        return evidencia;
+    }
 
     @Override
     public String toString() {

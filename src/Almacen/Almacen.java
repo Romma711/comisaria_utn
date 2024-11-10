@@ -1,9 +1,11 @@
 package Almacen;
 
 import Enums.T_Registro;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 
 public class Almacen {
@@ -32,6 +34,31 @@ public class Almacen {
             }
         }
         return null;
+    }
+
+    public Registro crearRegistro(T_Registro clave) {
+        return switch (clave) {
+            case CASO -> new Caso();
+            case DENUNCIAS -> new Denuncia();
+            case MATERIAL_POLICIAL -> new Material_Policial();
+        };
+    }
+    public Almacen jasonToThisClass(JSONObject jason) {
+        Almacen almacen = new Almacen();
+
+        for (T_Registro clave : T_Registro.values()) {
+            if (jason.has(clave.name())) {
+                JSONArray jsonArray = jason.getJSONArray(clave.name());
+                ArrayList<String> arrayList = new ArrayList<>();
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject registroJson = jsonArray.getJSONObject(i);
+                    Registro registro = crearRegistro(clave);
+                    almacen.agregarAlAlmacen(clave, registro.jsonToThisClass(registroJson));
+                }
+            }
+        }
+        return almacen;
     }
 
     public String lista() {

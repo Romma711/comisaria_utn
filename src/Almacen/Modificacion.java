@@ -1,34 +1,51 @@
 package Almacen;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.UUID;
 
-
 public class Modificacion {
     private UUID idOperador;
-    private Date fechaModificacion;
-    private String razon;
+    private String fechaModificacion, razon;
 
-    public Modificacion(UUID idOperador, Date fechaModificacion, String comentario) {
+    public Modificacion(UUID idOperador, String fechaModificacion, String comentario) {
         this.idOperador = idOperador;
         this.fechaModificacion = fechaModificacion;
         this.razon = comentario;
     }
+    public Modificacion() {
+    }
 
-    ///region GETTERS
+    ///region GETTERS & SETTERS
     public UUID getIdOperador() {
         return idOperador;
     }
-    public Date getFechaModificacion() {
+    public String getFechaModificacion() {
         return fechaModificacion;
     }
     public String getRazon() {
         return razon;
     }
+
     public void setRazon(String razon) {
         this.razon = razon;
     }
+    private void setIdOperador(UUID idOperador) {
+        this.idOperador = idOperador;
+    }
+    private void setFechaModificacion(String fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
     ///endregion
+
+    public Modificacion jsonToThisClass(JSONObject jason) {
+        Modificacion modificacion = new Modificacion();
+        modificacion.setIdOperador(UUID.fromString(jason.getString("idOperador")));
+        modificacion.setFechaModificacion(jason.getString("fechaModificacion"));
+        modificacion.setRazon(jason.getString("razon"));
+        return modificacion;
+    }
 
     @Override
     public String toString() {

@@ -1,5 +1,8 @@
 package Almacen;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Denuncia extends Registro{
     private String dniDenunciante, dniDenunciado, declaracion;
 
@@ -8,6 +11,8 @@ public class Denuncia extends Registro{
         this.dniDenunciante = dniDenunciante;
         this.dniDenunciado = dniDenunciado;
         this.declaracion = declaracion;
+    }
+    public Denuncia() {
     }
 
     ///region GETTERS & SETTERS
@@ -30,6 +35,26 @@ public class Denuncia extends Registro{
         this.declaracion = declaracion;
     }
     ///endregion
+
+    @Override
+    public Denuncia jsonToThisClass(JSONObject jason) {
+        Denuncia denuncia = new Denuncia();
+        denuncia.setId(jason.getInt("id"));
+        denuncia.setDeclaracion(jason.getString("declaracion"));
+        denuncia.setDniDenunciado(jason.getString("dniDenunciado"));
+        denuncia.setDniDenunciante(jason.getString("dniDenunciante"));
+
+        JSONArray listado = jason.getJSONArray("modificaciones");
+        for (int i = 0; i < listado.length(); i++) {
+            JSONObject modificacionJSON = listado.getJSONObject(i);
+            Modificacion modificacion = new Modificacion();
+            modificacion = modificacion.jsonToThisClass(modificacionJSON);
+
+            denuncia.agregarMod(modificacion);
+        }
+
+        return denuncia;
+    }
 
     @Override
     public String toString() {

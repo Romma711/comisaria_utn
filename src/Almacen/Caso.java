@@ -1,6 +1,9 @@
 package Almacen;
 
 import Interfaces.AL;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -13,6 +16,9 @@ public class Caso extends Registro implements AL<Evidencia> {
         caja = new ArrayList<>();
         this.comentario = comentario;
     }
+    public Caso() {
+        super();
+    }
 
     ///region GETTERS & SETTERS
     public String getComentario() {
@@ -22,11 +28,39 @@ public class Caso extends Registro implements AL<Evidencia> {
         this.comentario = comentario;
     }
     ///endregion
+
     public int retornarLength(){
         return caja.size();
     }
     public Evidencia retornarEvidencia(int i){
         return caja.get(i);
+    }
+
+    @Override
+    public Caso jsonToThisClass(JSONObject jason) {
+        Caso caso = new Caso();
+        caso.setId(jason.getInt("id"));
+        caso.setComentario(jason.getString("comentario"));
+
+        JSONArray listado = jason.getJSONArray("caja");
+        for (int i = 0; i < listado.length(); i++) {
+            JSONObject evidenciaJSON = listado.getJSONObject(i);
+            Evidencia evidencia = new Evidencia();
+            evidencia = evidencia.jsonToThisClass(evidenciaJSON);
+
+            caso.agregarNoModifcable(evidencia);
+        }
+
+        listado = jason.getJSONArray("modificaciones");
+        for (int i = 0; i < listado.length(); i++) {
+            JSONObject modificacionJSON = listado.getJSONObject(i);
+            Modificacion modificacion = new Modificacion();
+            modificacion = modificacion.jsonToThisClass(modificacionJSON);
+
+            caso.agregarMod(modificacion);
+        }
+
+        return caso;
     }
 
     ///region AL
