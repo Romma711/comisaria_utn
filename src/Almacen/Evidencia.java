@@ -1,12 +1,13 @@
 package Almacen;
 
 import Enums.T_Material;
+import Interfaces.IJson;
 import org.json.JSONObject;
 
 import java.util.UUID;
 
 
-public class Evidencia {
+public class Evidencia implements IJson<Evidencia> {
     private static Integer cont = 0;
     private Integer idEvidencia;
     private T_Material tipo;
@@ -20,6 +21,7 @@ public class Evidencia {
         this.analisis = analisis;
     }
     public Evidencia() {
+        cont++;
     }
 
     ///region GETTERS & SETTERS
@@ -58,6 +60,16 @@ public class Evidencia {
         evidencia.setIdEvidencia(jason.getInt("idEvidencia"));
 
         return evidencia;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        json.put("analisis",this.getAnalisis());
+        json.put("paradero",this.getParadero());
+        json.put("id_evidencia",this.getIdEvidencia());
+        json.put("tipo",this.getTipo().getClass());
+        return json;
     }
 
     @Override

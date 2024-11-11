@@ -1,13 +1,14 @@
 package Almacen;
 
 import Enums.T_Material;
+import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.UUID;
 
 
-public class Material_Policial extends Registro {
+public class Material_Policial extends Registro implements IJson<Material_Policial> {
     private String idPropietario;
     private T_Material tipo;
 
@@ -51,6 +52,14 @@ public class Material_Policial extends Registro {
         }
 
         return mat_pol;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        json.put("id_propietario",this.getIdPropietario());
+        json.put("tipo",this.getTipo().getClass());
+        return json;
     }
 
     @Override

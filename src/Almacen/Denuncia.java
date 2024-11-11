@@ -1,9 +1,10 @@
 package Almacen;
 
+import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Denuncia extends Registro{
+public class Denuncia extends Registro implements IJson<Denuncia> {
     private String dniDenunciante, dniDenunciado, declaracion;
 
     public Denuncia(String dniDenunciante, String dniDenunciado, String declaracion) {
@@ -54,6 +55,15 @@ public class Denuncia extends Registro{
         }
 
         return denuncia;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        json.put("denunciante",this.getDniDenunciante());
+        json.put("denunciado",this.getDniDenunciado());
+        json.put("declaracion",this.getDeclaracion());
+        return json;
     }
 
     @Override

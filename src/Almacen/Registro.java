@@ -1,12 +1,14 @@
 package Almacen;
 
+import Interfaces.IJson;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 
-public abstract class Registro {
+public abstract class Registro{
     private static Integer cont = 10000;
     private Integer id;
     private ArrayList<Modificacion> modificaciones;

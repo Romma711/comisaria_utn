@@ -1,11 +1,13 @@
 package Entidades;
 
 import Enums.T_Estado;
+import Interfaces.IJson;
+import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Procesado extends Ingresante {
+public class Procesado extends Ingresante implements IJson<Procesado> {
     private String comentario;
     private LocalDate fechaEgreso;
     private int id;
@@ -74,6 +76,33 @@ public class Procesado extends Ingresante {
                 ", id=" + id +
                 ", estado=" + estado +
                 '}';
+    }
+
+    @Override
+    public Procesado jsonToThisClass(JSONObject json) {
+        return null;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json=new JSONObject();
+        json.put("nombre",this.getNombre());
+        json.put("apellido",this.getApellido());
+        json.put("direccion",this.getDireccion());
+        json.put("telefono",this.getTelefono());
+        json.put("dni",this.getDni());
+        json.put("edad",this.getEdad());
+        json.put("genero",this.getGenero());
+        json.put("fecha_ingreso",this.getFechaIngreso());
+        json.put("razon",this.getRazon());
+        json.put("nro_casillero",this.getNroCasillero());
+        json.put("id",this.getId());
+        json.put("cantidad_visitas",this.getCantidadVisitas());
+        json.put("comentario",this.getComentario());
+        json.put("fecha_egreso",this.getFechaEgreso());
+        json.put("id_calabozo",this.getId());
+        json.put("estado",this.getEstado().getClass());
+        return json;
     }
 }
 

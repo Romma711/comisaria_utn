@@ -1,9 +1,12 @@
 package Area;
 
 import Enums.T_Sector;
+import Interfaces.IJson;
+import org.json.JSONObject;
+
 import java.util.UUID;
 
-public class Visita {
+public class Visita implements IJson<Visita> {
     private UUID idVisita, idProcesado, idVisitante;
     private T_Sector sector;
     private Integer tiempoVisita;
@@ -72,5 +75,15 @@ public class Visita {
                 ", observacion='" + observacion + '\'' +
                 ", nroSector='" + nroSector + '\'' +
                 '}';
+    }
+
+    @Override
+    public Visita jsonToThisClass(JSONObject json) {
+        return null;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        return null;
     }
 }

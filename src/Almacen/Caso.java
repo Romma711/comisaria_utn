@@ -1,13 +1,14 @@
 package Almacen;
 
 import Interfaces.AL;
+import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 
-public class Caso extends Registro implements AL<Evidencia> {
+public class Caso extends Registro implements AL<Evidencia>, IJson<Caso> {
     private ArrayList<Evidencia> caja;
     private String comentario;
 
@@ -61,6 +62,19 @@ public class Caso extends Registro implements AL<Evidencia> {
         }
 
         return caso;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        JSONArray array = new JSONArray();
+        for(int i=0; i<caja.size();i++){
+            ;
+            array.put(caja.get(i).classToJson());
+        }
+        json.put("comentarios",this.getComentario());
+        json.put("evidencias",array);
+        return json;
     }
 
     ///region AL

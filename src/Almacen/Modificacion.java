@@ -1,11 +1,12 @@
 package Almacen;
 
+import Interfaces.IJson;
 import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.UUID;
 
-public class Modificacion {
+public class Modificacion implements IJson<Modificacion> {
     private UUID idOperador;
     private String fechaModificacion, razon;
 
@@ -45,6 +46,15 @@ public class Modificacion {
         modificacion.setFechaModificacion(jason.getString("fechaModificacion"));
         modificacion.setRazon(jason.getString("razon"));
         return modificacion;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        json.put("id_operador",this.getIdOperador());
+        json.put("fecha_modificacion",this.getFechaModificacion());
+        json.put("razon",this.getRazon());
+        return json;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package Entidades;
 
-public abstract class Persona {
+import Interfaces.IJson;
+import org.json.JSONObject;
+
+public abstract class Persona{
     private String dni, nombre, apellido, direccion, telefono;
     private Integer edad;
     private Character genero;
@@ -59,7 +62,6 @@ public abstract class Persona {
         this.genero = genero;
     }
     ///endregion
-
 
     @Override
     public String toString() {

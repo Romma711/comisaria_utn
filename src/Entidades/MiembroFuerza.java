@@ -1,6 +1,8 @@
 package Entidades;
 
 import Enums.T_Rango;
+import org.json.JSONObject;
+
 import java.util.UUID;
 
 public class MiembroFuerza  extends Personal{
@@ -68,6 +70,34 @@ public class MiembroFuerza  extends Personal{
     }
 
     ///endregion
+
+    @Override
+    public Personal jsonToThisClass(JSONObject json) {
+        return null;
+    }
+    ///Esta funcion convierte el objeto en json
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        json.put("nombre",this.getNombre());
+        json.put("apellido",this.getApellido());
+        json.put("direccion",this.getDireccion());
+        json.put("telefono",this.getTelefono());
+        json.put("dni",this.getDni());
+        json.put("edad",this.getEdad());
+        json.put("genero",this.getGenero());
+        json.put("legajo",this.getLegajo());
+        json.put("horas_diarias",this.getHorasDiarias());
+        json.put("salario",this.getSalario());
+        json.put("horas_mes",this.getHorasTotalesMes());
+        json.put("tarea",this.getTarea());
+        json.put("rango",this.getRango().getClass());
+        json.put("serial_arma",this.getSerialArma());
+        json.put("placa",this.getPlaca());
+        json.put("servicio",this.getServicio());
+        json.put("condecoraciones",this.getCondecoraciones());
+        return json;
+    }
 
 
     @Override
