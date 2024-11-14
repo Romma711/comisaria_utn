@@ -9,13 +9,15 @@ import java.util.ArrayList;
 
 
 public class Caso extends Registro implements AL<Evidencia>, IJson<Caso> {
+    private String nombre;
     private ArrayList<Evidencia> caja;
     private String comentario;
 
-    public Caso(String comentario) {
+    public Caso(String nombre,String comentario) {
         super();
         caja = new ArrayList<>();
         this.comentario = comentario;
+        this.nombre = nombre;
     }
     public Caso() {
         super();
@@ -28,6 +30,13 @@ public class Caso extends Registro implements AL<Evidencia>, IJson<Caso> {
     public void setComentario(String comentario) {
         this.comentario = comentario;
     }
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     ///endregion
 
     public int retornarLength(){

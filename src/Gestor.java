@@ -1,5 +1,8 @@
 import Almacen.*;
+import Area.Visita;
 import Entidades.*;
+import Enums.T_Depto;
+import Enums.T_Registro;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -9,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Gestor {
 
@@ -33,7 +37,7 @@ public class Gestor {
         return token;
     }
     ///Esta funcion sirve para convertir el objeto a json
-    public static JSONObject convertirAJSON(Object obj){
+    private static JSONObject convertirAJSON(Object obj){
         JSONObject json = new JSONObject();
         if(obj instanceof Persona){ /// Aca revisa que sea una instancia de Persona
             convertirPersona(json,(Persona)obj);
@@ -65,6 +69,7 @@ public class Gestor {
         }
         return json;
     }
+
     //region convertir a json
     private static void convertirPersona(JSONObject json, Persona obj){
         json.put("nombre",obj.getNombre());
@@ -153,4 +158,42 @@ public class Gestor {
     }
     //endregion
 
+    public static JSONObject convertiRegistros(ArrayList<Registro>registros, T_Registro tipo){
+        JSONObject jsonObject= new JSONObject();
+        JSONArray jsonArray= new JSONArray();
+        for(int i = 0; i < registros.size();i++){
+            jsonArray.put(convertirAJSON(registros.get(i)));
+        }
+        jsonObject.put("tipo_registro",tipo.getClass());
+        jsonObject.put("contenido",jsonArray);
+        return jsonObject;
+    }
+    public static JSONObject convertirDepartamentos(ArrayList<Personal>personal, T_Depto tipo){
+        JSONObject jsonObject= new JSONObject();
+        JSONArray jsonArray= new JSONArray();
+        for(int i = 0; i < personal.size();i++){
+            jsonArray.put(convertirAJSON(personal.get(i)));
+        }
+        jsonObject.put("tipo_depto",tipo.getClass());
+        jsonObject.put("contenido",jsonArray);
+        return jsonObject;
+    }
+    public static JSONObject convertirCalabozo(ArrayList<Procesado>procesados){
+        JSONObject jsonObject= new JSONObject();
+        JSONArray jsonArray= new JSONArray();
+        for(int i = 0; i < procesados.size();i++){
+            jsonArray.put(convertirAJSON(procesados.get(i)));
+        }
+        jsonObject.put("contenido",jsonArray);
+        return jsonObject;
+    }
+    public static JSONObject convertirVisitas(ArrayList<Visita>visitas){
+        JSONObject jsonObject= new JSONObject();
+        JSONArray jsonArray= new JSONArray();
+        for(int i = 0; i < visitas.size();i++){
+            jsonArray.put(convertirAJSON(visitas.get(i)));
+        }
+        jsonObject.put("contenido",jsonArray);
+        return jsonObject;
+    }
 }

@@ -4,16 +4,19 @@ import Enums.T_Sector;
 import Interfaces.IJson;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Visita implements IJson<Visita> {
-    private UUID idVisita, idProcesado, idVisitante;
+    private Integer idVisita, idProcesado, idVisitante;
+    private static Integer cont=0;
     private T_Sector sector;
     private Integer tiempoVisita;
     private String observacion, nroSector;
 
-    public Visita(T_Sector sector, String nroSector, UUID idProcesado, UUID idVisitante, Integer tiempoVisita, String observacion) {
-        idVisita = UUID.randomUUID();
+    public Visita(T_Sector sector, String nroSector, Integer idProcesado, Integer idVisitante, Integer tiempoVisita, String observacion) {
+        cont++;
+        idVisita = cont;
         this.sector = sector;
         this.nroSector = nroSector;
         this.idProcesado = idProcesado;
@@ -23,19 +26,19 @@ public class Visita implements IJson<Visita> {
     }
 
     ///region GETTERS & SETTERS
-    public UUID getIdVisita() {
+    public Integer getIdVisita() {
         return idVisita;
     }
-    public UUID getIdProcesado() {
+    public Integer getIdProcesado() {
         return idProcesado;
     }
-    public void setIdProcesado(UUID idProcesado) {
+    public void setIdProcesado(Integer idProcesado) {
         this.idProcesado = idProcesado;
     }
-    public UUID getIdVisitante() {
+    public Integer getIdVisitante() {
         return idVisitante;
     }
-    public void setIdVisitante(UUID idVisitante) {
+    public void setIdVisitante(Integer idVisitante) {
         this.idVisitante = idVisitante;
     }
     public T_Sector getSector() {
@@ -63,6 +66,19 @@ public class Visita implements IJson<Visita> {
         this.nroSector = nroSector;
     }
     ///endregion
+    ///
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Visita visita = (Visita) o;
+        return Objects.equals(idVisita, visita.idVisita);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(idVisita);
+    }
 
     @Override
     public String toString() {
