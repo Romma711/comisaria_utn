@@ -1,8 +1,12 @@
 package Entidades;
 
-import java.util.Scanner;
+import Interfaces.IJson;
+import org.json.JSONObject;
 
-public class Personal extends Persona {
+import java.util.Scanner;
+import java.util.UUID;
+
+public class Personal extends Persona{
     private Integer legajo;
     private Double salario, horasTotalesMes;
     private String tarea;
@@ -75,10 +79,8 @@ public class Personal extends Persona {
                 "legajo=" + legajo +
                 ", salario=" + salario +
                 ", horasTotalesMes=" + horasTotalesMes +
-                ", tarea=" + tarea +
                 '}';
     }
-
 }
 
 // TODO modificar el ToString()

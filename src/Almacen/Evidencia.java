@@ -1,12 +1,14 @@
 package Almacen;
 
 import Enums.T_Material;
+import Interfaces.IJson;
+import org.json.JSONObject;
 
-public class Evidencia{
+public class Evidencia {
     private static Integer cont = 0;
-    private final Integer idEvidencia;
-    private final T_Material tipo;
-    private final String paradero, nota;
+    private Integer idEvidencia;
+    private T_Material tipo;
+    private String paradero, nota;
 
     public Evidencia(T_Material tipo, String paradero, String nota) {
         cont++;
@@ -15,10 +17,37 @@ public class Evidencia{
         this.paradero = paradero;
         this.nota = nota;
     }
-
-    public static void setCont(Integer cont) {
-        Evidencia.cont = cont;
+    public Evidencia() {
+        cont++;
     }
+
+    ///region GETTERS & SETTERS
+    public Integer getIdEvidencia() {
+        return idEvidencia;
+    }
+    public T_Material getTipo() {
+        return tipo;
+    }
+    public void setTipo(T_Material tipo) {
+        this.tipo = tipo;
+    }
+    public String getParadero() {
+        return paradero;
+    }
+    public void setParadero(String paradero) {
+        this.paradero = paradero;
+    }
+    public String getNota() {
+        return nota;
+    }
+    public void setNota(String nota) {
+        this.nota = nota;
+    }
+    private void setIdEvidencia(Integer idEvidencia) {
+        this.idEvidencia = idEvidencia;
+    }
+    ///endregion
+
 
     @Override
     public String toString() {

@@ -1,8 +1,11 @@
 package Almacen;
 
-public class Denuncia extends Registro{
-    private final String dniDenunciante, dniDenunciado;
-    private String declaracion;
+import Interfaces.IJson;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class Denuncia extends Registro {
+    private String dniDenunciante, dniDenunciado, declaracion;
 
     public Denuncia(String dniDenunciante, String dniDenunciado, String declaracion) {
         super();
@@ -10,10 +13,29 @@ public class Denuncia extends Registro{
         this.dniDenunciado = dniDenunciado;
         this.declaracion = declaracion;
     }
+    public Denuncia() {
+    }
 
+    ///region GETTERS & SETTERS
+    public String getDniDenunciante() {
+        return dniDenunciante;
+    }
+    public void setDniDenunciante(String dniDenunciante) {
+        this.dniDenunciante = dniDenunciante;
+    }
+    public String getDniDenunciado() {
+        return dniDenunciado;
+    }
+    public void setDniDenunciado(String dniDenunciado) {
+        this.dniDenunciado = dniDenunciado;
+    }
+    public String getDeclaracion() {
+        return declaracion;
+    }
     public void setDeclaracion(String declaracion) {
         this.declaracion = declaracion;
     }
+    ///endregion
 
     @Override
     public String toString() {
@@ -25,3 +47,6 @@ public class Denuncia extends Registro{
                 super.toString();
     }
 }
+
+
+//TODO revisar toString() con pruebas en consola.

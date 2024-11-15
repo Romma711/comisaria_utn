@@ -1,7 +1,11 @@
 package Entidades;
 
 import Enums.T_Estado;
+import Interfaces.IJson;
+import org.json.JSONObject;
+
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Procesado extends Ingresante {
@@ -14,10 +18,12 @@ public class Procesado extends Ingresante {
         this.fechaEgreso = fechaEgreso;
         this.estado = estado;
     }
+
     public Procesado() {
     }
 
     //region GETTERS & SETTERS
+
     public LocalDate getFechaEgreso() {
         return fechaEgreso;
     }
@@ -47,6 +53,8 @@ public class Procesado extends Ingresante {
         }
     }
 
+
+
     @Override
     public String toString() {
         return super.toString() +
@@ -55,6 +63,8 @@ public class Procesado extends Ingresante {
                 ", estado=" + estado +
                 '}';
     }
+
 }
+
 
 // TODO modificar el ToString()

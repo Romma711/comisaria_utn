@@ -2,15 +2,21 @@ package Entidades;
 
 import Area.Departamento;
 import Enums.T_Rango;
-import java.util.Scanner;
+import org.json.JSONObject;
 
-public class MiembroFuerza extends Personal {
+import java.util.Scanner;
+import java.util.UUID;
+
+public class MiembroFuerza  extends Personal{
     public T_Rango rango;
     public Integer condecoraciones;
 
 
-    public MiembroFuerza(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad,
-                         Character genero, Double salario, Double horasTotalesMes, T_Rango rango,
+    public MiembroFuerza(String dni, String nombre, String apellido,
+                         String direccion, String telefono,
+                         Integer edad, Character genero,
+                         Double salario,
+                         Double horasTotalesMes, T_Rango rango,
                          Integer condecoraciones) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero, salario, horasTotalesMes);
         this.rango = rango;
@@ -44,6 +50,7 @@ public class MiembroFuerza extends Personal {
         System.out.println("Ingrese las condecoraciones");
         this.condecoraciones = scan.nextInt();
     }
+
 
     @Override
     public String toString() {

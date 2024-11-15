@@ -7,14 +7,16 @@ import Enums.T_Rango;
 import Exceptions.NoEncontradoException;
 import Exceptions.YaExisteException;
 import Interfaces.IJson;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Departamento <T extends Personal> implements IJson<Departamento> {
-    private final HashMap<T_Depto, ArrayList<T>>listaDepartamentos;
+public class Departamento <T extends Personal> implements IJson<T> {
+    private HashMap<T_Depto, ArrayList<T>>listaDepartamentos;
 
     public Departamento() {
         listaDepartamentos = new HashMap<>();
@@ -31,6 +33,7 @@ public class Departamento <T extends Personal> implements IJson<Departamento> {
         }
         return depto.add(dato);
     }
+
     public boolean eliminarDelDepartamento(T_Depto tipoDepto, T dato) throws NoEncontradoException {
         Boolean flag=false;
         for(int i = 0; i < listaDepartamentos.get(tipoDepto).size(); i++){
@@ -55,6 +58,7 @@ public class Departamento <T extends Personal> implements IJson<Departamento> {
         }
         return person!=null;
     }
+
     public void modificarPersonal(T_Depto tipoDepto, T data)  throws NoEncontradoException{
         int lugar = listaDepartamentos.get(tipoDepto).indexOf(data);
         if(lugar == -1){
@@ -106,6 +110,7 @@ public class Departamento <T extends Personal> implements IJson<Departamento> {
                     break;
         }
     }
+
     public static T_Rango rango(int i) throws IllegalStateException{
         return switch (i) {
             case 1 -> T_Rango.OFICIAL;
@@ -117,14 +122,15 @@ public class Departamento <T extends Personal> implements IJson<Departamento> {
     }
 
     @Override
-    public Departamento jsonToThisClass(JSONObject json) {
-        return (Departamento) json.get("departamento");
+    public T jsonToThisClass(JSONObject json) {
+        return null;
     }
+
     @Override
     public JSONObject classToJson() {
-        JSONObject jason = new JSONObject();
-        jason.put("departamento", listaDepartamentos);
-        return jason;
+        JSONObject json = new JSONObject();
+        json.put("Departamentos",listaDepartamentos);
+        return json;
     }
 }
 // TODO modificar, listar del ABML
