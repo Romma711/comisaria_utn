@@ -5,9 +5,6 @@ import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.UUID;
-
-
 public class Material_Policial extends Registro implements IJson<Material_Policial> {
     private String idPropietario;
     private T_Material tipo;
@@ -39,7 +36,7 @@ public class Material_Policial extends Registro implements IJson<Material_Polici
     public Material_Policial jsonToThisClass(JSONObject jason) {
         Material_Policial mat_pol = new Material_Policial();
         mat_pol.setId(jason.getInt("id"));
-        mat_pol.setIdPropietario(jason.getString("idPropietario"));
+        mat_pol.setIdPropietario(jason.getString("id_propietario"));
         mat_pol.setTipo(jason.getEnum(T_Material.class,"tipo"));
 
         JSONArray listado = jason.getJSONArray("modificaciones");
@@ -57,8 +54,14 @@ public class Material_Policial extends Registro implements IJson<Material_Polici
     @Override
     public JSONObject classToJson() {
         JSONObject json = new JSONObject();
+        json.put("id",this.getId());
         json.put("id_propietario",this.getIdPropietario());
         json.put("tipo",this.getTipo().getClass());
+        JSONArray arrayMod = new JSONArray();
+        for (int i = 0; i < retornarLenght(); i++){
+            arrayMod.put(retornarPosicion(i).classToJson());
+        }
+        json.put("modificaciones",arrayMod);
         return json;
     }
 

@@ -4,21 +4,18 @@ import Enums.T_Material;
 import Interfaces.IJson;
 import org.json.JSONObject;
 
-import java.util.UUID;
-
-
 public class Evidencia implements IJson<Evidencia> {
     private static Integer cont = 0;
     private Integer idEvidencia;
     private T_Material tipo;
-    private String paradero, analisis;
+    private String paradero, nota;
 
-    public Evidencia(T_Material tipo, String paradero, String analisis) {
+    public Evidencia(T_Material tipo, String paradero, String nota) {
         cont++;
         idEvidencia = cont;
         this.tipo = tipo;
         this.paradero = paradero;
-        this.analisis = analisis;
+        this.nota = nota;
     }
     public Evidencia() {
         cont++;
@@ -40,11 +37,11 @@ public class Evidencia implements IJson<Evidencia> {
     public void setParadero(String paradero) {
         this.paradero = paradero;
     }
-    public String getAnalisis() {
-        return analisis;
+    public String getNota() {
+        return nota;
     }
-    public void setAnalisis(String analisis) {
-        this.analisis = analisis;
+    public void setNota(String nota) {
+        this.nota = nota;
     }
     private void setIdEvidencia(Integer idEvidencia) {
         this.idEvidencia = idEvidencia;
@@ -56,8 +53,8 @@ public class Evidencia implements IJson<Evidencia> {
 
         evidencia.setTipo(jason.getEnum(T_Material.class,"tipo"));
         evidencia.setParadero(jason.getString("paradero"));
-        evidencia.setAnalisis(jason.getString("analisis"));
-        evidencia.setIdEvidencia(jason.getInt("idEvidencia"));
+        evidencia.setNota(jason.getString("analisis"));
+        evidencia.setIdEvidencia(jason.getInt("id_evidencia"));
 
         return evidencia;
     }
@@ -65,7 +62,7 @@ public class Evidencia implements IJson<Evidencia> {
     @Override
     public JSONObject classToJson() {
         JSONObject json = new JSONObject();
-        json.put("analisis",this.getAnalisis());
+        json.put("analisis",this.getNota());
         json.put("paradero",this.getParadero());
         json.put("id_evidencia",this.getIdEvidencia());
         json.put("tipo",this.getTipo().getClass());
@@ -78,6 +75,6 @@ public class Evidencia implements IJson<Evidencia> {
                 "\n    ID de la evidencia: " + idEvidencia +
                 "\n    Tipo: " + tipo +
                 "\n    Lugar: " + paradero +
-                "\n    Analisis: " + analisis + "\n    ------------------------------------\n";
+                "\n    Analisis: " + nota + "\n    ------------------------------------\n";
     }
 }

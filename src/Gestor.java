@@ -113,7 +113,7 @@ public class Gestor {
     }
 
     private static void convertirModificacion(JSONObject json, Modificacion obj){
-        json.put("id_operador",obj.getIdOperador());
+        json.put("id_operador",obj.getIdModificacion());
         json.put("fecha_modificacion",obj.getFechaModificacion());
         json.put("razon",obj.getRazon());
     }
@@ -124,7 +124,7 @@ public class Gestor {
     }
 
     private static void convertirEvidencia(JSONObject json, Evidencia obj){
-        json.put("analisis",obj.getAnalisis());
+        json.put("analisis",obj.getNota());
         json.put("paradero",obj.getParadero());
         json.put("id_evidencia",obj.getIdEvidencia());
         json.put("tipo",obj.getTipo().getClass());

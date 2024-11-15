@@ -2,24 +2,28 @@ package Almacen;
 
 import Interfaces.IJson;
 import org.json.JSONObject;
-
-import java.util.Date;
 import java.util.UUID;
 
 public class Modificacion implements IJson<Modificacion> {
-    private UUID idOperador;
+    private UUID idModificacion;
+    private Integer idOperador;
     private String fechaModificacion, razon;
 
-    public Modificacion(UUID idOperador, String fechaModificacion, String comentario) {
+    ///region CONSTRUCTORES
+    public Modificacion(Integer idOperador, String fechaModificacion, String comentario) {
         this.idOperador = idOperador;
         this.fechaModificacion = fechaModificacion;
         this.razon = comentario;
     }
     public Modificacion() {
     }
+    ///endregion
 
     ///region GETTERS & SETTERS
-    public UUID getIdOperador() {
+    private UUID getIdModificacion() {
+        return idModificacion;
+    }
+    public Integer getIdOperador() {
         return idOperador;
     }
     public String getFechaModificacion() {
@@ -32,36 +36,40 @@ public class Modificacion implements IJson<Modificacion> {
     public void setRazon(String razon) {
         this.razon = razon;
     }
-    private void setIdOperador(UUID idOperador) {
+    public void setIdOperador(Integer idOperador) {
         this.idOperador = idOperador;
+    }
+    private void setIdModificacion(UUID idModificacion) {
+        this.idModificacion = idModificacion;
     }
     private void setFechaModificacion(String fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
     ///endregion
 
+    ///region JSON
     public Modificacion jsonToThisClass(JSONObject jason) {
         Modificacion modificacion = new Modificacion();
-        modificacion.setIdOperador(UUID.fromString(jason.getString("idOperador")));
-        modificacion.setFechaModificacion(jason.getString("fechaModificacion"));
+        modificacion.setIdModificacion(UUID.fromString(jason.getString("id_modificacion")));
+        modificacion.setFechaModificacion(jason.getString("fecha_modificacion"));
         modificacion.setRazon(jason.getString("razon"));
         return modificacion;
     }
-
     @Override
     public JSONObject classToJson() {
         JSONObject json = new JSONObject();
-        json.put("id_operador",this.getIdOperador());
+        json.put("id_modificacion",this.getIdModificacion());
         json.put("fecha_modificacion",this.getFechaModificacion());
         json.put("razon",this.getRazon());
         return json;
     }
+    ///endregion
 
     @Override
     public String toString() {
         return "Modificacion:" +
                 "\nFecha de la modificacion: " + fechaModificacion +
-                "\nID del operador: " + idOperador +
+                "\nID del operador: " + idModificacion +
                 "\nRazón: " + razon + '\n';
     }
 }

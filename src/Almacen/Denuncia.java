@@ -42,8 +42,8 @@ public class Denuncia extends Registro implements IJson<Denuncia> {
         Denuncia denuncia = new Denuncia();
         denuncia.setId(jason.getInt("id"));
         denuncia.setDeclaracion(jason.getString("declaracion"));
-        denuncia.setDniDenunciado(jason.getString("dniDenunciado"));
-        denuncia.setDniDenunciante(jason.getString("dniDenunciante"));
+        denuncia.setDniDenunciado(jason.getString("dni_denunciado"));
+        denuncia.setDniDenunciante(jason.getString("dni_denunciante"));
 
         JSONArray listado = jason.getJSONArray("modificaciones");
         for (int i = 0; i < listado.length(); i++) {
@@ -60,9 +60,15 @@ public class Denuncia extends Registro implements IJson<Denuncia> {
     @Override
     public JSONObject classToJson() {
         JSONObject json = new JSONObject();
-        json.put("denunciante",this.getDniDenunciante());
-        json.put("denunciado",this.getDniDenunciado());
+        json.put("id",this.getId());
+        json.put("dni_denunciante",this.getDniDenunciante());
+        json.put("dni_denunciado",this.getDniDenunciado());
         json.put("declaracion",this.getDeclaracion());
+        JSONArray arrayMod = new JSONArray();
+        for (int i = 0; i < retornarLenght(); i++){
+            arrayMod.put(retornarPosicion(i).classToJson());
+        }
+        json.put("modificaciones",arrayMod);
         return json;
     }
 

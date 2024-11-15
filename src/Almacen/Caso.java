@@ -1,21 +1,17 @@
 package Almacen;
 
-import Interfaces.AL;
 import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
-
-public class Caso extends Registro implements AL<Evidencia>, IJson<Caso> {
+public class Caso extends Registro implements IJson<Caso> {
     private String nombre;
-    private ArrayList<Evidencia> caja;
+    private final ArrayList<Evidencia> caja = new ArrayList<>();
     private String comentario;
 
     public Caso(String nombre,String comentario) {
         super();
-        caja = new ArrayList<>();
         this.comentario = comentario;
         this.nombre = nombre;
     }
@@ -36,7 +32,6 @@ public class Caso extends Registro implements AL<Evidencia>, IJson<Caso> {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
     ///endregion
 
     public int retornarLength(){
@@ -58,7 +53,7 @@ public class Caso extends Registro implements AL<Evidencia>, IJson<Caso> {
             Evidencia evidencia = new Evidencia();
             evidencia = evidencia.jsonToThisClass(evidenciaJSON);
 
-            caso.agregarNoModifcable(evidencia);
+            caso.agregarEvidencia(evidencia);
         }
 
         listado = jason.getJSONArray("modificaciones");
@@ -72,27 +67,28 @@ public class Caso extends Registro implements AL<Evidencia>, IJson<Caso> {
 
         return caso;
     }
-
     @Override
     public JSONObject classToJson() {
         JSONObject json = new JSONObject();
         JSONArray array = new JSONArray();
-        for(int i=0; i<caja.size();i++){
-            ;
+        for (int i = 0; i < caja.size(); i++){
             array.put(caja.get(i).classToJson());
         }
-        json.put("comentarios",this.getComentario());
         json.put("evidencias",array);
+        json.put("id",this.getId());
+        json.put("comentarios",this.getComentario());
+        JSONArray arrayMod = new JSONArray();
+        for (int i = 0; i < retornarLenght(); i++){
+            arrayMod.put(retornarPosicion(i).classToJson());
+        }
+        json.put("modificaciones",arrayMod);
         return json;
     }
 
     ///region AL
-    @Override
-    public boolean agregarNoModifcable(Evidencia dato) {
+    public boolean agregarEvidencia(Evidencia dato) {
         return caja.add(dato);
     }
-
-    @Override
     public String lista() {
         String listado = "";
         int i = 0;

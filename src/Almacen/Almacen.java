@@ -3,10 +3,8 @@ package Almacen;
 import Enums.T_Registro;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 
 public class Almacen {
     private HashMap<T_Registro, ArrayList<Registro>> almacen;
@@ -16,26 +14,21 @@ public class Almacen {
     }
 
     public boolean agregarAlAlmacen(T_Registro tipoRegistro, Registro nuevoRegistro) {
-        ArrayList<Registro> listaRegistros = almacen.get(tipoRegistro);
-        if (listaRegistros == null) {
-            listaRegistros = new ArrayList<>();
-            almacen.put(tipoRegistro,listaRegistros);
-        }
+        ArrayList<Registro> listaRegistros = almacen.computeIfAbsent(tipoRegistro, k -> new ArrayList<>());
         return listaRegistros.add(nuevoRegistro);
     }
 
-    public Registro buscarPorID(String id) {
+    public Registro buscarPorID(Integer id) {
         for (T_Registro clave : almacen.keySet()) {
             ArrayList<Registro> valor = almacen.get(clave);
             for (Registro reg : valor) {
-                if (reg.getId().toString().equals(id)) {
+                if (reg.getId().equals(id)) {
                     return reg;
                 }
             }
         }
         return null;
     }
-
     public Registro crearRegistro(T_Registro clave) {
         return switch (clave) {
             case CASO -> new Caso();
@@ -49,7 +42,6 @@ public class Almacen {
         for (T_Registro clave : T_Registro.values()) {
             if (jason.has(clave.name())) {
                 JSONArray jsonArray = jason.getJSONArray(clave.name());
-                ArrayList<String> arrayList = new ArrayList<>();
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject registroJson = jsonArray.getJSONObject(i);

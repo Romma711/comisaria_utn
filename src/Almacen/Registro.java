@@ -1,17 +1,12 @@
 package Almacen;
 
-import Interfaces.IJson;
-import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.UUID;
-
 
 public abstract class Registro{
     private static Integer cont = 10000;
     private Integer id;
-    private ArrayList<Modificacion> modificaciones;
+    protected final ArrayList<Modificacion> modificaciones;
 
     public Registro() {
         cont++;
@@ -19,29 +14,24 @@ public abstract class Registro{
         modificaciones = new ArrayList<>();
     }
 
-    ///region AL de Registro
+    ///region MODIFICACIONES
     public boolean agregarMod(Modificacion dato) {
         return modificaciones.add(dato);
     }
-    public void listarMods() {
-        for (Modificacion modificacion : modificaciones) {
-            System.out.println(modificacion.toString());
-        }
-    }
-    public Modificacion retornarPosicion(int i){
+    protected Modificacion retornarPosicion(int i){
         return modificaciones.get(i);
     }
-    public int retornarLenght(){
+    protected int retornarLenght(){
         return modificaciones.size();
-    }
-    protected void setId (Integer id) {
-        this.id = id;
     }
     ///endregion
 
     ///region GETTERS & SETTERS
     public Integer getId() {
         return id;
+    }
+    protected void setId (Integer id) {
+        this.id = id;
     }
     ///endregion
 
