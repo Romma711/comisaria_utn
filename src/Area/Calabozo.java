@@ -135,7 +135,7 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
 
     @Override
     public Calabozo jsonToThisClass(JSONObject json) {
-        return null;
+        return (Calabozo) json.get("calabozo");
     }
 
     @Override

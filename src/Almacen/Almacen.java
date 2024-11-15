@@ -44,12 +44,12 @@ public class Almacen implements IJson<Almacen> {
 
     @Override
     public Almacen jsonToThisClass(JSONObject json) {
-        return null;
+        return (Almacen) json.get("almacen");
     }
 
     public JSONObject classToJson() {
         JSONObject json = new JSONObject();
-        json.put("Almacen",almacen);
+        json.put("almacen",almacen);
         return json;
     }
 

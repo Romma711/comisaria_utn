@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Departamento <T extends Personal> implements IJson<T> {
+public class Departamento <T extends Personal> implements IJson<Departamento> {
     private HashMap<T_Depto, ArrayList<T>>listaDepartamentos;
 
     public Departamento() {
@@ -122,14 +122,14 @@ public class Departamento <T extends Personal> implements IJson<T> {
     }
 
     @Override
-    public T jsonToThisClass(JSONObject json) {
-        return null;
+    public Departamento jsonToThisClass(JSONObject json) {
+        return (Departamento) json.get("departamento");
     }
 
     @Override
     public JSONObject classToJson() {
         JSONObject json = new JSONObject();
-        json.put("Departamentos",listaDepartamentos);
+        json.put("departamentos",listaDepartamentos);
         return json;
     }
 }

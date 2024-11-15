@@ -11,33 +11,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class JSONUtils <T>{
-    public static void guardarArchivo(JSONArray array, String json){
+    public static void guardarArchivo(JSONObject obj, String json){
         try{
             FileWriter file = new FileWriter(json);
-            file.write(array.toString());
+            file.write(obj.toString());
             file.flush();
             file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.getMessage();
+        }catch (IOException e) {
+            e.getMessage();
         }
     }
 
-    public static JSONTokener leerArchivo(String json){
+    public static JSONObject leerArchivo(String json){
         JSONTokener token=null;
         try{
             token= new JSONTokener(new FileReader(json));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            e.getMessage();
+        }catch (IOException e) {
+            e.getMessage();
         }
-        return token;
+        assert token != null;
+        return new JSONObject(token);
     }
-
-    //region convertir a json
-    private static void convertirModificacion(JSONObject json, Modificacion obj){
-
-    }
-
-
-    //endregion
-
 }

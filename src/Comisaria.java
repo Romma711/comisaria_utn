@@ -8,6 +8,7 @@ import Enums.T_Material;
 import Enums.T_Registro;
 import Exceptions.NoEncontradoException;
 import Exceptions.YaExisteException;
+import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -16,19 +17,19 @@ public class Comisaria {
     private static Departamento departamento;
     private static Almacen almacen;
     private static Calabozo calabozo;
-    private static Visitas visitas;
 
     public Comisaria() {
+
     }
 
     public static void menuPrincipal() {
-
-        //JSONUtils.leerArchivo("Departamento.json");
-        //JSONUtils.leerArchivo("Almacen.json");
-        //JSONUtils.leerArchivo("Calabozo.json");
-        //JSONUtils.leerArchivo("Visitas.json");
-        //JSONUtils.leerArchivo("Perrera.json");
-        //JSONUtils.leerArchivo("Contadores.json");
+        try {
+            almacen = (Almacen) JSONUtils.leerArchivo("almacen.json").get("almacen");
+            departamento = (Departamento) JSONUtils.leerArchivo("departamento.json").get("departamento");
+            calabozo = (Calabozo) JSONUtils.leerArchivo("calabozo.json").get("calabozo");
+        }catch (NullPointerException e) {
+            e.getMessage();
+        }
 
         int selector;
         Scanner lector = new Scanner(System.in);
@@ -51,11 +52,18 @@ public class Comisaria {
                     menuCalabozo();
                     break;
                 default:
-                    System.out.println("Ingrese un número valido.");
+                    System.out.println("Vuelva pronto!");
+                    if(selector != 0){
+                        System.out.println("Ingrese un número valido.");
+                    }
                     break;
             }
 
         } while(selector !=0);
+        JSONUtils.guardarArchivo(almacen.classToJson(),"almacen.json");
+        JSONUtils.guardarArchivo(departamento.classToJson(),"departamento.json");
+        JSONUtils.guardarArchivo(calabozo.classToJson(),"calabozo.json");
+
     }
 
     //region MANIPULACIÓN DE ALMACEN.
