@@ -4,7 +4,7 @@ import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Denuncia extends Registro implements IJson<Denuncia> {
+public class Denuncia extends Registro {
     private String dniDenunciante, dniDenunciado, declaracion;
 
     public Denuncia(String dniDenunciante, String dniDenunciado, String declaracion) {
@@ -36,41 +36,6 @@ public class Denuncia extends Registro implements IJson<Denuncia> {
         this.declaracion = declaracion;
     }
     ///endregion
-
-    @Override
-    public Denuncia jsonToThisClass(JSONObject jason) {
-        Denuncia denuncia = new Denuncia();
-        denuncia.setId(jason.getInt("id"));
-        denuncia.setDeclaracion(jason.getString("declaracion"));
-        denuncia.setDniDenunciado(jason.getString("dni_denunciado"));
-        denuncia.setDniDenunciante(jason.getString("dni_denunciante"));
-
-        JSONArray listado = jason.getJSONArray("modificaciones");
-        for (int i = 0; i < listado.length(); i++) {
-            JSONObject modificacionJSON = listado.getJSONObject(i);
-            Modificacion modificacion = new Modificacion();
-            modificacion = modificacion.jsonToThisClass(modificacionJSON);
-
-            denuncia.agregarMod(modificacion);
-        }
-
-        return denuncia;
-    }
-
-    @Override
-    public JSONObject classToJson() {
-        JSONObject json = new JSONObject();
-        json.put("id",this.getId());
-        json.put("dni_denunciante",this.getDniDenunciante());
-        json.put("dni_denunciado",this.getDniDenunciado());
-        json.put("declaracion",this.getDeclaracion());
-        JSONArray arrayMod = new JSONArray();
-        for (int i = 0; i < retornarLenght(); i++){
-            arrayMod.put(retornarPosicion(i).classToJson());
-        }
-        json.put("modificaciones",arrayMod);
-        return json;
-    }
 
     @Override
     public String toString() {

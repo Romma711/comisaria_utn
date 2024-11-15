@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class Personal extends Persona  implements IJson <Personal>{
+public class Personal extends Persona{
     private Integer legajo;
     private Double salario, horasTotalesMes;
     private String tarea;
@@ -80,29 +80,6 @@ public class Personal extends Persona  implements IJson <Personal>{
                 ", salario=" + salario +
                 ", horasTotalesMes=" + horasTotalesMes +
                 '}';
-    }
-
-    ///Esta funcion convierte el objeto en json
-    @Override
-    public JSONObject classToJson() {
-        JSONObject json = new JSONObject();
-        json.put("nombre",super.getNombre());
-        json.put("apellido",super.getApellido());
-        json.put("direccion",super.getDireccion());
-        json.put("telefono",super.getTelefono());
-        json.put("dni",super.getDni());
-        json.put("edad",super.getEdad());
-        json.put("genero",super.getGenero());
-        json.put("legajo",legajo);
-        json.put("salario",salario);
-        json.put("horas_mes",horasTotalesMes);
-        json.put("tarea",tarea);
-        return json;
-    }
-
-    @Override
-    public Personal jsonToThisClass(JSONObject json) {
-        return null;
     }
 }
 

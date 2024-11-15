@@ -6,13 +6,16 @@ import Enums.T_Depto;
 import Enums.T_Rango;
 import Exceptions.NoEncontradoException;
 import Exceptions.YaExisteException;
+import Interfaces.IJson;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Departamento <T extends Personal> {
+public class Departamento <T extends Personal> implements IJson<T> {
     private HashMap<T_Depto, ArrayList<T>>listaDepartamentos;
 
     public Departamento() {
@@ -107,6 +110,7 @@ public class Departamento <T extends Personal> {
                     break;
         }
     }
+
     public static T_Rango rango(int i) throws IllegalStateException{
         return switch (i) {
             case 1 -> T_Rango.OFICIAL;
@@ -115,6 +119,18 @@ public class Departamento <T extends Personal> {
             case 4 -> T_Rango.CAPITAN;
             default -> throw new IllegalStateException("Seleccion incorrecta, vuelva a intentar");
         };
+    }
+
+    @Override
+    public T jsonToThisClass(JSONObject json) {
+        return null;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        json.put("Departamentos",listaDepartamentos);
+        return json;
     }
 }
 // TODO modificar, listar del ABML

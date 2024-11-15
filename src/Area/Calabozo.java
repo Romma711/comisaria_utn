@@ -4,6 +4,8 @@ import Entidades.Persona;
 import Enums.T_Estado;
 import Interfaces.ABML;
 import Entidades.Procesado;
+import Interfaces.IJson;
+import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +13,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Calabozo implements ABML<Procesado> {
+public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
     private ArrayList<Procesado> reclusos;
 
     public Calabozo() {
@@ -129,5 +131,17 @@ public class Calabozo implements ABML<Procesado> {
                 System.out.println("Formato de fecha inválido. Por favor ingrese en el formato YYYY-MM-DD.");
             }
         }
+    }
+
+    @Override
+    public Calabozo jsonToThisClass(JSONObject json) {
+        return null;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        json.put("calabozo",reclusos);
+        return json;
     }
 }

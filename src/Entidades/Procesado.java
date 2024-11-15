@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Procesado extends Ingresante implements IJson<Procesado> {
+public class Procesado extends Ingresante {
     private LocalDate fechaEgreso;
     private T_Estado estado;
 
@@ -64,30 +64,6 @@ public class Procesado extends Ingresante implements IJson<Procesado> {
                 '}';
     }
 
-    @Override
-    public Procesado jsonToThisClass(JSONObject json) {
-        return null;
-    }
-
-    @Override
-    public JSONObject classToJson() {
-        JSONObject json=new JSONObject();
-        json.put("nombre",this.getNombre());
-        json.put("apellido",this.getApellido());
-        json.put("direccion",this.getDireccion());
-        json.put("telefono",this.getTelefono());
-        json.put("dni",this.getDni());
-        json.put("edad",this.getEdad());
-        json.put("genero",this.getGenero());
-        json.put("fecha_ingreso",this.getFechaIngreso());
-        json.put("razon",this.getRazon());
-        json.put("nro_casillero",this.getNroCasillero());
-        json.put("id",this.getId());
-        json.put("fecha_egreso",this.getFechaEgreso());
-        json.put("id_calabozo",this.getId());
-        json.put("estado",this.getEstado().getClass());
-        return json;
-    }
 }
 
 

@@ -4,7 +4,7 @@ import Enums.T_Material;
 import Interfaces.IJson;
 import org.json.JSONObject;
 
-public class Evidencia implements IJson<Evidencia> {
+public class Evidencia {
     private static Integer cont = 0;
     private Integer idEvidencia;
     private T_Material tipo;
@@ -48,26 +48,6 @@ public class Evidencia implements IJson<Evidencia> {
     }
     ///endregion
 
-    public Evidencia jsonToThisClass(JSONObject jason) {
-        Evidencia evidencia = new Evidencia();
-
-        evidencia.setTipo(jason.getEnum(T_Material.class,"tipo"));
-        evidencia.setParadero(jason.getString("paradero"));
-        evidencia.setNota(jason.getString("analisis"));
-        evidencia.setIdEvidencia(jason.getInt("id_evidencia"));
-
-        return evidencia;
-    }
-
-    @Override
-    public JSONObject classToJson() {
-        JSONObject json = new JSONObject();
-        json.put("analisis",this.getNota());
-        json.put("paradero",this.getParadero());
-        json.put("id_evidencia",this.getIdEvidencia());
-        json.put("tipo",this.getTipo().getClass());
-        return json;
-    }
 
     @Override
     public String toString() {

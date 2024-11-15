@@ -4,7 +4,7 @@ import Interfaces.IJson;
 import org.json.JSONObject;
 import java.util.UUID;
 
-public class Modificacion implements IJson<Modificacion> {
+public class Modificacion {
     private UUID idModificacion;
     private Integer idOperador;
     private String fechaModificacion, razon;
@@ -44,26 +44,6 @@ public class Modificacion implements IJson<Modificacion> {
     }
     private void setFechaModificacion(String fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
-    }
-    ///endregion
-
-    ///region JSON
-    public Modificacion jsonToThisClass(JSONObject jason) {
-        Modificacion modificacion = new Modificacion();
-        modificacion.setIdModificacion(UUID.fromString(jason.getString("id_modificacion")));
-        modificacion.setIdOperador(jason.getInt("id_operador"));
-        modificacion.setFechaModificacion(jason.getString("fecha_modificacion"));
-        modificacion.setRazon(jason.getString("razon"));
-        return modificacion;
-    }
-    @Override
-    public JSONObject classToJson() {
-        JSONObject json = new JSONObject();
-        json.put("id_operador",this.getIdOperador());
-        json.put("id_modificacion",this.getIdModificacion());
-        json.put("fecha_modificacion",this.getFechaModificacion());
-        json.put("razon",this.getRazon());
-        return json;
     }
     ///endregion
 

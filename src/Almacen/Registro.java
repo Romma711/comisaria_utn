@@ -35,8 +35,6 @@ public abstract class Registro{
     }
     ///endregion
 
-    public abstract Registro jsonToThisClass(JSONObject jason);
-
     public String listaModificaciones() {
         String listado = "";
         int i = 0;
