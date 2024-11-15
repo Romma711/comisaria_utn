@@ -3,6 +3,8 @@ package Entidades;
 import Interfaces.IJson;
 import org.json.JSONObject;
 
+import java.util.Scanner;
+
 public abstract class Persona{
     private String dni, nombre, apellido, direccion, telefono;
     private Integer edad;
@@ -16,6 +18,9 @@ public abstract class Persona{
         this.telefono = telefono;
         this.edad = edad;
         this.genero = genero;
+    }
+
+    public Persona() {
     }
 
     ///region GETTERS & SETTERS
@@ -63,6 +68,23 @@ public abstract class Persona{
     }
     ///endregion
 
+    public void crearPersona(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Ingresar nombre:");
+        this.nombre = scan.nextLine();
+        System.out.println("Ingresar apellido:");
+        this.apellido = scan.nextLine();
+        System.out.println("Ingresar DNI:");
+        this.dni = scan.nextLine();
+        System.out.println("Ingresar telefono:");
+        this.telefono = scan.nextLine();
+        System.out.println("Ingresar direccion:");
+        this.direccion = scan.nextLine();
+        System.out.println("Ingresar edad:");
+        this.edad = scan.nextInt();
+        System.out.println("Ingresar genero (M / F):");
+        this.genero = scan.nextLine().charAt(0);
+    }
     @Override
     public String toString() {
         return "Persona{" +

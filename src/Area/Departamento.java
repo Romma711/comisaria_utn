@@ -5,7 +5,6 @@ import Entidades.Personal;
 import Enums.T_Depto;
 import Enums.T_Rango;
 import Exceptions.NoEncontradoException;
-import Exceptions.NoHayNadieEnLista;
 import Exceptions.YaExisteException;
 
 import java.util.ArrayList;
@@ -46,23 +45,33 @@ public class Departamento <T extends Personal> {
         }
         return flag;
     }
-    public boolean listar(T_Depto tipoDepto) throws NoHayNadieEnLista {
+    public boolean listar(T_Depto tipoDepto)  {
         ArrayList<T> person= listaDepartamentos.get(tipoDepto);
         if(person!=null){
-            System.out.println("nombre del Departamento" + tipoDepto + "\n");
+            System.out.println("Departamento:" + tipoDepto + "\n");
             for (T persona: person){
                 System.out.println(persona.toString());
             }
-        }else {
-            throw new NoHayNadieEnLista("No hay personas aqui");
         }
         return person!=null;
     }
 
-    public void moficarPersonal(T_Depto tipoDepto, int lugar, int selector)  {
+    public void modificarPersonal(T_Depto tipoDepto, T data)  throws NoEncontradoException{
+        int lugar = listaDepartamentos.get(tipoDepto).indexOf(data);
+        if(lugar == -1){
+            throw new NoEncontradoException("No se encontro el elemento");
+        }
+        System.out.println("1.TELEFONO");
+        System.out.println("2.DNI");
+        System.out.println("3.EDAD");
+        System.out.println("4.GENERO");
+        System.out.println("5.SALARIO");
+        if(listaDepartamentos.get(tipoDepto).get(lugar) instanceof MiembroFuerza) {
+            System.out.println("6.CONDECORACIONES");
+            System.out.println("7.RANGO");
+        }
         Scanner scan = new Scanner(System.in);
-        if (lugar != -1) {
-            switch (selector) {
+        switch (scan.nextInt()) {
                 case 1:
                     listaDepartamentos.get(tipoDepto).get(lugar).setTelefono(scan.next());
                     break;
@@ -77,7 +86,7 @@ public class Departamento <T extends Personal> {
                     do {
                         e = scan.nextInt();
                     } while (e < 1 || e > 2);
-                    listaDepartamentos.get(tipoDepto).get(lugar).setGenero(Genero(e));
+                    listaDepartamentos.get(tipoDepto).get(lugar).setGenero(scan.nextLine().charAt(0));
                     break;
                 case 5:
                     try {
@@ -88,38 +97,23 @@ public class Departamento <T extends Personal> {
                     break;
                 case 6:
                     if(listaDepartamentos.get(tipoDepto).get(lugar) instanceof  MiembroFuerza){
-                        ((MiembroFuerza) listaDepartamentos.get(tipoDepto).get(lugar)).setSerialArma(scan.toString());
+                        ((MiembroFuerza) listaDepartamentos.get(tipoDepto).get(lugar)).setCondecoraciones(scan.nextInt());
                     }
                     break;
                 case 7:
                     if(listaDepartamentos.get(tipoDepto).get(lugar) instanceof  MiembroFuerza){
-                        ((MiembroFuerza) listaDepartamentos.get(tipoDepto).get(lugar)).setCondecoraciones(scan.nextInt());
-                    }
-                    break;
-                case 8:
-                    if(listaDepartamentos.get(tipoDepto).get(lugar) instanceof  MiembroFuerza){
                         ((MiembroFuerza) listaDepartamentos.get(tipoDepto).get(lugar)).setRango(rango(scan.nextInt()));
                     }
                     break;
-
-            }
         }
     }
-    public Character Genero(int i) {
-        if (i == 1) return 'm';
-        else return 'f';
-    }
-    public T_Rango rango(int i) {
+    public static T_Rango rango(int i) throws IllegalStateException{
         return switch (i) {
-            case 1 -> T_Rango.SUPERINTENDENTE;
+            case 1 -> T_Rango.OFICIAL;
             case 2 -> T_Rango.SARGENTO;
-            case 3 -> T_Rango.SUBTENIENTE;
-            case 4 -> T_Rango.TENIENTE;
-            case 5 -> T_Rango.TENIENTE_PRIMERO;
-            case 6 -> T_Rango.CAPITAN;
-            case 7 -> T_Rango.INSPECTOR;
-            case 8 -> T_Rango.COMISIONADO;
-            default -> T_Rango.OFICIAL;
+            case 3 -> T_Rango.TENIENTE;
+            case 4 -> T_Rango.CAPITAN;
+            default -> throw new IllegalStateException("Seleccion incorrecta, vuelva a intentar");
         };
     }
 }

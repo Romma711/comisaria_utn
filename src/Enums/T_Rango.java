@@ -3,11 +3,6 @@ package Enums;
 public enum T_Rango {
     OFICIAL,
     SARGENTO,
-    SUBTENIENTE,
     TENIENTE,
-    TENIENTE_PRIMERO,
-    CAPITAN,
-    INSPECTOR,
-    COMISIONADO,
-    SUPERINTENDENTE
+    CAPITAN
 }

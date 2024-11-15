@@ -3,35 +3,37 @@ package Entidades;
 import Interfaces.IJson;
 import org.json.JSONObject;
 
+import java.util.Scanner;
 import java.util.UUID;
 
 public class Personal extends Persona  implements IJson <Personal>{
     private Integer legajo;
-    private Integer horasDiarias;
     private Double salario, horasTotalesMes;
     private String tarea;
     private boolean activo;
     private static Integer cont=99999;
 
-    public Personal(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, Integer horasDiarias, Double salario, Double horasTotalesMes) {
+    public Personal(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, Double salario, Double horasTotalesMes) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero);
         cont++;
         legajo = cont;
         this.activo = true;
-        this.horasDiarias = horasDiarias;
         this.salario = salario;
         this.horasTotalesMes = horasTotalesMes;
+    }
+
+    public Personal() {
+        cont++;
+        legajo=cont;
+        activo=true;
     }
 
     //region GETTERS & SETTERS
     public Integer getLegajo() {
         return legajo;
     }
-    public Integer getHorasDiarias() {
-        return horasDiarias;
-    }
-    public void setHorasDiarias(Integer horasDiarias) {
-        this.horasDiarias = horasDiarias;
+    public void setLegajo(Integer legajo) {
+        this.legajo = legajo;
     }
     public Double getSalario() {
         return salario;
@@ -58,15 +60,23 @@ public class Personal extends Persona  implements IJson <Personal>{
         this.activo = activo;
     }
 
-
 //endregion
 
+    public void crearPersonal(){
+        super.crearPersona();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Ingresar horas por mes(numero decimal separado por punto ej: 203.4):");
+        this.horasTotalesMes = scan.nextDouble();
+        System.out.println("Ingresar salario(numero decimal separado por punto ej: 203.4):");
+        this.salario = scan.nextDouble();
+        System.out.println("Ingresar la tarea a ejercer:");
+        this.tarea = scan.nextLine();
+    }
 
     @Override
     public String toString() {
         return "Personal{" +
                 "legajo=" + legajo +
-                ", horasDiarias=" + horasDiarias +
                 ", salario=" + salario +
                 ", horasTotalesMes=" + horasTotalesMes +
                 '}';
@@ -84,7 +94,6 @@ public class Personal extends Persona  implements IJson <Personal>{
         json.put("edad",super.getEdad());
         json.put("genero",super.getGenero());
         json.put("legajo",legajo);
-        json.put("horas_diarias",horasDiarias);
         json.put("salario",salario);
         json.put("horas_mes",horasTotalesMes);
         json.put("tarea",tarea);

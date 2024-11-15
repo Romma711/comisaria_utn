@@ -6,74 +6,60 @@ import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class Procesado extends Ingresante implements IJson<Procesado> {
-    private String comentario;
     private LocalDate fechaEgreso;
-    private int id;
     private T_Estado estado;
 
-    public Procesado(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, LocalDate fechaIngreso, String razon, String nroCasillero, Integer cantidadVisitas, String comentario, LocalDate fechaEgreso, T_Estado estado) {
-        super(dni, nombre, apellido, direccion, telefono, edad, genero, fechaIngreso, razon, nroCasillero, cantidadVisitas);
-        this.comentario = comentario;
+    public Procesado(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero,String razon, String nroCasillero,LocalDate fechaEgreso, T_Estado estado) {
+        super(dni, nombre, apellido, direccion, telefono, edad, genero,razon, nroCasillero);
+
         this.fechaEgreso = fechaEgreso;
         this.estado = estado;
     }
 
-    // GETTERS & SETTERS
-    public String getComentario() {
-        return comentario;
+    public Procesado() {
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
-    }
+    //region GETTERS & SETTERS
 
     public LocalDate getFechaEgreso() {
         return fechaEgreso;
     }
-
     public void setFechaEgreso(LocalDate fechaEgreso) {
         this.fechaEgreso = fechaEgreso;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) { // Nuevo setter para asignar ID desde Calabozo
-        this.id = id;
-    }
-
     public T_Estado getEstado() {
         return estado;
     }
-
     public void setEstado(T_Estado estado) {
         this.estado = estado;
     }
+    //endregion
 
-    // Métodos equals y hashCode para comparación
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Procesado procesado = (Procesado) o;
-        return id == procesado.id;
+    public void crearProcesado() {
+        super.crearIngresante();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Ingrese el estado del procesado 1.PROCESADO,\n" +
+                "2.INDULTADO,\n" +
+                "3.DETENIDO,\n" +
+                "4.MIGRADO\n");
+        switch (scan.nextInt()){
+            case 1 -> estado = T_Estado.PROCESADO;
+            case 2 -> estado = T_Estado.LIBERADO;
+            case 3 -> estado = T_Estado.DETENIDO;
+            case 4 -> estado = T_Estado.MIGRADO;
+        }
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
+
 
     @Override
     public String toString() {
         return super.toString() +
                 ", Procesado{" +
-                "comentario='" + comentario + '\'' +
                 ", fechaEgreso=" + fechaEgreso +
-                ", id=" + id +
                 ", estado=" + estado +
                 '}';
     }
@@ -97,8 +83,6 @@ public class Procesado extends Ingresante implements IJson<Procesado> {
         json.put("razon",this.getRazon());
         json.put("nro_casillero",this.getNroCasillero());
         json.put("id",this.getId());
-        json.put("cantidad_visitas",this.getCantidadVisitas());
-        json.put("comentario",this.getComentario());
         json.put("fecha_egreso",this.getFechaEgreso());
         json.put("id_calabozo",this.getId());
         json.put("estado",this.getEstado().getClass());

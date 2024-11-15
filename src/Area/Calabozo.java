@@ -1,5 +1,6 @@
 package Area;
 
+import Entidades.Persona;
 import Enums.T_Estado;
 import Interfaces.ABML;
 import Entidades.Procesado;
@@ -11,33 +12,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Calabozo implements ABML<Procesado> {
-    private static int contador = 1; // Contador de IDs
-    private int idCalabozo;
     private ArrayList<Procesado> reclusos;
 
     public Calabozo() {
-        idCalabozo = contador++;
         reclusos = new ArrayList<>();
-    }
-
-    public int getIdCalabozo() {
-        return idCalabozo;
-    }
-
-    public void setIdCalabozo(int idCalabozo) {
-        this.idCalabozo = idCalabozo;
     }
 
     @Override
     public boolean agregar(Procesado dato) {
         // Comprobación para evitar duplicados por ID
         for (Procesado procesado : reclusos) {
-            if (procesado.getId() == dato.getId()) {
+            if (((Persona)procesado).equals(dato)) {
                 System.out.println("El recluso ya existe en el calabozo y no se puede agregar nuevamente.");
                 return false;
             }
         }
-        dato.setId(contador++); // Asigna un nuevo ID incremental
         return reclusos.add(dato);
     }
     @Override
@@ -63,7 +52,8 @@ public class Calabozo implements ABML<Procesado> {
     @Override
     public void modificar(Procesado dato) {
         // Comprobación para asegurar que el recluso existe antes de modificar
-        if (!reclusos.contains(dato)) {
+        int posicion = reclusos.indexOf(dato);
+        if (posicion == -1) {
             System.out.println("El recluso no se encuentra en el calabozo.");
             return;
         }
@@ -81,15 +71,11 @@ public class Calabozo implements ABML<Procesado> {
 
             switch (command) {
                 case 1:
-                    cambiarComentario(dato, scan);
+                    cambiarEstado(reclusos.get(posicion), scan);
                     flag = false;
                     break;
                 case 2:
-                    cambiarEstado(dato, scan);
-                    flag = false;
-                    break;
-                case 3:
-                    cambiarFechaEgreso(dato, scan);
+                    cambiarFechaEgreso(reclusos.get(posicion), scan);
                     flag = false;
                     break;
                 default:
@@ -97,31 +83,27 @@ public class Calabozo implements ABML<Procesado> {
             }
         }
     }
-    private void cambiarComentario(Procesado dato, Scanner scan) {
-        System.out.println("Ingrese el nuevo comentario");
-        dato.setComentario(scan.nextLine());
-    }
     private void cambiarEstado(Procesado dato, Scanner scan) {
-        System.out.println("Ingrese: 'P' para 'Procesado', 'I' para 'Indultado', 'D' para 'Detenido', 'M' para 'Migrado'");
+        System.out.println("Ingrese: '1' para 'Procesado', '2' para 'Liberado', '3' para 'Detenido', '4' para 'Migrado'");
         T_Estado estado = T_Estado.PROCESADO;
         boolean valido = false;
 
         while (!valido) {
             String input = scan.nextLine().trim().toUpperCase();
             switch (input) {
-                case "P":
+                case "1":
                     estado = T_Estado.PROCESADO;
                     valido = true;
                     break;
-                case "I":
-                    estado = T_Estado.INDULTADO;
+                case "2":
+                    estado = T_Estado.LIBERADO;
                     valido = true;
                     break;
-                case "D":
+                case "3":
                     estado = T_Estado.DETENIDO;
                     valido = true;
                     break;
-                case "M":
+                case "4":
                     estado = T_Estado.MIGRADO;
                     valido = true;
                     break;

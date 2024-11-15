@@ -1,8 +1,13 @@
 import Almacen.*;
 import Area.*;
+import Entidades.MiembroFuerza;
 import Entidades.Personal;
+import Entidades.Procesado;
+import Enums.T_Depto;
 import Enums.T_Material;
 import Enums.T_Registro;
+import Exceptions.NoEncontradoException;
+import Exceptions.YaExisteException;
 
 import java.time.LocalDateTime;
 import java.util.Scanner;
@@ -10,7 +15,8 @@ import java.util.Scanner;
 public class Comisaria {
     private static Departamento departamento;
     private static Almacen almacen;
-    private Calabozo calabozo;
+    private static Calabozo calabozo;
+    private static Visitas visitas;
 
     public Comisaria() {
     }
@@ -31,7 +37,6 @@ public class Comisaria {
             System.out.println("1. Almacen.");
             System.out.println("2. Departamentos.");
             System.out.println("3. Calabozo.");
-            System.out.println("4. Visitas.");
             System.out.println("0. Salir.");
             System.out.print("> ");
             selector = lector.nextInt();
@@ -45,9 +50,6 @@ public class Comisaria {
                 case 3:
                     menuCalabozo();
                     break;
-                case 4:
-                    menuVisita();
-                    break;
                 default:
                     System.out.println("Ingrese un número valido.");
                     break;
@@ -56,7 +58,7 @@ public class Comisaria {
         } while(selector !=0);
     }
 
-    ///region MANIPULACIÓN DE ALMACEN.
+    //region MANIPULACIÓN DE ALMACEN.
         private static void menuAlmacenes() {
             int selector;
             Scanner lector = new Scanner(System.in);
@@ -132,7 +134,7 @@ public class Comisaria {
             } while (selector != 0 );
         }
 
-        ///region SUBMENÚ AGREGAR REGISTROS.
+        //region SUBMENÚ AGREGAR REGISTROS.
             private static void AgregarMaterialPolicial(Integer idOperador) {
                 Scanner lector = new Scanner(System.in);
                 System.out.println("Ingrese el tipo de material:");
@@ -246,7 +248,7 @@ public class Comisaria {
                 System.out.println("SE PRESENTÓ UN PROBLEMA AL INGRESAR LA EVIDENCIA...");
             }
         }
-        ///endregion
+        //endregion
 
         private static void menuModificarRegistros(Integer idOperador){
             int selector;
@@ -271,7 +273,7 @@ public class Comisaria {
             } while (selector != 0 );
         }
 
-        ///region SUBMENÚ MODIFICAR.
+        //region SUBMENÚ MODIFICAR.
             private static void modificarMaterialPolicial(Integer idOperador) {
                 Scanner lector = new Scanner(System.in);
                 System.out.println("Ingrese el ID del material policial a modificar:");
@@ -315,11 +317,12 @@ public class Comisaria {
                     System.out.println("SE PRESENTÓ UN PROBLEMA AL INGRESAR EL COMENTARIO DE LA MODIFICACION...");
                 }
             }
-        ///endregion
+        //endregion
 
-    ///endregion
+    //endregion
 
-    public void menuDepartamentos() {
+    //region MENUES DEPARTAMENTOS
+    public static void menuDepartamentos() {
         int selector;
         do {
             System.out.println("1.Agregar al departamento");
@@ -332,94 +335,238 @@ public class Comisaria {
             selector = lector.nextInt();
             switch (selector) {
                 case 1:
-                    Personal nuevo;
-                    System.out.println("Digame el Departamento que quiere Crear 1.POLICIA\n 2.MANTENIMIENTO\n 3.LIMPIEZA\n 4.ADMINISTRACION");
-                    //TODO menuDepto.get(T_Depto).agregar() con todas las funciones de crear y validaciones
-                    switch (lector.nextInt()){
-                        case 1:
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
-                        case 4:
-                            break;
+                    menuAgregarDepartamento();
+                    break;
+                case 2:
+                    menuBajaDepartamento();
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+                    departamento.listar(T_Depto.POLICIA);
+                    departamento.listar(T_Depto.MANTENIMIENTO);
+                    departamento.listar(T_Depto.LIMPIEZA);
+                    departamento.listar(T_Depto.ADMINISTRACION);
+                    break;
+                default:
+                    break;
+            }
+        }while (selector != 0);
+    }
+
+    ///MENU PARA AGREGAR PERSONAL
+    public static void menuAgregarDepartamento(){
+        int selector;
+        Personal nuevo;
+        do {
+            System.out.println("Que elemento desea ingresar?");
+            System.out.println("1.Personal");
+            System.out.println("2.Miebro de la fuerza");
+            System.out.println("0.Volver");
+            Scanner lector = new Scanner(System.in);
+            selector = lector.nextInt();
+            try {
+                switch (selector) {
+                    case 1:
+                        nuevo = new Personal();
+                        nuevo.crearPersonal();
+                        System.out.println("Seleccionar departamento al que pertenecera: 1.MANTENIMIENTO \n 2.LIMPIEZA \n 3. ADMINISTRACION");
+                        switch (lector.nextInt()) {
+                            case 1:
+                                departamento.agregarAlDepartamento(T_Depto.MANTENIMIENTO, nuevo);
+                                break;
+                            case 2:
+                                departamento.agregarAlDepartamento(T_Depto.LIMPIEZA, nuevo);
+                                break;
+                            case 3:
+                                departamento.agregarAlDepartamento(T_Depto.ADMINISTRACION, nuevo);
+                                break;
+                        }
+                        break;
+                    case 2:
+                        nuevo = new MiembroFuerza();
+                        ((MiembroFuerza) nuevo).crearMiembro();
+                        departamento.agregarAlDepartamento(T_Depto.POLICIA,nuevo);
+                        break;
+                    default:
+                        break;
+                }
+            }catch (YaExisteException e){
+                e.printStackTrace();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }while (selector != 0);
+    }
+
+    ///MENU PARA DAR DE BAJA A UN PERSONAL
+    public static void menuBajaDepartamento(){
+        int selector;
+        Personal aux = new Personal();
+        do {
+            System.out.println("Seleccionar el Departamento:");
+            System.out.println("1.Policia");
+            System.out.println("2.Mantenimiento");
+            System.out.println("3.Limpieza");
+            System.out.println("4.Administracion");
+            System.out.println("0.Volver");
+            Scanner lector = new Scanner(System.in);
+            selector = lector.nextInt();
+            switch (selector) {
+                case 1:
+                    try {
+                        departamento.listar(T_Depto.POLICIA);
+                        System.out.println("Ingrese el LEGAJO del policia");
+                        aux.setLegajo(lector.nextInt());
+                        departamento.eliminarDelDepartamento(T_Depto.POLICIA, aux);
+                    } catch (NoEncontradoException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                     break;
                 case 2:
-                    System.out.println("Digame el Departamento que quiere Crear 1.INVESTIGACION 2.NARCOTICOS 3.COMUNICACIONES 4.TRANSITO \n" +
-                    " 5.SEGURIDAD 6.CIENTIFICA 7.FORMACION 8.LIMPIEZA 9.SECRETARIA 10.ADMINISTRACION 11.RECURSOS_HUMANOS");
-
-                    //TODO menuDepto.get(T_Depto).darDeBaja() con todas las funciones de crear y validaciones
+                    try {
+                        departamento.listar(T_Depto.MANTENIMIENTO);
+                        System.out.println("Ingrese el LEGAJO del personal de mantenimiento");
+                        aux.setLegajo(lector.nextInt());
+                        departamento.eliminarDelDepartamento(T_Depto.MANTENIMIENTO, aux);
+                    } catch (NoEncontradoException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case 3:
-                    System.out.println("Digame el Departamento que quiere ver 1.INVESTIGACION 2.NARCOTICOS 3.COMUNICACIONES 4.TRANSITO \n" +
-                    " 5.SEGURIDAD 6.CIENTIFICA 7.FORMACION 8.LIMPIEZA 9.SECRETARIA 10.ADMINISTRACION 11.RECURSOS_HUMANOS");
-
-                    //TODO menuDepto.get(T_depto).modificar() Con validaciones
+                    try {
+                        departamento.listar(T_Depto.LIMPIEZA);
+                        System.out.println("Ingrese el LEGAJO del personal de limpieza");
+                        aux.setLegajo(lector.nextInt());
+                        departamento.eliminarDelDepartamento(T_Depto.LIMPIEZA, aux);
+                    } catch (NoEncontradoException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case 4:
-
-                    //TODO menuDeptos.get(T_Depto).listar();
+                    try {
+                        departamento.listar(T_Depto.ADMINISTRACION);
+                        System.out.println("Ingrese el LEGAJO del personal de administracion");
+                        aux.setLegajo(lector.nextInt());
+                        departamento.eliminarDelDepartamento(T_Depto.ADMINISTRACION, aux);
+                    } catch (NoEncontradoException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 default:
                     break;
             }
         }while (selector != 0);
     }
-    public void menuCalabozo() {
+
+    ///MENU PARA MODIFICAR UN PERSONAL
+    public void menuModificarDepartamento(){
         int selector;
+        Personal aux = new Personal();
+        do {
+            System.out.println("Seleccionar el Departamento:");
+            System.out.println("1.Policia");
+            System.out.println("2.Mantenimiento");
+            System.out.println("3.Limpieza");
+            System.out.println("4.Administracion");
+            System.out.println("0.Volver");
+            Scanner lector = new Scanner(System.in);
+            selector = lector.nextInt();
+            switch (selector) {
+                case 1:
+                    try {
+                        departamento.listar(T_Depto.POLICIA);
+                        System.out.println("Ingrese el LEGAJO del policia");
+                        aux.setLegajo(lector.nextInt());
+                        departamento.modificarPersonal(T_Depto.POLICIA, aux);
+                    } catch (NoEncontradoException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 2:
+                    try {
+                        departamento.listar(T_Depto.MANTENIMIENTO);
+                        System.out.println("Ingrese el LEGAJO del personal de mantenimiento");
+                        aux.setLegajo(lector.nextInt());
+                        departamento.modificarPersonal(T_Depto.MANTENIMIENTO, aux);
+                    } catch (NoEncontradoException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 3:
+                    try {
+                        departamento.listar(T_Depto.LIMPIEZA);
+                        System.out.println("Ingrese el LEGAJO del personal de limpieza");
+                        aux.setLegajo(lector.nextInt());
+                        departamento.modificarPersonal(T_Depto.LIMPIEZA, aux);
+                    } catch (NoEncontradoException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case 4:
+                    try {
+                        departamento.listar(T_Depto.ADMINISTRACION);
+                        System.out.println("Ingrese el LEGAJO del personal de administracion");
+                        aux.setLegajo(lector.nextInt());
+                        departamento.modificarPersonal(T_Depto.ADMINISTRACION, aux);
+                    } catch (NoEncontradoException e) {
+                        e.getMessage();
+                    } catch (Exception e) {
+                        e.getMessage();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }while (selector != 0);
+    }
+//endregion
+
+    public static void menuCalabozo() {
+        int selector;
+        Procesado nuevo = new Procesado();
         do {
             System.out.println("1.Agregar al calabozo");
-            System.out.println("2.Migrar Procesados");
-            System.out.println("3.Modificar procesados");
+            System.out.println("2.Cambiar estado del procesado");
+            System.out.println("3.Cambiar estado del procesado");
             System.out.println("4.Listar procesados");
             System.out.println("0.Volver");
-
             Scanner lector = new Scanner(System.in);
             selector = lector.nextInt();
             switch (selector) {
                 case 1:
-                    //TODO calabozo.agregar() con todas las funciones de crear y validaciones
+                    nuevo.crearProcesado();
+                    calabozo.agregar(nuevo);
                     break;
                 case 2:
-                    //TODO calabozo.migrar()
+                    calabozo.listar();
+                    System.out.println("Ingresa el id del procesado");
+                    nuevo.setId(lector.nextInt());
+                    calabozo.eliminar(nuevo);
                     break;
                 case 3:
-                    //TODO calabozo.modificar() Con validaciones
+                    calabozo.listar();
+                    System.out.println("Ingresa el id del procesado");
+                    nuevo.setId(lector.nextInt());
+                    calabozo.modificar(nuevo);
                     break;
                 case 4:
-                    //TODO calabozo.listar();
-                    break;
-                default:
-                    break;
-            }
-        }while (selector != 0);
-    }
-
-    public void menuVisita() {
-        int selector;
-        do {
-            System.out.println("1.Agregar una visita");
-            System.out.println("2.Cancelar visita");
-            System.out.println("3.Modificar visita");
-            System.out.println("4.Listar visitas");
-            System.out.println("0.Volver");
-
-            Scanner lector = new Scanner(System.in);
-            selector = lector.nextInt();
-            switch (selector) {
-                case 1:
-                    //TODO crear la funcion de agregas visita
-                    break;
-                case 2:
-                    //TODO crear la funcion de cancelar una visita
-                    break;
-                case 3:
-                    //TODO crear la funcion que modificique una visita
-                    break;
-                case 4:
-                    //TODO crear la funcion que liste las visitas
+                    calabozo.listar();
                     break;
                 default:
                     break;
