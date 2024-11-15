@@ -1,12 +1,10 @@
 package Entidades;
 
-import Area.Departamento;
-
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Scanner;
 
-public abstract class Ingresante extends Persona{
+public abstract class Ingresante extends Persona {
     private static int contadorId = 100000;
     private int id;
     private LocalDate fechaIngreso;
@@ -68,20 +66,18 @@ public abstract class Ingresante extends Persona{
         if (!(o instanceof Ingresante that)) return false;
         return id == that.id;
     }
-
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
     @Override
     public String toString() {
         return super.toString() +
                 ", Ingresante{" +
-                "id=" + id +
-                ", fechaIngreso=" + fechaIngreso +
-                ", razon='" + razon + '\'' +
-                ", nroCasillero='" + nroCasillero + '\'' +
+                ", id= " + id +
+                ", fechaIngreso= " + fechaIngreso +
+                ", razon= " + razon +
+                ", nroCasillero= " + nroCasillero +
                 '}';
     }
 }

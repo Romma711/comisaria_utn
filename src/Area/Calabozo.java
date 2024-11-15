@@ -4,20 +4,22 @@ import Entidades.Persona;
 import Enums.T_Estado;
 import Interfaces.ABML;
 import Entidades.Procesado;
-
+import Interfaces.IJson;
+import org.json.JSONObject;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Calabozo implements ABML<Procesado> {
-    private ArrayList<Procesado> reclusos;
+public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
+    private final ArrayList<Procesado> reclusos;
 
     public Calabozo() {
         reclusos = new ArrayList<>();
     }
 
+    //region ABML
     @Override
     public boolean agregar(Procesado dato) {
         // Comprobación para evitar duplicados por ID
@@ -83,6 +85,8 @@ public class Calabozo implements ABML<Procesado> {
             }
         }
     }
+    //endregion
+
     private void cambiarEstado(Procesado dato, Scanner scan) {
         System.out.println("Ingrese: '1' para 'Procesado', '2' para 'Liberado', '3' para 'Detenido', '4' para 'Migrado'");
         T_Estado estado = T_Estado.PROCESADO;
@@ -129,5 +133,16 @@ public class Calabozo implements ABML<Procesado> {
                 System.out.println("Formato de fecha inválido. Por favor ingrese en el formato YYYY-MM-DD.");
             }
         }
+    }
+
+    @Override
+    public Calabozo jsonToThisClass(JSONObject json) {
+        return (Calabozo) json.get("calabozo");
+    }
+    @Override
+    public JSONObject classToJson() {
+        JSONObject jason = new JSONObject();
+        jason.put("calabozo", reclusos);
+        return jason;
     }
 }

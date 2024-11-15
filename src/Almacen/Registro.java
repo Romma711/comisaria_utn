@@ -1,11 +1,10 @@
 package Almacen;
 
-import org.json.JSONObject;
 import java.util.ArrayList;
 
-public abstract class Registro{
-    private static Integer cont = 10000;
-    private Integer id;
+public abstract class Registro {
+    private static Integer cont = 9999;
+    private final Integer id;
     protected final ArrayList<Modificacion> modificaciones;
 
     public Registro() {
@@ -14,29 +13,16 @@ public abstract class Registro{
         modificaciones = new ArrayList<>();
     }
 
-    ///region MODIFICACIONES
-    public boolean agregarMod(Modificacion dato) {
-        return modificaciones.add(dato);
-    }
-    protected Modificacion retornarPosicion(int i){
-        return modificaciones.get(i);
-    }
-    protected int retornarLenght(){
-        return modificaciones.size();
-    }
-    ///endregion
-
-    ///region GETTERS & SETTERS
     public Integer getId() {
         return id;
     }
-    protected void setId (Integer id) {
-        this.id = id;
+    public static void setCont(Integer cont) {
+        Registro.cont = cont;
     }
-    ///endregion
 
-    public abstract Registro jsonToThisClass(JSONObject jason);
-
+    public boolean agregarMod(Modificacion dato) {
+        return modificaciones.add(dato);
+    }
     public String listaModificaciones() {
         String listado = "";
         int i = 0;

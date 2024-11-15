@@ -6,14 +6,15 @@ import Enums.T_Depto;
 import Enums.T_Rango;
 import Exceptions.NoEncontradoException;
 import Exceptions.YaExisteException;
-
+import Interfaces.IJson;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Departamento <T extends Personal> {
-    private HashMap<T_Depto, ArrayList<T>>listaDepartamentos;
+public class Departamento <T extends Personal> implements IJson<Departamento> {
+    private final HashMap<T_Depto, ArrayList<T>>listaDepartamentos;
 
     public Departamento() {
         listaDepartamentos = new HashMap<>();
@@ -30,7 +31,6 @@ public class Departamento <T extends Personal> {
         }
         return depto.add(dato);
     }
-
     public boolean eliminarDelDepartamento(T_Depto tipoDepto, T dato) throws NoEncontradoException {
         Boolean flag=false;
         for(int i = 0; i < listaDepartamentos.get(tipoDepto).size(); i++){
@@ -55,7 +55,6 @@ public class Departamento <T extends Personal> {
         }
         return person!=null;
     }
-
     public void modificarPersonal(T_Depto tipoDepto, T data)  throws NoEncontradoException{
         int lugar = listaDepartamentos.get(tipoDepto).indexOf(data);
         if(lugar == -1){
@@ -115,6 +114,17 @@ public class Departamento <T extends Personal> {
             case 4 -> T_Rango.CAPITAN;
             default -> throw new IllegalStateException("Seleccion incorrecta, vuelva a intentar");
         };
+    }
+
+    @Override
+    public Departamento jsonToThisClass(JSONObject json) {
+        return (Departamento) json.get("departamento");
+    }
+    @Override
+    public JSONObject classToJson() {
+        JSONObject jason = new JSONObject();
+        jason.put("departamento", listaDepartamentos);
+        return jason;
     }
 }
 // TODO modificar, listar del ABML

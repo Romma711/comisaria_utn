@@ -1,11 +1,7 @@
 import Almacen.*;
 import Area.*;
-import Entidades.MiembroFuerza;
-import Entidades.Personal;
-import Entidades.Procesado;
-import Enums.T_Depto;
-import Enums.T_Material;
-import Enums.T_Registro;
+import Entidades.*;
+import Enums.*;
 import Exceptions.NoEncontradoException;
 import Exceptions.YaExisteException;
 
@@ -16,19 +12,14 @@ public class Comisaria {
     private static Departamento departamento;
     private static Almacen almacen;
     private static Calabozo calabozo;
-    private static Visitas visitas;
 
     public Comisaria() {
     }
 
     public static void menuPrincipal() {
-
-        //JSONUtils.leerArchivo("Departamento.json");
-        //JSONUtils.leerArchivo("Almacen.json");
-        //JSONUtils.leerArchivo("Calabozo.json");
-        //JSONUtils.leerArchivo("Visitas.json");
-        //JSONUtils.leerArchivo("Perrera.json");
-        //JSONUtils.leerArchivo("Contadores.json");
+        almacen.jsonToThisClass(JSONUtils.jsonDeArchivo("almacen.json"));
+        calabozo.jsonToThisClass(JSONUtils.jsonDeArchivo("calabozo.json"));
+        departamento.jsonToThisClass(JSONUtils.jsonDeArchivo("departamento.json"));
 
         int selector;
         Scanner lector = new Scanner(System.in);
@@ -56,6 +47,9 @@ public class Comisaria {
             }
 
         } while(selector !=0);
+        JSONUtils.guardarArchivo(almacen.classToJson(),"almacen.json");
+        JSONUtils.guardarArchivo(calabozo.classToJson(),"calabozo.json");
+        JSONUtils.guardarArchivo(departamento.classToJson(),"departamento.json");
     }
 
     //region MANIPULACIÓN DE ALMACEN.

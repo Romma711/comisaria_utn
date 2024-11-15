@@ -2,21 +2,15 @@ package Entidades;
 
 import Area.Departamento;
 import Enums.T_Rango;
-import org.json.JSONObject;
-
 import java.util.Scanner;
-import java.util.UUID;
 
-public class MiembroFuerza  extends Personal{
+public class MiembroFuerza extends Personal {
     public T_Rango rango;
     public Integer condecoraciones;
 
 
-    public MiembroFuerza(String dni, String nombre, String apellido,
-                         String direccion, String telefono,
-                         Integer edad, Character genero,
-                         Integer horasDiarias, Double salario,
-                         Double horasTotalesMes, T_Rango rango,
+    public MiembroFuerza(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad,
+                         Character genero, Double salario, Double horasTotalesMes, T_Rango rango,
                          Integer condecoraciones) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero, salario, horasTotalesMes);
         this.rango = rango;
@@ -50,31 +44,6 @@ public class MiembroFuerza  extends Personal{
         System.out.println("Ingrese las condecoraciones");
         this.condecoraciones = scan.nextInt();
     }
-
-    @Override
-    public Personal jsonToThisClass(JSONObject json) {
-        return null;
-    }
-    ///Esta funcion convierte el json en al objeto
-    @Override
-    public JSONObject classToJson() {
-        JSONObject json = new JSONObject();
-        json.put("nombre",this.getNombre());
-        json.put("apellido",this.getApellido());
-        json.put("direccion",this.getDireccion());
-        json.put("telefono",this.getTelefono());
-        json.put("dni",this.getDni());
-        json.put("edad",this.getEdad());
-        json.put("genero",this.getGenero());
-        json.put("legajo",this.getLegajo());
-        json.put("salario",this.getSalario());
-        json.put("horas_mes",this.getHorasTotalesMes());
-        json.put("tarea",this.getTarea());
-        json.put("rango",this.getRango().getClass());
-        json.put("condecoraciones",this.getCondecoraciones());
-        return json;
-    }
-
 
     @Override
     public String toString() {

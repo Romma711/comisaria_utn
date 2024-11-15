@@ -1,8 +1,5 @@
 package Entidades;
 
-import Interfaces.IJson;
-import org.json.JSONObject;
-
 import java.util.Scanner;
 
 public abstract class Persona{
@@ -19,7 +16,6 @@ public abstract class Persona{
         this.edad = edad;
         this.genero = genero;
     }
-
     public Persona() {
     }
 
