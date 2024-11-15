@@ -51,6 +51,7 @@ public class Modificacion implements IJson<Modificacion> {
     public Modificacion jsonToThisClass(JSONObject jason) {
         Modificacion modificacion = new Modificacion();
         modificacion.setIdModificacion(UUID.fromString(jason.getString("id_modificacion")));
+        modificacion.setIdOperador(jason.getInt("id_operador"));
         modificacion.setFechaModificacion(jason.getString("fecha_modificacion"));
         modificacion.setRazon(jason.getString("razon"));
         return modificacion;
@@ -58,6 +59,7 @@ public class Modificacion implements IJson<Modificacion> {
     @Override
     public JSONObject classToJson() {
         JSONObject json = new JSONObject();
+        json.put("id_operador",this.getIdOperador());
         json.put("id_modificacion",this.getIdModificacion());
         json.put("fecha_modificacion",this.getFechaModificacion());
         json.put("razon",this.getRazon());

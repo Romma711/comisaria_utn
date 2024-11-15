@@ -259,10 +259,10 @@ public class Comisaria {
                 selector = lector.nextInt();
                 switch (selector){
                     case 1:
-                        modificarMaterialPolicial();
+                        modificarMaterialPolicial(idOperador);
                         break;
                     case 2:
-                        modificarDenuncia();
+                        modificarDenuncia(idOperador);
                         break;
                     default:
                         System.out.println("INGRESE UN NUMERO VALIDO...");
@@ -272,7 +272,7 @@ public class Comisaria {
         }
 
         ///region SUBMENÚ MODIFICAR.
-            private static void modificarMaterialPolicial() {
+            private static void modificarMaterialPolicial(Integer idOperador) {
                 Scanner lector = new Scanner(System.in);
                 System.out.println("Ingrese el ID del material policial a modificar:");
                 System.out.println("> ");
@@ -286,23 +286,35 @@ public class Comisaria {
                 } else {
                     System.out.println("El ID no pertenece a un MATERIAL POLICIAL.");
                 }
-            }
-
-            private static void modificarDenuncia() {
-            Scanner lector = new Scanner(System.in);
-            System.out.println("Ingrese el ID de la denuncia a modificar:");
-            System.out.println("> ");
-
-            Registro denuncia = almacen.buscarPorID(lector.nextInt());
-            lector.nextLine();
-            if (denuncia instanceof Denuncia) {
-                System.out.println("Ingrese la nueva declaración de la denuncia:");
+                System.out.println("Ingrese un comentario para la modificacion:");
                 System.out.println("> ");
-                ((Denuncia) denuncia).setDeclaracion(lector.nextLine());
-            } else {
-                System.out.println("El ID no pertenece a una DENUNCIA.");
+                boolean flag = materialPolicial.agregarMod(new Modificacion(idOperador, LocalDateTime.now().toString(), lector.nextLine()));
+                if (flag) {
+                    System.out.println("SE PRESENTÓ UN PROBLEMA AL INGRESAR EL COMENTARIO DE LA MODIFICACION...");
+                }
             }
-        }
+
+            private static void modificarDenuncia(Integer idOperador) {
+                Scanner lector = new Scanner(System.in);
+                System.out.println("Ingrese el ID de la denuncia a modificar:");
+                System.out.println("> ");
+
+                Registro denuncia = almacen.buscarPorID(lector.nextInt());
+                lector.nextLine();
+                if (denuncia instanceof Denuncia) {
+                    System.out.println("Ingrese la nueva declaración de la denuncia:");
+                    System.out.println("> ");
+                    ((Denuncia) denuncia).setDeclaracion(lector.nextLine());
+                } else {
+                    System.out.println("El ID no pertenece a una DENUNCIA.");
+                }
+                System.out.println("Ingrese un comentario para la modificacion:");
+                System.out.println("> ");
+                boolean flag = denuncia.agregarMod(new Modificacion(idOperador, LocalDateTime.now().toString(), lector.nextLine()));
+                if (flag) {
+                    System.out.println("SE PRESENTÓ UN PROBLEMA AL INGRESAR EL COMENTARIO DE LA MODIFICACION...");
+                }
+            }
         ///endregion
 
     ///endregion

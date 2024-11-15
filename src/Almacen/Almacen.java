@@ -7,17 +7,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Almacen {
-    private HashMap<T_Registro, ArrayList<Registro>> almacen;
+    private final HashMap<T_Registro, ArrayList<Registro>> almacen;
 
     public Almacen() {
         almacen = new HashMap<>();
     }
 
     public boolean agregarAlAlmacen(T_Registro tipoRegistro, Registro nuevoRegistro) {
-        ArrayList<Registro> listaRegistros = almacen.computeIfAbsent(tipoRegistro, k -> new ArrayList<>());
+        ArrayList<Registro> listaRegistros = almacen.get(tipoRegistro);
+        if (listaRegistros != null) {
+            return listaRegistros.add(nuevoRegistro);
+        }
+        listaRegistros = new ArrayList<>();
+        almacen.put(tipoRegistro,listaRegistros);
         return listaRegistros.add(nuevoRegistro);
     }
-
     public Registro buscarPorID(Integer id) {
         for (T_Registro clave : almacen.keySet()) {
             ArrayList<Registro> valor = almacen.get(clave);
@@ -36,9 +40,9 @@ public class Almacen {
             case MATERIAL_POLICIAL -> new Material_Policial();
         };
     }
+
     public Almacen jasonToThisClass(JSONObject jason) {
         Almacen almacen = new Almacen();
-
         for (T_Registro clave : T_Registro.values()) {
             if (jason.has(clave.name())) {
                 JSONArray jsonArray = jason.getJSONArray(clave.name());
@@ -69,5 +73,3 @@ public class Almacen {
         return listado;
     }
 }
-
-//TODO revisar listar() con pruebas en consola.
