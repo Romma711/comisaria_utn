@@ -28,12 +28,9 @@ public class JSONUtils <T>{
         JSONTokener token=null;
         try{
             token= new JSONTokener(new FileReader(json));
-        } catch (FileNotFoundException e) {
-            e.getMessage();
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.getMessage();
         }
-        assert token != null;
         return new JSONObject(token);
     }
 }

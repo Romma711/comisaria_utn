@@ -10,14 +10,10 @@ import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Departamento <T extends Personal> implements IJson<Departamento> {
-    private HashMap<T_Depto, ArrayList<T>>listaDepartamentos;
-
+    private final HashMap<T_Depto, ArrayList<T>>listaDepartamentos;
     public Departamento() {
         listaDepartamentos = new HashMap<>();
     }
@@ -28,7 +24,7 @@ public class Departamento <T extends Personal> implements IJson<Departamento> {
             depto = new ArrayList<>();
             listaDepartamentos.put(tipoDepto,depto);
         }
-        if(!depto.add(dato)){
+        if(depto.contains(dato)){
             throw new YaExisteException("el personal que intenta agregar ya existe dentro de la lista");
         }
         return depto.add(dato);
@@ -122,8 +118,8 @@ public class Departamento <T extends Personal> implements IJson<Departamento> {
     }
 
     @Override
-    public Departamento jsonToThisClass(JSONObject json) {
-        return (Departamento) json.get("departamento");
+    public Departamento<T> jsonToThisClass(JSONObject json) {
+        return (Departamento<T>) json.get("departamentos");
     }
 
     @Override
@@ -133,4 +129,4 @@ public class Departamento <T extends Personal> implements IJson<Departamento> {
         return json;
     }
 }
-// TODO modificar, listar del ABML
+

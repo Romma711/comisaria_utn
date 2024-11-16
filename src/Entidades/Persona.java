@@ -83,6 +83,7 @@ public abstract class Persona{
         System.out.println("Ingresar edad:");
         this.edad = scan.nextInt();
         System.out.println("Ingresar genero (M / F):");
+        scan.nextLine();
         this.genero = scan.nextLine().charAt(0);
     }
     @Override

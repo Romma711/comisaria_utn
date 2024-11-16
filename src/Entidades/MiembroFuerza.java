@@ -16,7 +16,7 @@ public class MiembroFuerza  extends Personal{
                          String direccion, String telefono,
                          Integer edad, Character genero,
                          Double salario,
-                         Double horasTotalesMes, T_Rango rango,
+                         Integer horasTotalesMes, T_Rango rango,
                          Integer condecoraciones) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero, salario, horasTotalesMes);
         this.rango = rango;
@@ -45,7 +45,7 @@ public class MiembroFuerza  extends Personal{
     public void crearMiembro(){
         super.crearPersonal();
         Scanner scan = new Scanner(System.in);
-        System.out.println("Ingrese el rango 1.OFICIAL \n 2.SARGENTO \n 3.TENIENTE \n 4.CAPITAN");
+        System.out.println("Ingrese el rango \n 1.OFICIAL \n 2.SARGENTO \n 3.TENIENTE \n 4.CAPITAN");
         this.rango = Departamento.rango(scan.nextInt());
         System.out.println("Ingrese las condecoraciones");
         this.condecoraciones = scan.nextInt();
@@ -54,12 +54,17 @@ public class MiembroFuerza  extends Personal{
 
     @Override
     public String toString() {
-        return "MiembroFuerza{" +
-                "legajo=" + super.getLegajo() +
-                ", rango=" + rango +
-                ", salario=" + super.getSalario() +
-                ", horasTotalesMes=" + super.getHorasTotalesMes() +
-                ", condecoraciones=" + condecoraciones +
+        return
+                "MiembroFuerza{" +
+                "Legajo=" + super.getLegajo() +
+                        ", Nombre="+ super.getNombre()+
+                        ", Apellido="+super.getApellido()+
+                        ", Activo?="+super.isActivo()+
+                        ", Tarea="+super.getTarea()+
+                ", Rango=" + rango +
+                ", Salario=" + super.getSalario() +
+                ", HorasTotalesMes=" + super.getHorasTotalesMes() +
+                ", Condecoraciones=" + condecoraciones +
                 '}';
     }
 }
