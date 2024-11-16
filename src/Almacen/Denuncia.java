@@ -1,12 +1,12 @@
 package Almacen;
 
-import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Denuncia extends Registro {
     private String dniDenunciante, dniDenunciado, declaracion;
 
+    //region CONSTRUCTORES
     public Denuncia(String dniDenunciante, String dniDenunciado, String declaracion) {
         super();
         this.dniDenunciante = dniDenunciante;
@@ -15,27 +15,65 @@ public class Denuncia extends Registro {
     }
     public Denuncia() {
     }
+    //endregion
 
     ///region GETTERS & SETTERS
     public String getDniDenunciante() {
         return dniDenunciante;
     }
-    public void setDniDenunciante(String dniDenunciante) {
-        this.dniDenunciante = dniDenunciante;
-    }
     public String getDniDenunciado() {
         return dniDenunciado;
     }
+    public String getDeclaracion() {
+        return declaracion;
+    }
+
     public void setDniDenunciado(String dniDenunciado) {
         this.dniDenunciado = dniDenunciado;
     }
-    public String getDeclaracion() {
-        return declaracion;
+    public void setDniDenunciante(String dniDenunciante) {
+        this.dniDenunciante = dniDenunciante;
     }
     public void setDeclaracion(String declaracion) {
         this.declaracion = declaracion;
     }
     ///endregion
+
+    //region IJSON
+    @Override
+    public Denuncia jsonToThisClass(JSONObject jason) {
+        Denuncia denuncia = new Denuncia();
+        denuncia.setId(jason.getInt("id"));
+        denuncia.setDeclaracion(jason.getString("declaracion"));
+        denuncia.setDniDenunciado(jason.getString("dni_denunciado"));
+        denuncia.setDniDenunciante(jason.getString("dni_denunciante"));
+
+        JSONArray listado = jason.getJSONArray("modificaciones");
+        for (int i = 0; i < listado.length(); i++) {
+            JSONObject modificacionJSON = listado.getJSONObject(i);
+            Modificacion modificacion = new Modificacion();
+            modificacion = modificacion.jsonToThisClass(modificacionJSON);
+
+            denuncia.agregarMod(modificacion);
+        }
+
+        return denuncia;
+    }
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        json.put("id",this.getId());
+        json.put("dni_denunciante",this.getDniDenunciante());
+        json.put("dni_denunciado",this.getDniDenunciado());
+        json.put("declaracion",this.getDeclaracion());
+        JSONArray arrayMod = new JSONArray();
+        for (int i = 0; i < retornarLenght(); i++){
+            arrayMod.put(retornarPosicion(i).classToJson());
+        }
+        json.put("modificaciones",arrayMod);
+        return json;
+    }
+    //endregion
 
     @Override
     public String toString() {
@@ -47,6 +85,3 @@ public class Denuncia extends Registro {
                 super.toString();
     }
 }
-
-
-//TODO revisar toString() con pruebas en consola.

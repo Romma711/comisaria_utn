@@ -4,7 +4,7 @@ import Interfaces.IJson;
 import org.json.JSONObject;
 import java.util.UUID;
 
-public class Modificacion {
+public class Modificacion implements IJson<Modificacion> {
     private UUID idModificacion;
     private Integer idOperador;
     private String fechaModificacion, razon;
@@ -47,6 +47,25 @@ public class Modificacion {
     }
     ///endregion
 
+    //region IJSON
+    public Modificacion jsonToThisClass(JSONObject jason) {
+        Modificacion modificacion = new Modificacion();
+        modificacion.setIdModificacion(UUID.fromString(jason.getString("id_modificacion")));
+        modificacion.setIdOperador(jason.getInt("id_operador"));
+        modificacion.setFechaModificacion(jason.getString("fecha_modificacion"));
+        modificacion.setRazon(jason.getString("razon"));
+        return modificacion;
+    }
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        json.put("id_operador",this.getIdOperador());
+        json.put("id_modificacion",this.getIdModificacion());
+        json.put("fecha_modificacion",this.getFechaModificacion());
+        json.put("razon",this.getRazon());
+        return json;
+    }
+    //endregion
+
     @Override
     public String toString() {
         return "Modificacion:" +
@@ -55,4 +74,3 @@ public class Modificacion {
                 "\nRazón: " + razon + '\n';
     }
 }
-

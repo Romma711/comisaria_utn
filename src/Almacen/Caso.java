@@ -1,6 +1,5 @@
 package Almacen;
 
-import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ public class Caso extends Registro {
     private final ArrayList<Evidencia> caja = new ArrayList<>();
     private String comentario;
 
+    //region CONSTRUCTORES
     public Caso(String nombre,String comentario) {
         super();
         this.comentario = comentario;
@@ -18,30 +18,25 @@ public class Caso extends Registro {
     public Caso() {
         super();
     }
+    //endregion
 
-    ///region GETTERS & SETTERS
+    //region GETTERS & SETTERS
     public String getComentario() {
         return comentario;
-    }
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
     }
     public String getNombre() {
         return nombre;
     }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    ///endregion
+    //endregion
 
-    public int retornarLength(){
-        return caja.size();
-    }
-    public Evidencia retornarEvidencia(int i){
-        return caja.get(i);
-    }
-
-    ///region AL
+    //region AL
     public boolean agregarEvidencia(Evidencia dato) {
         return caja.add(dato);
     }
@@ -55,7 +50,55 @@ public class Caso extends Registro {
         }
         return listado;
     }
-    ///endregion
+    //endregion
+
+    //region IJSON
+    @Override
+    public Caso jsonToThisClass(JSONObject jason) {
+        Caso caso = new Caso();
+        caso.setId(jason.getInt("id"));
+        caso.setComentario(jason.getString("comentario"));
+        caso.setNombre(jason.getString("nombre"));
+
+        JSONArray listado = jason.getJSONArray("evidencias");
+        for (int i = 0; i < listado.length(); i++) {
+            JSONObject evidenciaJSON = listado.getJSONObject(i);
+            Evidencia evidencia = new Evidencia();
+            evidencia = evidencia.jsonToThisClass(evidenciaJSON);
+
+            caso.agregarEvidencia(evidencia);
+        }
+
+        listado = jason.getJSONArray("modificaciones");
+        for (int i = 0; i < listado.length(); i++) {
+            JSONObject modificacionJSON = listado.getJSONObject(i);
+            Modificacion modificacion = new Modificacion();
+            modificacion = modificacion.jsonToThisClass(modificacionJSON);
+
+            caso.agregarMod(modificacion);
+        }
+
+        return caso;
+    }
+    @Override
+    public JSONObject classToJson() {
+        JSONObject json = new JSONObject();
+        JSONArray array = new JSONArray();
+        for (int i = 0; i < caja.size(); i++){
+            array.put(caja.get(i).classToJson());
+        }
+        json.put("evidencias",array);
+        json.put("id",this.getId());
+        json.put("nombre",this.getNombre());
+        json.put("comentario",this.getComentario());
+        JSONArray arrayMod = new JSONArray();
+        for (int i = 0; i < retornarLenght(); i++){
+            arrayMod.put(retornarPosicion(i).classToJson());
+        }
+        json.put("modificaciones",arrayMod);
+        return json;
+    }
+    //endregion
 
     @Override
     public String toString() {
@@ -66,5 +109,3 @@ public class Caso extends Registro {
                 super.toString();
     }
 }
-
-//TODO revisar listar() con pruebas en consola.

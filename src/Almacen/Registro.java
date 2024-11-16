@@ -1,9 +1,10 @@
 package Almacen;
 
+import Interfaces.IJson;
 import org.json.JSONObject;
 import java.util.ArrayList;
 
-public abstract class Registro{
+public abstract class Registro implements IJson<Registro> {
     private static Integer cont = 10000;
     private Integer id;
     protected final ArrayList<Modificacion> modificaciones;
@@ -14,7 +15,7 @@ public abstract class Registro{
         modificaciones = new ArrayList<>();
     }
 
-    ///region MODIFICACIONES
+    //region MODIFICACIONES
     public boolean agregarMod(Modificacion dato) {
         return modificaciones.add(dato);
     }
@@ -24,16 +25,21 @@ public abstract class Registro{
     protected int retornarLenght(){
         return modificaciones.size();
     }
-    ///endregion
+    //endregion
 
-    ///region GETTERS & SETTERS
+    //region GETTERS & SETTERS
     public Integer getId() {
         return id;
     }
     protected void setId (Integer id) {
         this.id = id;
     }
-    ///endregion
+    //endregion
+
+    //region IJSON
+    public abstract Registro jsonToThisClass(JSONObject jason);
+    public abstract JSONObject classToJson();
+    //endregion
 
     public String listaModificaciones() {
         String listado = "";
@@ -53,4 +59,3 @@ public abstract class Registro{
         return listaModificaciones();
     }
 }
-

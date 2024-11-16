@@ -1,6 +1,7 @@
-package Almacen;
+package Area;
 
 import Enums.T_Registro;
+import Almacen.*;
 import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,6 +35,8 @@ public class Almacen implements IJson<Almacen> {
         }
         return null;
     }
+
+    //region IJSON
     public Registro crearRegistro(T_Registro clave) {
         return switch (clave) {
             case CASO -> new Caso();
@@ -41,19 +44,38 @@ public class Almacen implements IJson<Almacen> {
             case MATERIAL_POLICIAL -> new Material_Policial();
         };
     }
+    public Almacen jsonToThisClass(JSONObject jason) {
+        Almacen almacen = new Almacen();
+        for (T_Registro clave : T_Registro.values()) {
+            if (jason.has(clave.name())) {
+                JSONArray jsonArray = jason.getJSONArray(clave.name());
 
-    @Override
-    public Almacen jsonToThisClass(JSONObject json) {
-        return (Almacen) json.get("almacen");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject registroJson = jsonArray.getJSONObject(i);
+                    Registro registro = crearRegistro(clave);
+                    almacen.agregarAlAlmacen(clave, registro.jsonToThisClass(registroJson));
+                }
+            }
+        }
+        return almacen;
     }
 
     public JSONObject classToJson() {
         JSONObject json = new JSONObject();
-        json.put("almacen",almacen);
+        // Iterar sobre los valores del enum
+        for (T_Registro clave : T_Registro.values()) {
+            JSONArray arrayReg = new JSONArray();
+
+            for (int i = 0; i < almacen.get(clave).size(); i++){
+                arrayReg.put(almacen.get(clave).get(i).classToJson());
+            }
+            json.put(clave.toString(),arrayReg);
+        }
         return json;
     }
+    //endregion
 
-    public String lista() {
+    public String listar() {
         String listado = "";
         int i;
         for (T_Registro clave : almacen.keySet()) {
