@@ -7,13 +7,13 @@ import java.util.Scanner;
 import java.util.UUID;
 
 public class Personal extends Persona{
-    private Integer legajo;
-    private Double salario, horasTotalesMes;
+    private Integer legajo, horasTotalesMes;
+    private Double salario;
     private String tarea;
     private boolean activo;
     private static Integer cont=99999;
 
-    public Personal(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, Double salario, Double horasTotalesMes) {
+    public Personal(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, Double salario, Integer horasTotalesMes) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero);
         cont++;
         legajo = cont;
@@ -41,10 +41,10 @@ public class Personal extends Persona{
     public void setSalario(Double salario) {
         this.salario = salario;
     }
-    public Double getHorasTotalesMes() {
+    public Integer getHorasTotalesMes() {
         return horasTotalesMes;
     }
-    public void setHorasTotalesMes(Double horasTotalesMes) {
+    public void setHorasTotalesMes(Integer horasTotalesMes) {
         this.horasTotalesMes = horasTotalesMes;
     }
     public String getTarea() {
@@ -65,11 +65,12 @@ public class Personal extends Persona{
     public void crearPersonal(){
         super.crearPersona();
         Scanner scan = new Scanner(System.in);
-        System.out.println("Ingresar horas por mes(numero decimal separado por punto ej: 203.4):");
-        this.horasTotalesMes = scan.nextDouble();
-        System.out.println("Ingresar salario(numero decimal separado por punto ej: 203.4):");
+        System.out.println("Ingresar horas por mes(Numero entero):");
+        this.horasTotalesMes = scan.nextInt();
+        System.out.println("Ingresar salario(numero decimal separado por coma ej: 203,4):");
         this.salario = scan.nextDouble();
         System.out.println("Ingresar la tarea a ejercer:");
+        scan.nextLine();
         this.tarea = scan.nextLine();
     }
 

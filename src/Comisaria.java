@@ -1,11 +1,20 @@
 import Almacen.*;
 import Area.*;
-import Entidades.*;
-import Enums.*;
+import Entidades.MiembroFuerza;
+import Entidades.Persona;
+import Entidades.Personal;
+import Entidades.Procesado;
+import Enums.T_Depto;
+import Enums.T_Material;
+import Enums.T_Registro;
 import Exceptions.NoEncontradoException;
 import Exceptions.YaExisteException;
+import org.json.JSONObject;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Comisaria {
@@ -14,13 +23,11 @@ public class Comisaria {
     private static Calabozo calabozo;
 
     public Comisaria() {
+
     }
 
     public static void menuPrincipal() {
-        almacen.jsonToThisClass(JSONUtils.jsonDeArchivo("almacen.json"));
-        calabozo.jsonToThisClass(JSONUtils.jsonDeArchivo("calabozo.json"));
-        departamento.jsonToThisClass(JSONUtils.jsonDeArchivo("departamento.json"));
-
+        departamento = new Departamento();
         int selector;
         Scanner lector = new Scanner(System.in);
         do {
@@ -42,22 +49,28 @@ public class Comisaria {
                     menuCalabozo();
                     break;
                 default:
-                    System.out.println("Ingrese un número valido.");
+                    System.out.println("Vuelva pronto!");
+                    if(selector != 0){
+                        System.out.println("Ingrese un número valido.");
+                    }
                     break;
             }
 
         } while(selector !=0);
-        JSONUtils.guardarArchivo(almacen.classToJson(),"almacen.json");
-        JSONUtils.guardarArchivo(calabozo.classToJson(),"calabozo.json");
-        JSONUtils.guardarArchivo(departamento.classToJson(),"departamento.json");
+
+
     }
 
     //region MANIPULACIÓN DE ALMACEN.
         private static void menuAlmacenes() {
+            try{
+                almacen = (Almacen) JSONUtils.leerArchivo("almacen.json").get("almacen");
+            }catch (NullPointerException e){
+                e.getMessage();
+                almacen=new Almacen();
+            }
             int selector;
             Scanner lector = new Scanner(System.in);
-            almacen = new Almacen();
-
             System.out.println("Ingrese el ID de quien va a operar almacen:");
             Integer idOperador = lector.nextInt();
 
@@ -86,6 +99,7 @@ public class Comisaria {
                         break;
                 }
             }while (selector != 0);
+            JSONUtils.guardarArchivo(almacen.classToJson(),"almacen.json");
         }
 
         private static void menuAgregarRegistros(Integer idOperador){
@@ -317,6 +331,11 @@ public class Comisaria {
 
     //region MENUES DEPARTAMENTOS
     public static void menuDepartamentos() {
+        try {
+            departamento.jsonToThisClass(JSONUtils.leerArchivo("departamento.json"));
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
         int selector;
         do {
             System.out.println("1.Agregar al departamento");
@@ -347,6 +366,7 @@ public class Comisaria {
                     break;
             }
         }while (selector != 0);
+        JSONUtils.guardarArchivo(departamento.classToJson(),"departamento.json");
     }
 
     ///MENU PARA AGREGAR PERSONAL
@@ -532,6 +552,12 @@ public class Comisaria {
 //endregion
 
     public static void menuCalabozo() {
+        try {
+            calabozo = (Calabozo) JSONUtils.leerArchivo("calabozo.json").get("calabozo");
+        }catch (NullPointerException e) {
+            e.getMessage();
+            calabozo = new Calabozo();
+        }
         int selector;
         Procesado nuevo = new Procesado();
         do {
@@ -566,7 +592,7 @@ public class Comisaria {
                     break;
             }
         }while (selector != 0);
+        JSONUtils.guardarArchivo(calabozo.classToJson(),"calabozo.json");
     }
-
 }
 
