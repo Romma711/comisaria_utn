@@ -2,12 +2,13 @@ package Entidades;
 
 import Area.Departamento;
 import Enums.T_Rango;
+import Interfaces.IJson;
 import org.json.JSONObject;
 
 import java.util.Scanner;
 import java.util.UUID;
 
-public class MiembroFuerza  extends Personal{
+public class MiembroFuerza extends Personal  {
     public T_Rango rango;
     public Integer condecoraciones;
 
@@ -51,19 +52,50 @@ public class MiembroFuerza  extends Personal{
         this.condecoraciones = scan.nextInt();
     }
 
+    @Override
+    public JSONObject classToJson() {
+        JSONObject jsonObject = super.classToJson();
+        jsonObject.put("rango",getRango());
+        jsonObject.put("condecoraciones",getCondecoraciones());
+        return jsonObject;
+    }
+
+    @Override
+    public MiembroFuerza jsonToThisClass(JSONObject json) {
+        MiembroFuerza recuperado = new MiembroFuerza();
+        recuperado.setNombre(json.getString("nombre"));
+        recuperado.setApellido(json.getString("apellido"));
+        recuperado.setDni(json.getString("dni"));
+        recuperado.setTelefono(json.getString("telefono"));
+        recuperado.setDireccion(json.getString("direccion"));
+        recuperado.setEdad(json.getInt("edad"));
+        recuperado.setGenero(json.getString("genero").charAt(0));
+        recuperado.setLegajo(json.getInt("legajo"));
+        recuperado.setSalario(json.getDouble("salario"));
+        recuperado.setHorasTotalesMes(json.getInt("horas_mes"));
+        recuperado.setTarea(json.getString("tarea"));
+        recuperado.setActivo(json.getBoolean("activo"));
+        recuperado.setRango(json.getEnum(T_Rango.class,"rango"));
+        recuperado.setCondecoraciones(json.getInt("condecoraciones"));
+        return recuperado;
+    }
 
     @Override
     public String toString() {
         return
                 "MiembroFuerza{" +
-                "Legajo=" + super.getLegajo() +
-                        ", Nombre="+ super.getNombre()+
-                        ", Apellido="+super.getApellido()+
-                        ", Activo?="+super.isActivo()+
-                        ", Tarea="+super.getTarea()+
-                ", Rango=" + rango +
-                ", Salario=" + super.getSalario() +
-                ", HorasTotalesMes=" + super.getHorasTotalesMes() +
+                        "legajo=" + getLegajo() +
+                        ", Nombre="+ getNombre()+
+                        ", Apellido="+ getApellido()+
+                        ", DNI="+ getDni()+
+                        ", Telefono="+ getTelefono()+
+                        ", Direccion="+ getDireccion()+
+                        ", Edad="+ getEdad()+
+                        ", Genero="+ getGenero()+
+                        ", Horas del mes=" + getHorasTotalesMes() +
+                        ", Salario=" + getSalario() +
+                        ", Tarea='" + getTarea() + '\'' +
+                        ", Activo=" + isActivo() +
                 ", Condecoraciones=" + condecoraciones +
                 '}';
     }

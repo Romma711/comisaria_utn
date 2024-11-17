@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class Personal extends Persona{
+public class Personal extends Persona implements IJson<Personal>{
     private Integer legajo, horasTotalesMes;
     private Double salario;
     private String tarea;
@@ -59,8 +59,50 @@ public class Personal extends Persona{
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
+    public static Integer getCont() {
+        return cont;
+    }
+    public static void setCont(Integer cont) {
+        Personal.cont = cont;
+    }
+    //endregion
 
-//endregion
+
+    @Override
+    public Personal jsonToThisClass(JSONObject json) {
+        Personal recuperado = new Personal();
+        recuperado.setNombre(json.getString("nombre"));
+        recuperado.setApellido(json.getString("apellido"));
+        recuperado.setDni(json.getString("dni"));
+        recuperado.setTelefono(json.getString("telefono"));
+        recuperado.setDireccion(json.getString("direccion"));
+        recuperado.setEdad(json.getInt("edad"));
+        recuperado.setGenero(json.getString("genero").charAt(0));
+        recuperado.setLegajo(json.getInt("legajo"));
+        recuperado.setSalario(json.getDouble("salario"));
+        recuperado.setHorasTotalesMes(json.getInt("horas_mes"));
+        recuperado.setTarea(json.getString("tarea"));
+        recuperado.setActivo(json.getBoolean("activo"));
+        return recuperado;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("nombre",super.getNombre());
+        jsonObject.put("apellido",super.getApellido());
+        jsonObject.put("dni",super.getDni());
+        jsonObject.put("telefono",super.getTelefono());
+        jsonObject.put("direccion",super.getDireccion());
+        jsonObject.put("edad",super.getEdad());
+        jsonObject.put("genero",super.getGenero());
+        jsonObject.put("legajo",getLegajo());
+        jsonObject.put("salario",getSalario());
+        jsonObject.put("horas_mes",getHorasTotalesMes());
+        jsonObject.put("tarea",getTarea());
+        jsonObject.put("activo",isActivo());
+        return jsonObject;
+    }
 
     public void crearPersonal(){
         super.crearPersona();
@@ -78,8 +120,17 @@ public class Personal extends Persona{
     public String toString() {
         return "Personal{" +
                 "legajo=" + legajo +
-                ", salario=" + salario +
-                ", horasTotalesMes=" + horasTotalesMes +
+                ", Nombre="+ getNombre()+
+                ", Apellido="+ getApellido()+
+                ", DNI="+ getDni()+
+                ", Telefono="+ getTelefono()+
+                ", Direccion="+ getDireccion()+
+                ", Edad="+ getEdad()+
+                ", Genero="+ getGenero()+
+                ", Horas del mes=" + horasTotalesMes +
+                ", Salario=" + salario +
+                ", Tarea='" + tarea + '\'' +
+                ", Activo=" + activo +
                 '}';
     }
 }

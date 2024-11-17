@@ -1,10 +1,12 @@
 package Area;
 
+import Entidades.Ingresante;
 import Entidades.Persona;
 import Enums.T_Estado;
 import Interfaces.ABML;
 import Entidades.Procesado;
 import Interfaces.IJson;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
@@ -124,7 +126,7 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
             String entradaFecha = scan.nextLine().trim();
             try {
                 LocalDate fechaEgreso = LocalDate.parse(entradaFecha, dateFormatter);
-                dato.setFechaEgreso(fechaEgreso);
+                dato.setFechaEgreso(fechaEgreso.toString());
                 System.out.println("Fecha de egreso actualizada a: " + fechaEgreso);
                 fechaValida = true;
             } catch (DateTimeParseException e) {
@@ -135,13 +137,26 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
 
     @Override
     public Calabozo jsonToThisClass(JSONObject json) {
-        return (Calabozo) json.get("calabozo");
+        Calabozo calabozo = new Calabozo();
+        JSONArray array = json.getJSONArray("calabozo");
+        for (int i = 0;i<array.length();i++){
+            Procesado nuevo = new Procesado();
+            JSONObject aux = array.getJSONObject(i);
+            calabozo.agregar(nuevo.jsonToThisClass(aux));
+        }
+        Ingresante.setContadorId(json.getInt("cont"));
+        return calabozo;
     }
 
     @Override
     public JSONObject classToJson() {
-        JSONObject json = new JSONObject();
-        json.put("calabozo",reclusos);
-        return json;
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i< reclusos.size();i++){
+            jsonArray.put(reclusos.get(i).classToJson());
+        }
+        jsonObject.put("calabozo",jsonArray);
+        jsonObject.put("cont", Ingresante.getContadorId());
+        return jsonObject;
     }
 }

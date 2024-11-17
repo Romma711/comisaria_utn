@@ -1,5 +1,8 @@
 package Entidades;
 
+import Interfaces.IJson;
+import org.json.JSONObject;
+
 import java.util.Scanner;
 
 public abstract class Persona{
@@ -62,7 +65,10 @@ public abstract class Persona{
     public void setGenero(Character genero) {
         this.genero = genero;
     }
+
     ///endregion
+
+
 
     public void crearPersona(){
         Scanner scan = new Scanner(System.in);

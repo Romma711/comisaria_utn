@@ -9,13 +9,13 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Procesado extends Ingresante {
-    private LocalDate fechaEgreso;
+    private String fechaEgreso;
     private T_Estado estado;
 
     public Procesado(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero,String razon, String nroCasillero,LocalDate fechaEgreso, T_Estado estado) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero,razon, nroCasillero);
 
-        this.fechaEgreso = fechaEgreso;
+        this.fechaEgreso = null;
         this.estado = estado;
     }
 
@@ -24,10 +24,10 @@ public class Procesado extends Ingresante {
 
     //region GETTERS & SETTERS
 
-    public LocalDate getFechaEgreso() {
+    public String getFechaEgreso() {
         return fechaEgreso;
     }
-    public void setFechaEgreso(LocalDate fechaEgreso) {
+    public void setFechaEgreso(String fechaEgreso) {
         this.fechaEgreso = fechaEgreso;
     }
     public T_Estado getEstado() {
@@ -53,8 +53,6 @@ public class Procesado extends Ingresante {
         }
     }
 
-
-
     @Override
     public String toString() {
         return super.toString() +
@@ -64,6 +62,45 @@ public class Procesado extends Ingresante {
                 '}';
     }
 
+    @Override
+    public Procesado jsonToThisClass(JSONObject json) {
+        Procesado recuperado = new Procesado();
+        recuperado.setNombre(json.getString("nombre"));
+        recuperado.setApellido(json.getString("apellido"));
+        recuperado.setDni(json.getString("dni"));
+        recuperado.setTelefono(json.getString("telefono"));
+        recuperado.setDireccion(json.getString("direccion"));
+        recuperado.setEdad(json.getInt("edad"));
+        recuperado.setGenero(json.getString("genero").charAt(0));
+        recuperado.setId(json.getInt("id"));
+        recuperado.setRazon(json.getString("razon"));
+        recuperado.setFechaIngreso(json.getString("fecha_ingreso"));
+        if(json.has("fecha_egreso")){
+            recuperado.setFechaEgreso(json.getString("fecha_egreso"));
+        }
+        recuperado.setNroCasillero(json.getString("numero_casillero"));
+        recuperado.setEstado(json.getEnum(T_Estado.class,"estado"));
+        return recuperado;
+    }
+
+    @Override
+    public JSONObject classToJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("nombre",super.getNombre());
+        jsonObject.put("apellido",super.getApellido());
+        jsonObject.put("dni",super.getDni());
+        jsonObject.put("telefono",super.getTelefono());
+        jsonObject.put("direccion",super.getDireccion());
+        jsonObject.put("edad",super.getEdad());
+        jsonObject.put("genero",super.getGenero());
+        jsonObject.put("fecha_ingreso",super.getFechaIngreso());
+        jsonObject.put("id",super.getId());
+        jsonObject.put("razon",super.getRazon());
+        jsonObject.put("numero_casillero",super.getNroCasillero());
+        jsonObject.put("fecha_egreso",getFechaEgreso());
+        jsonObject.put("estado",getEstado());
+        return jsonObject;
+    }
 }
 
 

@@ -19,15 +19,17 @@ public class Comisaria {
 
     public static void menuPrincipal() {
         departamento = new Departamento();
+        calabozo = new Calabozo();
         int selector = -1;
         Scanner lector = new Scanner(System.in);
 
-        System.out.println("Ingrese el área desea acceder mediante su número (0 para salir):");
-        System.out.println("1. Almacen.");
-        System.out.println("2. Departamentos.");
-        System.out.println("3. Calabozo.");
-        System.out.println("0. Salir.");
+
         do {
+            System.out.println("Ingrese el área desea acceder mediante su número (0 para salir):");
+            System.out.println("1. Almacen.");
+            System.out.println("2. Departamentos.");
+            System.out.println("3. Calabozo.");
+            System.out.println("0. Salir.");
             System.out.print("> ");
             try {
                 selector = lector.nextInt();
@@ -42,6 +44,9 @@ public class Comisaria {
                         menuCalabozo();
                         break;
                     default:
+                        if(selector==0){
+                            System.out.println("Vuelva prontos");
+                        }
                             System.out.println("No ingrese espacios.");
                         break;
                 }
@@ -330,9 +335,9 @@ public class Comisaria {
     //region MENUES DEPARTAMENTOS
         public static void menuDepartamentos() {
             try {
-                departamento.jsonToThisClass(JSONUtils.leerArchivo("departamento.json"));
+                departamento = departamento.jsonToThisClass(JSONUtils.leerArchivo("departamento.json"));
             }catch (NullPointerException e){
-                e.printStackTrace();
+                e.getMessage();
             }
             int selector;
             do {
@@ -367,7 +372,7 @@ public class Comisaria {
             JSONUtils.guardarArchivo(departamento.classToJson(),"departamento.json");
         }
 
-        ///MENU PARA AGREGAR PERSONAL
+        //MENU PARA AGREGAR PERSONAL
         public static void menuAgregarDepartamento(){
             int selector;
             Personal nuevo;
@@ -383,7 +388,7 @@ public class Comisaria {
                         case 1:
                             nuevo = new Personal();
                             nuevo.crearPersonal();
-                            System.out.println("Seleccionar departamento al que pertenecera: 1.MANTENIMIENTO \n 2.LIMPIEZA \n 3. ADMINISTRACION");
+                            System.out.println("Seleccionar departamento al que pertenecera\n 1.MANTENIMIENTO \n 2.LIMPIEZA \n 3. ADMINISTRACION");
                             switch (lector.nextInt()) {
                                 case 1:
                                     departamento.agregarAlDepartamento(T_Depto.MANTENIMIENTO, nuevo);
@@ -551,10 +556,9 @@ public class Comisaria {
 
     public static void menuCalabozo() {
         try {
-            calabozo = (Calabozo) JSONUtils.leerArchivo("calabozo.json").get("calabozo");
+            calabozo = calabozo.jsonToThisClass(JSONUtils.leerArchivo("calabozo.json"));
         }catch (NullPointerException e) {
             e.getMessage();
-            calabozo = new Calabozo();
         }
         int selector;
         Procesado nuevo = new Procesado();
