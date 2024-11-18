@@ -5,6 +5,7 @@ import Enums.*;
 import Exceptions.NoEncontradoException;
 import Exceptions.YaExisteException;
 import utils.JSONUtils;
+import utils.Verificador;
 
 import java.time.LocalDateTime;
 import java.util.InputMismatchException;
@@ -82,11 +83,17 @@ public class Comisaria {
         private static void menuAlmacenes() {
             Scanner lector = new Scanner(System.in);
             int selector = -1;
-            System.out.println("Ingrese el ID de quien va a operar almacen:");
-            Integer idOperador = lector.nextInt();
+            int idOperador = -1;
+            String dni;
+            System.out.println("Ingrese el DNI de quien va a operar almacen:");
+            while (idOperador == -1){
+                dni = lector.nextLine();
+                idOperador = departamento.verificarSiExiste(dni);
+            }
+
 
             do {
-                System.out.println("Ingrese el número que corresponde a la acción a realizar (0 para volver):");
+                System.out.println("Ingrese el número que corresponde a la acción a realizar:");
                 System.out.println("1. Agregar al almacen.");
                 System.out.println("2. Modificar registros.");
                 System.out.println("3. Listar registros.");
@@ -187,18 +194,11 @@ public class Comisaria {
                     case 2 -> new Material_Policial(null, T_Material.ESPOSAS);
                     default -> null;
                 };
-                System.out.println("Inserte el ID del propietario (en caso de no tener insertar \"null\"");
-                String idPropietario = lector.nextLine();
-                if (materialPolicial != null) {
-                    if (idPropietario.equalsIgnoreCase("null")) {
-                        materialPolicial.setIdPropietario(null);
-                    } else {
-                        materialPolicial.setIdPropietario(idPropietario);
-                    }
-                    materialPolicial.agregarMod(new Modificacion(idOperador,LocalDateTime.now().toString(),"Primera inserción del material."));
-                }
+                materialPolicial.setIdPropietario("Sin propietario");
+                materialPolicial.agregarMod(new Modificacion(idOperador,LocalDateTime.now().toString(),"Primera inserción del material."));
+
                 boolean flag = almacen.agregarAlAlmacen(T_Registro.MATERIAL_POLICIAL,materialPolicial);
-                if (flag) {
+                if (!flag) {
                     System.out.println("SE PRESENTÓ UN PROBLEMA AL INGRESAR LOS DATOS...");
                 }
             }
@@ -325,13 +325,18 @@ public class Comisaria {
                 Scanner lector = new Scanner(System.in);
                 System.out.println("Ingrese el ID del material policial a modificar:");
                 System.out.print("> ");
-
                 Registro materialPolicial = almacen.buscarPorID(lector.nextInt());
-                lector.nextLine();
                 if (materialPolicial instanceof Material_Policial) {
-                    System.out.println("Ingrese el ID del nuevo propietario:");
+                    String dni;
+                    System.out.println("Ingrese el DNI del nuevo propietario:");
                     System.out.print("> ");
-                    ((Material_Policial) materialPolicial).setIdPropietario(lector.nextLine());
+                    lector.nextLine();
+                    Integer idPropietario=-1;
+                    while (idPropietario == -1){
+                        dni = lector.nextLine();
+                        idPropietario= departamento.verificarSiExiste(dni);
+                    }
+                    ((Material_Policial) materialPolicial).setIdPropietario(idOperador.toString());
                 } else {
                     System.out.println("El ID no pertenece a un MATERIAL POLICIAL.");
                 }
@@ -458,7 +463,7 @@ public class Comisaria {
         ///MENU PARA DAR DE BAJA A UN PERSONAL
         public static void menuBajaDepartamento(){
             int selector;
-            Personal aux = new Personal();
+            Integer aux;
             do {
                 System.out.println("Seleccionar el Departamento:");
                 System.out.println("1.Policia");
@@ -473,7 +478,7 @@ public class Comisaria {
                         try {
                             departamento.listar(T_Depto.POLICIA);
                             System.out.println("Ingrese el LEGAJO del policia");
-                            aux.setLegajo(lector.nextInt());
+                            aux = lector.nextInt();
                             departamento.eliminarDelDepartamento(T_Depto.POLICIA, aux);
                         } catch (NoEncontradoException e) {
                             e.printStackTrace();
@@ -485,7 +490,7 @@ public class Comisaria {
                         try {
                             departamento.listar(T_Depto.MANTENIMIENTO);
                             System.out.println("Ingrese el LEGAJO del personal de mantenimiento");
-                            aux.setLegajo(lector.nextInt());
+                            aux = lector.nextInt();
                             departamento.eliminarDelDepartamento(T_Depto.MANTENIMIENTO, aux);
                         } catch (NoEncontradoException e) {
                             e.printStackTrace();
@@ -497,7 +502,7 @@ public class Comisaria {
                         try {
                             departamento.listar(T_Depto.LIMPIEZA);
                             System.out.println("Ingrese el LEGAJO del personal de limpieza");
-                            aux.setLegajo(lector.nextInt());
+                            aux = lector.nextInt();
                             departamento.eliminarDelDepartamento(T_Depto.LIMPIEZA, aux);
                         } catch (NoEncontradoException e) {
                             e.printStackTrace();
@@ -509,7 +514,7 @@ public class Comisaria {
                         try {
                             departamento.listar(T_Depto.ADMINISTRACION);
                             System.out.println("Ingrese el LEGAJO del personal de administracion");
-                            aux.setLegajo(lector.nextInt());
+                            aux = lector.nextInt();
                             departamento.eliminarDelDepartamento(T_Depto.ADMINISTRACION, aux);
                         } catch (NoEncontradoException e) {
                             e.printStackTrace();
@@ -526,7 +531,7 @@ public class Comisaria {
         ///MENU PARA MODIFICAR UN PERSONAL
         public static void menuModificarDepartamento(){
         int selector;
-        Personal aux = new Personal();
+        Integer aux;
         do {
             System.out.println("Seleccionar el Departamento:");
             System.out.println("1.Policia");
@@ -541,7 +546,7 @@ public class Comisaria {
                     try {
                         departamento.listar(T_Depto.POLICIA);
                         System.out.println("Ingrese el LEGAJO del policia\n");
-                        aux.setLegajo(lector.nextInt());
+                        aux = lector.nextInt();
                         departamento.modificarPersonal(T_Depto.POLICIA, aux);
                     } catch (NoEncontradoException e) {
                         e.printStackTrace();
@@ -553,7 +558,7 @@ public class Comisaria {
                     try {
                         departamento.listar(T_Depto.MANTENIMIENTO);
                         System.out.println("Ingrese el LEGAJO del personal de mantenimiento\n");
-                        aux.setLegajo(lector.nextInt());
+                        aux = lector.nextInt();
                         departamento.modificarPersonal(T_Depto.MANTENIMIENTO, aux);
                     } catch (NoEncontradoException e) {
                         e.printStackTrace();
@@ -565,7 +570,7 @@ public class Comisaria {
                     try {
                         departamento.listar(T_Depto.LIMPIEZA);
                         System.out.println("Ingrese el LEGAJO del personal de limpieza\n");
-                        aux.setLegajo(lector.nextInt());
+                        aux = lector.nextInt();
                         departamento.modificarPersonal(T_Depto.LIMPIEZA, aux);
                     } catch (NoEncontradoException e) {
                         e.printStackTrace();
@@ -577,7 +582,7 @@ public class Comisaria {
                     try {
                         departamento.listar(T_Depto.ADMINISTRACION);
                         System.out.println("Ingrese el LEGAJO del personal de administracion\n");
-                        aux.setLegajo(lector.nextInt());
+                        aux = lector.nextInt();
                         departamento.modificarPersonal(T_Depto.ADMINISTRACION, aux);
                     } catch (NoEncontradoException e) {
                         e.getMessage();

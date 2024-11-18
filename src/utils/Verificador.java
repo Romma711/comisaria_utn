@@ -1,7 +1,11 @@
 package utils;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import Area.Almacen;
+import Area.Departamento;
+import Entidades.Personal;
+import Enums.T_Depto;
+
+import java.util.*;
 
 public class Verificador {
 
@@ -46,4 +50,5 @@ public class Verificador {
         System.out.println("ERROR: La persona no puede ser menor de edad, Vuelva a intentarlo\n");
         return false;
     }
+
 }

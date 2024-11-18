@@ -2,6 +2,7 @@ package Area;
 
 import Entidades.Ingresante;
 import Entidades.Persona;
+import Entidades.Personal;
 import Enums.T_Estado;
 import Interfaces.ABML;
 import Entidades.Procesado;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
@@ -36,12 +38,15 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
     @Override
     public boolean eliminar(Procesado dato) {
         // Comprobación para evitar eliminar un dato que no existe
-        if (!reclusos.contains(dato)) {
-            System.out.println("El recluso no se encuentra en el calabozo.");
-            return false;
+        for (int i = 0; i < reclusos.size(); i++) {
+            Procesado recluso = reclusos.get(i);
+            if (recluso.getId() == dato.getId() && recluso.getEstado() != T_Estado.LIBERADO) {
+                recluso.setEstado(T_Estado.LIBERADO);
+                recluso.setFechaEgreso(LocalDate.now().toString());
+                return true;
+            }
         }
-        reclusos.get(reclusos.indexOf(dato)).setEstado(T_Estado.LIBERADO);
-        return true;
+        return false;
     }
     @Override
     public void listar() {
@@ -50,15 +55,25 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
             System.out.println("No hay reclusos en el calabozo.");
         } else {
             for (Procesado procesado : reclusos) {
-                System.out.println(procesado.toString());
+                if (procesado.getEstado()!=T_Estado.LIBERADO) {
+                    System.out.println(procesado.toString());
+                }
             }
         }
     }
     @Override
     public void modificar(Procesado dato) {
         // Comprobación para asegurar que el recluso existe antes de modificar
-        int posicion = reclusos.indexOf(dato);
-        if (posicion == -1) {
+        boolean flag=false;
+        int i;
+        for (i = 0; i < reclusos.size(); i++) {
+            if (reclusos.get(i).getId() == dato.getId() && reclusos.get(i).getEstado() != T_Estado.LIBERADO) {
+                flag = true;
+                break;
+            }
+
+        }
+        if (!flag) {
             System.out.println("El recluso no se encuentra en el calabozo.");
             return;
         }
@@ -67,7 +82,7 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
         System.out.println("Ingrese '1' para cambiar el estado del recluso.");
         System.out.println("Ingrese '2' para cambiar la fecha de egreso del recluso.");
 
-        boolean flag = true;
+        flag=true;
 
         while (flag) {
             int command = scan.nextInt();
@@ -75,11 +90,11 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
 
             switch (command) {
                 case 1:
-                    cambiarEstado(reclusos.get(posicion), scan);
+                    cambiarEstado(reclusos.get(i), scan);
                     flag = false;
                     break;
                 case 2:
-                    cambiarFechaEgreso(reclusos.get(posicion), scan);
+                    cambiarFechaEgreso(reclusos.get(i), scan);
                     flag = false;
                     break;
                 default:

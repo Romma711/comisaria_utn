@@ -10,6 +10,7 @@ import Interfaces.IJson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.xml.transform.Source;
 import java.util.*;
 
 public class Departamento implements IJson<Departamento> {
@@ -33,12 +34,13 @@ public class Departamento implements IJson<Departamento> {
         depto.add(dato);
     }
 
-    public void eliminarDelDepartamento(T_Depto tipoDepto, Personal dato) throws NoEncontradoException {
+    public void eliminarDelDepartamento(T_Depto tipoDepto, Integer dato) throws NoEncontradoException {
         List<Personal> departamento = listaDepartamentos.get(tipoDepto);
 
         for (int i = 0; i < departamento.size(); i++) {
             Personal personal = departamento.get(i);
-            if (personal.equals(dato) && !personal.isActivo()) {
+            System.out.println(personal.toString());
+            if (Objects.equals(personal.getLegajo(), dato) && personal.isActivo()) {
                 personal.setActivo(false);
                 return;
             }
@@ -58,9 +60,15 @@ public class Departamento implements IJson<Departamento> {
         }
     }
 
-    public void modificarPersonal(T_Depto tipoDepto, Personal data)  throws NoEncontradoException{
-        int lugar = listaDepartamentos.get(tipoDepto).indexOf(data);
-        if(lugar == -1 || !listaDepartamentos.get(tipoDepto).get(lugar).isActivo()){
+    public void modificarPersonal(T_Depto tipoDepto, Integer data)  throws NoEncontradoException{
+        int lugar=-1;
+        for (int i = 0; i < listaDepartamentos.get(tipoDepto).size(); i++) {
+            Personal personal = listaDepartamentos.get(tipoDepto).get(i);
+            if (Objects.equals(personal.getLegajo(), data) && personal.isActivo()) {
+                return;
+            }
+        }
+        if(lugar == -1){
             throw new NoEncontradoException("No se encontro el elemento");
         }
         System.out.println("Que quiere modificar?");
@@ -187,6 +195,22 @@ public class Departamento implements IJson<Departamento> {
         }
         json.put("cont",Personal.getCont());
         return json;
+    }
+    public Integer verificarSiExiste(String dni){
+        Personal aux= new Personal();
+        aux.setDni(dni);
+        for(T_Depto clave: T_Depto.values()){
+            if(listaDepartamentos.get(clave)!=null){
+                try {
+                    int posicion = listaDepartamentos.get(clave).indexOf(aux);
+                    return listaDepartamentos.get(clave).get(posicion).getLegajo();
+                }catch (IndexOutOfBoundsException e){
+                    e.getMessage();
+                    System.out.println("ERROR: el DNI del personal no existe");
+                }
+            }
+        }
+        return -1;
     }
 }
 
