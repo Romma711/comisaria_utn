@@ -357,7 +357,7 @@ public class Comisaria {
                         menuBajaDepartamento();
                         break;
                     case 3:
-
+                        menuModificarDepartamento();
                         break;
                     case 4:
                         departamento.listar(T_Depto.POLICIA);
@@ -486,7 +486,7 @@ public class Comisaria {
         }
 
         ///MENU PARA MODIFICAR UN PERSONAL
-        public void menuModificarDepartamento(){
+        public static void menuModificarDepartamento(){
         int selector;
         Personal aux = new Personal();
         do {
@@ -502,7 +502,7 @@ public class Comisaria {
                 case 1:
                     try {
                         departamento.listar(T_Depto.POLICIA);
-                        System.out.println("Ingrese el LEGAJO del policia");
+                        System.out.println("Ingrese el LEGAJO del policia\n");
                         aux.setLegajo(lector.nextInt());
                         departamento.modificarPersonal(T_Depto.POLICIA, aux);
                     } catch (NoEncontradoException e) {
@@ -514,7 +514,7 @@ public class Comisaria {
                 case 2:
                     try {
                         departamento.listar(T_Depto.MANTENIMIENTO);
-                        System.out.println("Ingrese el LEGAJO del personal de mantenimiento");
+                        System.out.println("Ingrese el LEGAJO del personal de mantenimiento\n");
                         aux.setLegajo(lector.nextInt());
                         departamento.modificarPersonal(T_Depto.MANTENIMIENTO, aux);
                     } catch (NoEncontradoException e) {
@@ -526,7 +526,7 @@ public class Comisaria {
                 case 3:
                     try {
                         departamento.listar(T_Depto.LIMPIEZA);
-                        System.out.println("Ingrese el LEGAJO del personal de limpieza");
+                        System.out.println("Ingrese el LEGAJO del personal de limpieza\n");
                         aux.setLegajo(lector.nextInt());
                         departamento.modificarPersonal(T_Depto.LIMPIEZA, aux);
                     } catch (NoEncontradoException e) {
@@ -538,7 +538,7 @@ public class Comisaria {
                 case 4:
                     try {
                         departamento.listar(T_Depto.ADMINISTRACION);
-                        System.out.println("Ingrese el LEGAJO del personal de administracion");
+                        System.out.println("Ingrese el LEGAJO del personal de administracion\n");
                         aux.setLegajo(lector.nextInt());
                         departamento.modificarPersonal(T_Depto.ADMINISTRACION, aux);
                     } catch (NoEncontradoException e) {
@@ -564,7 +564,7 @@ public class Comisaria {
         Procesado nuevo = new Procesado();
         do {
             System.out.println("1.Agregar al calabozo");
-            System.out.println("2.Cambiar estado del procesado");
+            System.out.println("2.Sacar procesado");
             System.out.println("3.Cambiar estado del procesado");
             System.out.println("4.Listar procesados");
             System.out.println("0.Volver");

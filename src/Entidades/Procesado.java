@@ -5,6 +5,7 @@ import Interfaces.IJson;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ public class Procesado extends Ingresante {
     private String fechaEgreso;
     private T_Estado estado;
 
-    public Procesado(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero,String razon, String nroCasillero,LocalDate fechaEgreso, T_Estado estado) {
+    public Procesado(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero,String razon, String nroCasillero,T_Estado estado) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero,razon, nroCasillero);
 
         this.fechaEgreso = null;
@@ -20,6 +21,7 @@ public class Procesado extends Ingresante {
     }
 
     public Procesado() {
+        super();
     }
 
     //region GETTERS & SETTERS
@@ -55,16 +57,25 @@ public class Procesado extends Ingresante {
 
     @Override
     public String toString() {
-        return super.toString() +
-                ", Procesado{" +
-                ", fechaEgreso=" + fechaEgreso +
-                ", estado=" + estado +
+        return "Procesado{" +
+                ", Id= " + getId() +
+                ", Nombre='" + getNombre() + '\'' +
+                ", Apellido='" + getApellido() + '\'' +
+                ", Dni='" + getDni() + '\'' +
+                ", Edad=" + getEdad() +
+                ", Genero=" + getGenero() +
+                ", FechaIngreso= " + getFechaIngreso() +
+                ", Razon= " + getRazon() +
+                ", NroCasillero= " + getNroCasillero() +
+                ", FechaEgreso=" + fechaEgreso +
+                ", Estado=" + estado +
                 '}';
     }
 
     @Override
     public Procesado jsonToThisClass(JSONObject json) {
         Procesado recuperado = new Procesado();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         recuperado.setNombre(json.getString("nombre"));
         recuperado.setApellido(json.getString("apellido"));
         recuperado.setDni(json.getString("dni"));
@@ -74,7 +85,7 @@ public class Procesado extends Ingresante {
         recuperado.setGenero(json.getString("genero").charAt(0));
         recuperado.setId(json.getInt("id"));
         recuperado.setRazon(json.getString("razon"));
-        recuperado.setFechaIngreso(json.getString("fecha_ingreso"));
+        recuperado.setFechaIngreso(LocalDate.parse(json.getString("fecha_ingreso"),dateFormatter));
         if(json.has("fecha_egreso")){
             recuperado.setFechaEgreso(json.getString("fecha_egreso"));
         }

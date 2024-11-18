@@ -3,6 +3,7 @@ package Entidades;
 import Interfaces.IJson;
 import org.json.JSONObject;
 
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -132,6 +133,18 @@ public class Personal extends Persona implements IJson<Personal>{
                 ", Tarea='" + tarea + '\'' +
                 ", Activo=" + activo +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Personal personal)) return false;
+        return Objects.equals(legajo, personal.legajo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(legajo);
     }
 }
 

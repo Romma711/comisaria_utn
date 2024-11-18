@@ -9,13 +9,13 @@ import java.util.Scanner;
 public abstract class Ingresante extends Persona implements IJson<Ingresante> {
     private static int contadorId = 100000;
     private int id;
-    private String fechaIngreso;
+    private LocalDate fechaIngreso;
     private String razon, nroCasillero;
 
     public Ingresante(String dni, String nombre, String apellido, String direccion, String telefono, Integer edad, Character genero, String razon, String nroCasillero) {
         super(dni, nombre, apellido, direccion, telefono, edad, genero);
         this.id = contadorId++;
-        this.fechaIngreso = LocalDate.now().toString();
+        this.fechaIngreso = LocalDate.now();
         this.razon = razon;
         this.nroCasillero = nroCasillero;
     }
@@ -23,7 +23,7 @@ public abstract class Ingresante extends Persona implements IJson<Ingresante> {
     public Ingresante() {
         contadorId++;
         id = contadorId;
-        this.fechaIngreso = LocalDate.now().toString();
+        this.fechaIngreso = LocalDate.now();
     }
 
     //region GETTERS & SETTERS
@@ -39,10 +39,10 @@ public abstract class Ingresante extends Persona implements IJson<Ingresante> {
     public void setId(int id) {
         this.id = id;
     }
-    public String getFechaIngreso() {
+    public LocalDate getFechaIngreso() {
         return fechaIngreso;
     }
-    public void setFechaIngreso(String fechaIngreso) {
+    public void setFechaIngreso(LocalDate fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
     public String getRazon() {

@@ -40,7 +40,8 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
             System.out.println("El recluso no se encuentra en el calabozo.");
             return false;
         }
-        return reclusos.remove(dato);
+        reclusos.get(reclusos.indexOf(dato)).setEstado(T_Estado.LIBERADO);
+        return true;
     }
     @Override
     public void listar() {
@@ -63,9 +64,8 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
         }
 
         Scanner scan = new Scanner(System.in);
-        System.out.println("Ingrese '1' para cambiar el comentario del recluso.");
-        System.out.println("Ingrese '2' para cambiar el estado del recluso.");
-        System.out.println("Ingrese '3' para cambiar la fecha de egreso del recluso.");
+        System.out.println("Ingrese '1' para cambiar el estado del recluso.");
+        System.out.println("Ingrese '2' para cambiar la fecha de egreso del recluso.");
 
         boolean flag = true;
 

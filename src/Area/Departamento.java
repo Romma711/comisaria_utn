@@ -34,7 +34,7 @@ public class Departamento implements IJson<Departamento> {
     public boolean eliminarDelDepartamento(T_Depto tipoDepto, Personal dato) throws NoEncontradoException {
         Boolean flag=false;
         for(int i = 0; i < listaDepartamentos.get(tipoDepto).size(); i++){
-            if(listaDepartamentos.get(tipoDepto).get(i).equals(dato)){
+            if(listaDepartamentos.get(tipoDepto).get(i).equals(dato) && !listaDepartamentos.get(tipoDepto).get(i).isActivo()){
                 listaDepartamentos.get(tipoDepto).get(i).setActivo(false);
                 flag=true;
                 break;
@@ -50,7 +50,9 @@ public class Departamento implements IJson<Departamento> {
         if(person!=null){
             System.out.println("Departamento:" + tipoDepto + "\n");
             for (Personal persona: person){
-                System.out.println(persona.toString());
+                if(persona.isActivo()){
+                    System.out.println(persona.toString());
+                }
             }
         }
         return person!=null;
@@ -58,9 +60,10 @@ public class Departamento implements IJson<Departamento> {
 
     public void modificarPersonal(T_Depto tipoDepto, Personal data)  throws NoEncontradoException{
         int lugar = listaDepartamentos.get(tipoDepto).indexOf(data);
-        if(lugar == -1){
+        if(lugar == -1 || !listaDepartamentos.get(tipoDepto).get(lugar).isActivo()){
             throw new NoEncontradoException("No se encontro el elemento");
         }
+        System.out.println("Que quiere modificar?");
         System.out.println("1.TELEFONO");
         System.out.println("2.DNI");
         System.out.println("3.EDAD");
@@ -73,15 +76,23 @@ public class Departamento implements IJson<Departamento> {
         Scanner scan = new Scanner(System.in);
         switch (scan.nextInt()) {
                 case 1:
+                    System.out.println("Ingrese el nuevo dato");
+                    System.out.println(">");
                     listaDepartamentos.get(tipoDepto).get(lugar).setTelefono(scan.next());
                     break;
                 case 2:
+                    System.out.println("Ingrese el nuevo dato");
+                    System.out.println(">");
                     listaDepartamentos.get(tipoDepto).get(lugar).setDni(scan.next());
                     break;
                 case 3:
+                    System.out.println("Ingrese el nuevo dato");
+                    System.out.println(">");
                     listaDepartamentos.get(tipoDepto).get(lugar).setEdad(scan.nextInt());
                     break;
                 case 4:
+                    System.out.println("Ingrese el nuevo dato");
+                    System.out.println(">");
                     int e = 0;
                     do {
                         e = scan.nextInt();
@@ -89,6 +100,8 @@ public class Departamento implements IJson<Departamento> {
                     listaDepartamentos.get(tipoDepto).get(lugar).setGenero(scan.nextLine().charAt(0));
                     break;
                 case 5:
+                    System.out.println("Ingrese el nuevo dato");
+                    System.out.println(">");
                     try {
                         listaDepartamentos.get(tipoDepto).get(lugar).setSalario(scan.nextDouble());
                     }catch (InputMismatchException a){
@@ -97,11 +110,15 @@ public class Departamento implements IJson<Departamento> {
                     break;
                 case 6:
                     if(listaDepartamentos.get(tipoDepto).get(lugar) instanceof  MiembroFuerza){
+                        System.out.println("Ingrese el nuevo dato");
+                        System.out.println(">");
                         ((MiembroFuerza) listaDepartamentos.get(tipoDepto).get(lugar)).setCondecoraciones(scan.nextInt());
                     }
                     break;
                 case 7:
                     if(listaDepartamentos.get(tipoDepto).get(lugar) instanceof  MiembroFuerza){
+                        System.out.println("Ingrese el nuevo dato");
+                        System.out.println(">");
                         ((MiembroFuerza) listaDepartamentos.get(tipoDepto).get(lugar)).setRango(rango(scan.nextInt()));
                     }
                     break;
