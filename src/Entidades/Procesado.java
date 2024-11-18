@@ -1,12 +1,10 @@
 package Entidades;
 
 import Enums.T_Estado;
-import Interfaces.IJson;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Procesado extends Ingresante {

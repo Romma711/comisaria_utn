@@ -4,7 +4,6 @@ import Entidades.MiembroFuerza;
 import Entidades.Personal;
 import Enums.T_Depto;
 import Enums.T_Rango;
-import Enums.T_Registro;
 import Exceptions.NoEncontradoException;
 import Exceptions.YaExisteException;
 import Interfaces.IJson;
@@ -19,43 +18,41 @@ public class Departamento implements IJson<Departamento> {
         listaDepartamentos = new HashMap<>();
     }
 
-    public boolean agregarAlDepartamento(T_Depto tipoDepto, Personal dato) throws YaExisteException {
+    public void agregarAlDepartamento(T_Depto tipoDepto, Personal dato) throws YaExisteException {
         ArrayList<Personal> depto = listaDepartamentos.get(tipoDepto);
         if (depto == null) {
             depto = new ArrayList<>();
-            listaDepartamentos.put(tipoDepto,depto);
+            listaDepartamentos.put(tipoDepto, depto);
         }
         if(depto.contains(dato)){
-            throw new YaExisteException("el personal que intenta agregar ya existe dentro de la lista");
+            throw new YaExisteException("El personal que intenta agregar ya existe dentro de la lista");
         }
-        return depto.add(dato);
+        depto.add(dato);
     }
 
-    public boolean eliminarDelDepartamento(T_Depto tipoDepto, Personal dato) throws NoEncontradoException {
-        Boolean flag=false;
-        for(int i = 0; i < listaDepartamentos.get(tipoDepto).size(); i++){
-            if(listaDepartamentos.get(tipoDepto).get(i).equals(dato) && !listaDepartamentos.get(tipoDepto).get(i).isActivo()){
-                listaDepartamentos.get(tipoDepto).get(i).setActivo(false);
-                flag=true;
-                break;
+    public void eliminarDelDepartamento(T_Depto tipoDepto, Personal dato) throws NoEncontradoException {
+        List<Personal> departamento = listaDepartamentos.get(tipoDepto);
+
+        for (int i = 0; i < departamento.size(); i++) {
+            Personal personal = departamento.get(i);
+            if (personal.equals(dato) && !personal.isActivo()) {
+                personal.setActivo(false);
+                return;
             }
         }
-        if(!flag){
-            throw new NoEncontradoException("No se encontro el personal seleccionado");
-        }
-        return flag;
+        throw new NoEncontradoException("No se encontró el personal seleccionado");
     }
-    public boolean listar(T_Depto tipoDepto)  {
-        ArrayList<Personal> person= listaDepartamentos.get(tipoDepto);
-        if(person!=null){
+
+    public void listar(T_Depto tipoDepto)  {
+        ArrayList<Personal> person = listaDepartamentos.get(tipoDepto);
+        if(person != null){
             System.out.println("Departamento:" + tipoDepto + "\n");
             for (Personal persona: person){
                 if(persona.isActivo()){
-                    System.out.println(persona.toString());
+                    System.out.println(persona);
                 }
             }
         }
-        return person!=null;
     }
 
     public void modificarPersonal(T_Depto tipoDepto, Personal data)  throws NoEncontradoException{
@@ -93,9 +90,10 @@ public class Departamento implements IJson<Departamento> {
                 case 4:
                     System.out.println("Ingrese el nuevo dato");
                     System.out.println(">");
-                    int e = 0;
+                    int e;
                     do {
                         e = scan.nextInt();
+                        scan.nextLine();
                     } while (e < 1 || e > 2);
                     listaDepartamentos.get(tipoDepto).get(lugar).setGenero(scan.nextLine().charAt(0));
                     break;
@@ -105,7 +103,8 @@ public class Departamento implements IJson<Departamento> {
                     try {
                         listaDepartamentos.get(tipoDepto).get(lugar).setSalario(scan.nextDouble());
                     }catch (InputMismatchException a){
-                        a.printStackTrace();
+                        System.out.println("Error: Entrada inválida para salario, por favor, ingrese un número valido");
+                        scan.nextLine();
                     }
                     break;
                 case 6:
@@ -150,7 +149,7 @@ public class Departamento implements IJson<Departamento> {
                         try{
                             departamento.agregarAlDepartamento(clave, nuevo.jsonToThisClass(personalJson));
                         }catch (YaExisteException e){
-                            e.getMessage();
+                            System.out.println("Error al agregar al departamento: " + e.getMessage());
                         }
 
                     }else {
@@ -158,7 +157,7 @@ public class Departamento implements IJson<Departamento> {
                         try{
                             departamento.agregarAlDepartamento(clave, nuevo.jsonToThisClass(personalJson));
                         }catch (YaExisteException e){
-                            e.getMessage();
+                            System.out.println("Error al agregar al departamento: " + e.getMessage());
                         }
                     }
                 }

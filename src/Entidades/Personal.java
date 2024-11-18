@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class Personal extends Persona implements IJson<Personal>{
     private Integer legajo, horasTotalesMes;

@@ -2,11 +2,9 @@ package Entidades;
 
 import Area.Departamento;
 import Enums.T_Rango;
-import Interfaces.IJson;
 import org.json.JSONObject;
 
 import java.util.Scanner;
-import java.util.UUID;
 
 public class MiembroFuerza extends Personal  {
     public T_Rango rango;
