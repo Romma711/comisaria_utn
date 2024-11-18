@@ -80,19 +80,19 @@ public class MiembroFuerza extends Personal  {
 
     @Override
     public String toString() {
-        return "\n---------------------------------------------------------------------------\n"+
+        return "---------------------------------------------------------------------------\n"+
                 "MiembroFuerza:\n" +
-                        "\nLegajo=" + getLegajo() +
-                        "\nNombre="+ getNombre()+
-                        "\nApellido="+ getApellido()+
-                        "\nDNI="+ getDni()+
-                        "\nTelefono="+ getTelefono()+
-                        "\nDireccion="+ getDireccion()+
-                        "\nEdad="+ getEdad()+
-                        "\nGenero="+ getGenero()+
-                        "\nHoras del mes=" + getHorasTotalesMes() +
-                        "\nSalario=" + getSalario() +
-                        "\nTarea='" + getTarea() + '\'' +
+                        "\nLegajo= " + getLegajo() +
+                        "\nNombre= "+ getNombre()+
+                        "\nApellido= "+ getApellido()+
+                        "\nDNI= "+ getDni()+
+                        "\nTelefono= "+ getTelefono()+
+                        "\nDireccion= "+ getDireccion()+
+                        "\nEdad= "+ getEdad()+
+                        "\nGenero= "+ getGenero()+
+                        "\nHoras del mes= " + getHorasTotalesMes() +
+                        "\nSalario= " + getSalario() +
+                        "\nTarea= '" + getTarea() + '\'' +
                 "\nRango="+getRango().toString()+
                 "\nCondecoraciones=" + condecoraciones +
                 "\n---------------------------------------------------------------------------\n";

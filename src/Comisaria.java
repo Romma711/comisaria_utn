@@ -447,7 +447,8 @@ public class Comisaria {
                             break;
                     }
                 }catch (YaExisteException e){
-                    e.printStackTrace();
+                    e.getMessage();
+                    System.out.println("\nERROR: El personal ya existe en el sistema, NO se puede agregar nuevamente.\n");
                 }catch (Exception e){
                     e.printStackTrace();
                 }

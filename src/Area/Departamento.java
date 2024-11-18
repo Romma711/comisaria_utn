@@ -19,13 +19,16 @@ public class Departamento implements IJson<Departamento> {
     }
 
     public void agregarAlDepartamento(T_Depto tipoDepto, Personal dato) throws YaExisteException {
+        for (T_Depto clave : T_Depto.values()){
+            if (listaDepartamentos.get(clave) != null)
+                if (listaDepartamentos.get(clave).contains(dato)) {
+                    throw new YaExisteException("El personal que intenta agregar ya existe dentro de la lista");
+                }
+        }
         ArrayList<Personal> depto = listaDepartamentos.get(tipoDepto);
         if (depto == null) {
             depto = new ArrayList<>();
             listaDepartamentos.put(tipoDepto, depto);
-        }
-        if(depto.contains(dato)){
-            throw new YaExisteException("El personal que intenta agregar ya existe dentro de la lista");
         }
         depto.add(dato);
     }

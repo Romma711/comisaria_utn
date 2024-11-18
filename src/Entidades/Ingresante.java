@@ -72,16 +72,6 @@ public abstract class Ingresante extends Persona implements IJson<Ingresante> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Ingresante that)) return false;
-        return id == that.id;
-    }
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
-    @Override
     public String toString() {
         return super.toString() +
                 ", Ingresante:" +

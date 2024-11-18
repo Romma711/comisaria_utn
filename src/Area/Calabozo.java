@@ -26,8 +26,8 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
     public boolean agregar(Procesado dato) {
         // Comprobación para evitar duplicados por ID
         for (Procesado procesado : reclusos) {
-            if (((Persona)procesado).equals(dato)) {
-                System.out.println("El recluso ya existe en el calabozo y no se puede agregar nuevamente.");
+            if (procesado.equals(dato)) {
+                System.out.println("\nERROR: El recluso ya existe en el calabozo y no se puede agregar nuevamente.\n\n");
                 return false;
             }
         }

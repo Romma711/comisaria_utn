@@ -2,6 +2,7 @@ package Entidades;
 
 import utils.Verificador;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public abstract class Persona{
@@ -71,7 +72,8 @@ public abstract class Persona{
 
     public void crearPersona(){
         Scanner scan = new Scanner(System.in);
-        Integer aux = 0;
+        Integer aux=0;
+        boolean flag= false;
         System.out.println("Ingresar nombre:");
         this.nombre = Verificador.verificarString();
         System.out.println("Ingresar apellido:");
@@ -83,7 +85,10 @@ public abstract class Persona{
         System.out.println("Ingresar direccion:");
         this.direccion = Verificador.verificarString();
         System.out.println("Ingresar edad:");
-        while (aux==0){ aux=Verificador.verificarInt(); }
+        while (aux==0 || !flag){
+            aux=Verificador.verificarInt();
+            flag = Verificador.verificarMayorEdad(aux);
+        }
         this.edad = aux;
         System.out.println("Ingresar genero (M / F):");
         char verificar ='a';
@@ -95,6 +100,19 @@ public abstract class Persona{
         }
         this.genero = verificar;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Persona persona)) return false;
+        return Objects.equals(dni, persona.dni);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(dni);
+    }
+
     @Override
     public String toString() {
         return "Persona{" +

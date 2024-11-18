@@ -11,7 +11,7 @@ public class Verificador {
         do {
             validador = scan.nextLine();
             if(validador.isBlank() || validador.isEmpty()){
-                System.out.println("Dato no valido");
+                System.out.println("ERROR: Dato no valido\n");
             }
         }while (validador.isBlank() || validador.isEmpty());
         return validador;
@@ -23,7 +23,7 @@ public class Verificador {
             validador = scan.nextInt();
         }catch (InputMismatchException e){
             e.getMessage();
-            System.out.println("Dato no valido");
+            System.out.println("ERROR: Dato no valido\n");
             validador=0;
         }
         return validador;
@@ -35,9 +35,15 @@ public class Verificador {
                 validador = scan.nextDouble();
             }catch (InputMismatchException e){
                 e.getMessage();
-                System.out.println("Dato no valido");
+                System.out.println("ERROR: Dato no valido\n");
                 validador = 0.0;
             }
         return validador;
+    }
+
+    public static Boolean verificarMayorEdad(Integer edad){
+        if(edad >= 18 && edad <70){ return true;}
+        System.out.println("ERROR: La persona no puede ser menor de edad, Vuelva a intentarlo\n");
+        return false;
     }
 }

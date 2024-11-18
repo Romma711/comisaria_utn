@@ -112,6 +112,7 @@ public class Procesado extends Ingresante {
         jsonObject.put("estado",getEstado());
         return jsonObject;
     }
+
 }
 
 
