@@ -1,6 +1,7 @@
 package Entidades;
 
 import Interfaces.IJson;
+import utils.Verificador;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -64,11 +65,10 @@ public abstract class Ingresante extends Persona implements IJson<Ingresante> {
 
     public void crearIngresante() {
         super.crearPersona();
-        Scanner scan = new Scanner(System.in);
         System.out.println("Ingrese la razon del ingreso");
-        this.razon = scan.nextLine();
+        this.razon = Verificador.verificarString();
         System.out.println("Ingrese el numero de casillero donde se guardaron sus pertenencias");
-        this.nroCasillero = scan.nextLine();
+        this.nroCasillero = Verificador.verificarString();
     }
 
     @Override
@@ -84,7 +84,7 @@ public abstract class Ingresante extends Persona implements IJson<Ingresante> {
     @Override
     public String toString() {
         return super.toString() +
-                ", Ingresante{" +
+                ", Ingresante:" +
                 ", id= " + id +
                 ", fechaIngreso= " + fechaIngreso +
                 ", razon= " + razon +

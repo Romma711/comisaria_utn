@@ -1,3 +1,5 @@
+package utils;
+
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import java.io.FileNotFoundException;
@@ -5,7 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class JSONUtils <T>{
+public class JSONUtils {
     public static void guardarArchivo(JSONObject obj, String json) {
         try{
             FileWriter file = new FileWriter(json);

@@ -2,6 +2,7 @@ package Entidades;
 
 import Interfaces.IJson;
 import org.json.JSONObject;
+import utils.Verificador;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -106,32 +107,32 @@ public class Personal extends Persona implements IJson<Personal>{
 
     public void crearPersonal(){
         super.crearPersona();
-        Scanner scan = new Scanner(System.in);
+        Double aux=0.0;
         System.out.println("Ingresar horas por mes(Numero entero):");
-        this.horasTotalesMes = scan.nextInt();
+        this.horasTotalesMes = Verificador.verificarInt();
         System.out.println("Ingresar salario(numero decimal separado por coma ej: 203,4):");
-        this.salario = scan.nextDouble();
+        while (aux==0.0){ aux=Verificador.verificarDouble(); }
+        this.salario = aux;
         System.out.println("Ingresar la tarea a ejercer:");
-        scan.nextLine();
-        this.tarea = scan.nextLine();
+        this.tarea = Verificador.verificarString();
     }
 
     @Override
     public String toString() {
-        return "Personal{" +
-                "legajo=" + legajo +
-                ", Nombre="+ getNombre()+
-                ", Apellido="+ getApellido()+
-                ", DNI="+ getDni()+
-                ", Telefono="+ getTelefono()+
-                ", Direccion="+ getDireccion()+
-                ", Edad="+ getEdad()+
-                ", Genero="+ getGenero()+
-                ", Horas del mes=" + horasTotalesMes +
-                ", Salario=" + salario +
-                ", Tarea='" + tarea + '\'' +
-                ", Activo=" + activo +
-                '}';
+        return "\n---------------------------------------------------------------------------\n"+
+                "Personal:\n" +
+                "\nLegajo=" + legajo +
+                "\nNombre="+ getNombre()+
+                "\nApellido="+ getApellido()+
+                "\nDNI="+ getDni()+
+                "\nTelefono="+ getTelefono()+
+                "\nDireccion="+ getDireccion()+
+                "\nEdad="+ getEdad()+
+                "\nGenero="+ getGenero()+
+                "\nHoras del mes=" + horasTotalesMes +
+                "\nSalario=" + salario +
+                "\nTarea='" + tarea + '\'' +
+                "\n---------------------------------------------------------------------------\n";
     }
 
     @Override

@@ -2,6 +2,7 @@ package Entidades;
 
 import Enums.T_Estado;
 import org.json.JSONObject;
+import utils.Verificador;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -45,7 +46,7 @@ public class Procesado extends Ingresante {
                 "2.INDULTADO,\n" +
                 "3.DETENIDO,\n" +
                 "4.MIGRADO\n");
-        switch (scan.nextInt()){
+        switch (Verificador.verificarInt()){
             case 1 -> estado = T_Estado.PROCESADO;
             case 2 -> estado = T_Estado.LIBERADO;
             case 3 -> estado = T_Estado.DETENIDO;
@@ -55,19 +56,20 @@ public class Procesado extends Ingresante {
 
     @Override
     public String toString() {
-        return "Procesado{" +
-                ", Id= " + getId() +
-                ", Nombre='" + getNombre() + '\'' +
-                ", Apellido='" + getApellido() + '\'' +
-                ", Dni='" + getDni() + '\'' +
-                ", Edad=" + getEdad() +
-                ", Genero=" + getGenero() +
-                ", FechaIngreso= " + getFechaIngreso() +
-                ", Razon= " + getRazon() +
-                ", NroCasillero= " + getNroCasillero() +
-                ", FechaEgreso=" + fechaEgreso +
-                ", Estado=" + estado +
-                '}';
+        return  "\n---------------------------------------------------------------------------\n" +
+                "Procesado:\n" +
+                "\nId= " + getId() +
+                "\nNombre='" + getNombre() + '\'' +
+                "\nApellido='" + getApellido() + '\'' +
+                "\nDni='" + getDni() + '\'' +
+                "\nEdad=" + getEdad() +
+                "\nGenero=" + getGenero() +
+                "\nFechaIngreso= " + getFechaIngreso() +
+                "\nRazon= " + getRazon() +
+                "\nNroCasillero= " + getNroCasillero() +
+                "\nFechaEgreso=" + fechaEgreso +
+                "\nEstado=" + estado +
+                "\n---------------------------------------------------------------------------\n";
     }
 
     @Override

@@ -3,6 +3,7 @@ package Entidades;
 import Area.Departamento;
 import Enums.T_Rango;
 import org.json.JSONObject;
+import utils.Verificador;
 
 import java.util.Scanner;
 
@@ -43,11 +44,10 @@ public class MiembroFuerza extends Personal  {
 
     public void crearMiembro(){
         super.crearPersonal();
-        Scanner scan = new Scanner(System.in);
         System.out.println("Ingrese el rango \n 1.OFICIAL \n 2.SARGENTO \n 3.TENIENTE \n 4.CAPITAN");
-        this.rango = Departamento.rango(scan.nextInt());
+        this.rango = Departamento.rango(Verificador.verificarInt());
         System.out.println("Ingrese las condecoraciones");
-        this.condecoraciones = scan.nextInt();
+        this.condecoraciones = Verificador.verificarInt();
     }
 
     @Override
@@ -80,22 +80,22 @@ public class MiembroFuerza extends Personal  {
 
     @Override
     public String toString() {
-        return
-                "MiembroFuerza{" +
-                        "legajo=" + getLegajo() +
-                        ", Nombre="+ getNombre()+
-                        ", Apellido="+ getApellido()+
-                        ", DNI="+ getDni()+
-                        ", Telefono="+ getTelefono()+
-                        ", Direccion="+ getDireccion()+
-                        ", Edad="+ getEdad()+
-                        ", Genero="+ getGenero()+
-                        ", Horas del mes=" + getHorasTotalesMes() +
-                        ", Salario=" + getSalario() +
-                        ", Tarea='" + getTarea() + '\'' +
-                        ", Activo=" + isActivo() +
-                ", Condecoraciones=" + condecoraciones +
-                '}';
+        return "\n---------------------------------------------------------------------------\n"+
+                "MiembroFuerza:\n" +
+                        "\nLegajo=" + getLegajo() +
+                        "\nNombre="+ getNombre()+
+                        "\nApellido="+ getApellido()+
+                        "\nDNI="+ getDni()+
+                        "\nTelefono="+ getTelefono()+
+                        "\nDireccion="+ getDireccion()+
+                        "\nEdad="+ getEdad()+
+                        "\nGenero="+ getGenero()+
+                        "\nHoras del mes=" + getHorasTotalesMes() +
+                        "\nSalario=" + getSalario() +
+                        "\nTarea='" + getTarea() + '\'' +
+                "\nRango="+getRango().toString()+
+                "\nCondecoraciones=" + condecoraciones +
+                "\n---------------------------------------------------------------------------\n";
     }
 }
 

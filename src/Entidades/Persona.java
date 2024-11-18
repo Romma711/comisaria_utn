@@ -1,5 +1,7 @@
 package Entidades;
 
+import utils.Verificador;
+
 import java.util.Scanner;
 
 public abstract class Persona{
@@ -69,21 +71,29 @@ public abstract class Persona{
 
     public void crearPersona(){
         Scanner scan = new Scanner(System.in);
+        Integer aux = 0;
         System.out.println("Ingresar nombre:");
-        this.nombre = scan.nextLine();
+        this.nombre = Verificador.verificarString();
         System.out.println("Ingresar apellido:");
-        this.apellido = scan.nextLine();
+        this.apellido = Verificador.verificarString();
         System.out.println("Ingresar DNI:");
-        this.dni = scan.nextLine();
+        this.dni = Verificador.verificarString();
         System.out.println("Ingresar telefono:");
-        this.telefono = scan.nextLine();
+        this.telefono = Verificador.verificarString();
         System.out.println("Ingresar direccion:");
-        this.direccion = scan.nextLine();
+        this.direccion = Verificador.verificarString();
         System.out.println("Ingresar edad:");
-        this.edad = scan.nextInt();
+        while (aux==0){ aux=Verificador.verificarInt(); }
+        this.edad = aux;
         System.out.println("Ingresar genero (M / F):");
-        scan.nextLine();
-        this.genero = scan.nextLine().charAt(0);
+        char verificar ='a';
+        while (verificar !='M' && verificar!='F'){
+            verificar=scan.nextLine().toUpperCase().charAt(0);
+            if(verificar != 'M' && verificar != 'F'){
+                System.out.println("Dato ingresado incorrecto");
+            }
+        }
+        this.genero = verificar;
     }
     @Override
     public String toString() {
