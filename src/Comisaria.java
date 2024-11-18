@@ -18,11 +18,29 @@ public class Comisaria {
     }
 
     public static void menuPrincipal() {
-        departamento = new Departamento();
-        calabozo = new Calabozo();
+        //region Tomar valores de los JSON
+        try {
+            departamento = new Departamento();
+            departamento = departamento.jsonToThisClass(JSONUtils.leerArchivo("departamento.json"));
+        } catch (NullPointerException e) {
+            System.out.println("No existe json con datos para departamentos.");
+        }
+        try {
+            calabozo = new Calabozo();
+            calabozo = calabozo.jsonToThisClass(JSONUtils.leerArchivo("calabozo.json"));
+        } catch (NullPointerException e) {
+            System.out.println("No existe json con datos para calabozo.");
+        }
+        try {
+            almacen = new Almacen();
+            almacen = almacen.jsonToThisClass(JSONUtils.leerArchivo("almacen.json"));
+        } catch (NullPointerException e) {
+            System.out.println("No existe json con datos para almacen.");
+        }
+        //endregion
+
         int selector = -1;
         Scanner lector = new Scanner(System.in);
-
 
         do {
             System.out.println("Ingrese el área desea acceder mediante su número (0 para salir):");
@@ -44,10 +62,11 @@ public class Comisaria {
                         menuCalabozo();
                         break;
                     default:
-                        if(selector==0){
+                        if(selector == 0){
                             System.out.println("Vuelva prontos");
+                        } else {
+                            System.out.println("Ingrese un número válido.");
                         }
-                            System.out.println("No ingrese espacios.");
                         break;
                 }
             } catch (InputMismatchException e) { //Ya lo declara el default del switch
@@ -60,52 +79,49 @@ public class Comisaria {
     //region MANIPULACIÓN DE ALMACEN.
         private static void menuAlmacenes() {
             Scanner lector = new Scanner(System.in);
-            try {
-                almacen = new Almacen();
-                almacen = almacen.jsonToThisClass(JSONUtils.leerArchivo("Almacen.json"));
+            int selector = -1;
+            System.out.println("Ingrese el ID de quien va a operar almacen:");
+            Integer idOperador = lector.nextInt();
 
-                int selector = -1;
-                System.out.println("Ingrese el ID de quien va a operar almacen:");
-                Integer idOperador = lector.nextInt();
-
-                do {
-                    System.out.println("Ingrese el número que corresponde a la acción a realizar (0 para volver):");
-                    System.out.println("1. Agregar al almacen.");
-                    System.out.println("2. Modificar registros.");
-                    System.out.println("3. Listar registros.");
-                    System.out.println("0. Volver.");
-                    System.out.println("> ");
-                    try {
-                        selector = lector.nextInt();
-                        switch (selector) {
-                            case 1:
-                                menuAgregarRegistros(idOperador);
-                                break;
-                            case 2:
-                                System.out.println(almacen.listar());
+            do {
+                System.out.println("Ingrese el número que corresponde a la acción a realizar (0 para volver):");
+                System.out.println("1. Agregar al almacen.");
+                System.out.println("2. Modificar registros.");
+                System.out.println("3. Listar registros.");
+                System.out.println("0. Volver.");
+                System.out.print("> ");
+                try {
+                    selector = lector.nextInt();
+                    switch (selector) {
+                        case 1:
+                            menuAgregarRegistros(idOperador);
+                            break;
+                        case 2:
+                            try {
                                 menuModificarRegistros(idOperador);
-                                break;
-                            case 3:
-                                System.out.println(almacen.listar());
-                                break;
-                            default:
+                            } catch (NullPointerException e) {
+                                System.out.println("PARA MODIFICAR UN DATO PRIMERO DEBE EXISTIR...");
+                            }
+                            break;
+                        case 3:
+                            System.out.println(almacen.listar());
+                            break;
+                        default:
+                            if (selector != 0) {
                                 System.out.println("INGRESE UN NUMERO VALIDO PARA LA ACCIÓN QUE DESEA REALIZAR EN ALMACEN...");
-                                break;
-                        }
-                    } catch (InputMismatchException e) {
-                        System.out.println("INGRESE UN DÍGITO VÁLIDO...");
-                        lector.nextLine();
+                            }
+                            break;
                     }
-
-                } while (selector != 0);
-                JSONUtils.guardarArchivo(almacen.classToJson(), "almacen.json");
-
-            } catch (NullPointerException e) {
-                e.getMessage();
-            }
+                } catch (InputMismatchException e) {
+                    System.out.println("INGRESE UN DÍGITO VÁLIDO...");
+                    lector.nextLine();
+                }
+                System.out.println("Desea ingresar a otra area?...");
+            } while (selector != 0);
+            JSONUtils.guardarArchivo(almacen.classToJson(), "almacen.json");
         }
 
-        private static void menuAgregarRegistros(Integer idOperador){
+        private static void menuAgregarRegistros(Integer idOperador) {
             int selector;
             Scanner lector = new Scanner(System.in);
             do {
@@ -115,7 +131,7 @@ public class Comisaria {
                 System.out.println("3.Caso");
                 System.out.println("4.Evidencia de un caso");
                 System.out.println("0.Volver");
-                System.out.println("> ");
+                System.out.print("> ");
 
                 selector = lector.nextInt();
                 switch (selector){
@@ -129,19 +145,29 @@ public class Comisaria {
                         AgregarCaso(idOperador);
                         break;
                     case 4:
+                        System.out.println(almacen.listar(T_Registro.CASO));
                         System.out.println("Ingrese la ID del caso al cual desea agregar la evidencia:");
-                        System.out.println("> ");
+                        System.out.print("> ");
                         Registro caso = almacen.buscarPorID(lector.nextInt());
-                        if (caso instanceof Caso) {
-                            AgregarEvidencia((Caso) caso, idOperador);
-                        } else {
-                            System.out.println("El ID no pertenece a un CASO.");
-                        }
+                        boolean flag = true;
+                        do {
+                            if (caso instanceof Caso) {
+                                AgregarEvidencia((Caso) caso, idOperador);
+                                flag = false;
+                            } else {
+                                System.out.println("El ID no pertenece a un CASO.");
+                                System.out.print("Ingrese nuevamente el ID:\n> ");
+                                caso = almacen.buscarPorID(lector.nextInt());
+                            }
+                        } while (flag);
                         break;
                     default:
-                        System.out.println("INGRESE UN NUMERO VALIDO...");
+                        if (selector != 0) {
+                            System.out.println("INGRESE UN NUMERO VALIDO...");
+                        }
                         break;
                 }
+                System.out.println("Desea ingresar otro dato?...");
             } while (selector != 0 );
         }
 
@@ -151,6 +177,7 @@ public class Comisaria {
                 System.out.println("Ingrese el tipo de material:");
                 System.out.println("1. Arma");
                 System.out.println("2. Esposas");
+                System.out.print("> ");
                 int select = lector.nextInt();
                 lector.nextLine();
                 Material_Policial materialPolicial = switch (select) {
@@ -181,18 +208,18 @@ public class Comisaria {
                 String idDenunciante = lector.nextLine();
 
                 System.out.println("Ingrese el dni del denunciado:");
-                System.out.println("> ");
+                System.out.print("> ");
                 String idDenunciado = lector.nextLine();
 
                 while (idDenunciado.equals(idDenunciante)) {
                     System.out.println("Ambos DNI son identicos...");
                     System.out.println("Ingrese el dni del denunciado nuevamente:");
-                    System.out.println("> ");
+                    System.out.print("> ");
                     idDenunciado = lector.nextLine();
                 }
 
                 System.out.println("Ingrese la declaracion:");
-                System.out.println("> ");
+                System.out.print("> ");
                 String declaracion = lector.nextLine();
 
                 Denuncia denuncia = new Denuncia(idDenunciante,idDenunciado,declaracion);
@@ -207,11 +234,11 @@ public class Comisaria {
                 Scanner lector = new Scanner(System.in);
 
                 System.out.println("Ingresar el nombre del caso");
-                System.out.println("> ");
+                System.out.print("> ");
                 String nombre = lector.nextLine();
 
                 System.out.println("Ingresar un comentario sobre el caso");
-                System.out.println("> ");
+                System.out.print("> ");
                 String comentario = lector.nextLine();
 
                 Caso caso = new Caso(nombre,comentario);
@@ -231,12 +258,12 @@ public class Comisaria {
             private static void AgregarEvidencia(Caso caso, Integer idOperador) {
             Scanner lector = new Scanner(System.in);
 
-            System.out.println("Ingresar un nombre para el caso");
-            System.out.println("> ");
-            String nombre = lector.nextLine();
+            System.out.println("Ingresar el codigo de paradero de la evidencia");
+            System.out.print("> ");
+            String codigo = lector.nextLine();
 
-            System.out.println("Ingresar un comentario sobre el caso");
-            System.out.println("> ");
+            System.out.println("Ingresar un comentario sobre la evidencia");
+            System.out.print("> ");
             String comentario = lector.nextLine();
 
             System.out.println("Ingrese el tipo de material:");
@@ -247,62 +274,69 @@ public class Comisaria {
             int select = lector.nextInt();
             lector.nextLine();
             Evidencia evidencia = switch (select) {
-                case 1 -> new Evidencia(T_Material.ARMA,nombre,comentario);
-                case 2 -> new Evidencia(T_Material.MUESTRA,nombre,comentario);
-                case 3 -> new Evidencia(T_Material.ESCRITURA,nombre,comentario);
-                case 4 -> new Evidencia(T_Material.ANALISIS,nombre,comentario);
+                case 1 -> new Evidencia(T_Material.ARMA,codigo,comentario);
+                case 2 -> new Evidencia(T_Material.MUESTRA,codigo,comentario);
+                case 3 -> new Evidencia(T_Material.ESCRITURA,codigo,comentario);
+                case 4 -> new Evidencia(T_Material.ANALISIS,codigo,comentario);
                 default -> null;
             };
             caso.agregarMod(new Modificacion(idOperador,LocalDateTime.now().toString(),"Incorporación de evidencia."));
             boolean flag = caso.agregarEvidencia(evidencia);
-            if (flag) {
+            if (!flag) {
                 System.out.println("SE PRESENTÓ UN PROBLEMA AL INGRESAR LA EVIDENCIA...");
             }
         }
         //endregion
 
-        private static void menuModificarRegistros(Integer idOperador){
+        private static void menuModificarRegistros(Integer idOperador) throws NullPointerException{
             int selector;
             Scanner lector = new Scanner(System.in);
-            System.out.println("Que desea modificar:");
-            System.out.println("1. Material policial --- (Posesión)");
-            System.out.println("2. Denuncia ------------ (Declaración)");
-            System.out.println("0. Volver.");
+
             do {
+                System.out.println("Que desea modificar:");
+                System.out.println("1. Material policial --- (Posesión)");
+                System.out.println("2. Denuncia ------------ (Declaración)");
+                System.out.println("0. Volver.");
+                System.out.print("> ");
                 selector = lector.nextInt();
-                switch (selector){
+                switch (selector) {
                     case 1:
+                        System.out.println(almacen.listar(T_Registro.MATERIAL_POLICIAL));
                         modificarMaterialPolicial(idOperador);
                         break;
                     case 2:
+                        System.out.println(almacen.listar(T_Registro.DENUNCIAS));
                         modificarDenuncia(idOperador);
                         break;
                     default:
-                        System.out.println("INGRESE UN NUMERO VALIDO...");
+                        if (selector != 0) {
+                            System.out.println("INGRESE UN NUMERO VALIDO...");
+                        }
                         break;
                 }
-            } while (selector != 0 );
+                System.out.println("Desea modificar otro dato?...");
+            } while (selector != 0);
         }
 
         //region SUBMENÚ MODIFICAR.
             private static void modificarMaterialPolicial(Integer idOperador) {
                 Scanner lector = new Scanner(System.in);
                 System.out.println("Ingrese el ID del material policial a modificar:");
-                System.out.println("> ");
+                System.out.print("> ");
 
                 Registro materialPolicial = almacen.buscarPorID(lector.nextInt());
                 lector.nextLine();
                 if (materialPolicial instanceof Material_Policial) {
                     System.out.println("Ingrese el ID del nuevo propietario:");
-                    System.out.println("> ");
+                    System.out.print("> ");
                     ((Material_Policial) materialPolicial).setIdPropietario(lector.nextLine());
                 } else {
                     System.out.println("El ID no pertenece a un MATERIAL POLICIAL.");
                 }
                 System.out.println("Ingrese un comentario para la modificacion:");
-                System.out.println("> ");
+                System.out.print("> ");
                 boolean flag = materialPolicial.agregarMod(new Modificacion(idOperador, LocalDateTime.now().toString(), lector.nextLine()));
-                if (flag) {
+                if (!flag) {
                     System.out.println("SE PRESENTÓ UN PROBLEMA AL INGRESAR EL COMENTARIO DE LA MODIFICACION...");
                 }
             }
@@ -316,17 +350,18 @@ public class Comisaria {
                 lector.nextLine();
                 if (denuncia instanceof Denuncia) {
                     System.out.println("Ingrese la nueva declaración de la denuncia:");
-                    System.out.println("> ");
+                    System.out.print("> ");
                     ((Denuncia) denuncia).setDeclaracion(lector.nextLine());
                 } else {
                     System.out.println("El ID no pertenece a una DENUNCIA.");
                 }
                 System.out.println("Ingrese un comentario para la modificacion:");
-                System.out.println("> ");
+                System.out.print("> ");
                 boolean flag = denuncia.agregarMod(new Modificacion(idOperador, LocalDateTime.now().toString(), lector.nextLine()));
-                if (flag) {
+                if (!flag) {
                     System.out.println("SE PRESENTÓ UN PROBLEMA AL INGRESAR EL COMENTARIO DE LA MODIFICACION...");
                 }
+                System.out.println(denuncia.listaModificaciones());
             }
         //endregion
 

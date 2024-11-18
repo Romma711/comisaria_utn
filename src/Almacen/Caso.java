@@ -103,6 +103,7 @@ public class Caso extends Registro {
     @Override
     public String toString() {
         return "Caso:" +
+                "\n  Nombre del caso: " + nombre +
                 "\n  ID del caso: " + super.getId() +
                 "\n  Comentario del caso: " + comentario +
                 "\n" + lista() +

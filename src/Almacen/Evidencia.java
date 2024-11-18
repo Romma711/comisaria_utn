@@ -36,7 +36,13 @@ public class Evidencia implements IJson<Evidencia> {
     public String getNota() {
         return nota;
     }
+    public static Integer getCont() {
+        return cont;
+    }
 
+    public static void setCont(Integer cont) {
+        Evidencia.cont = cont;
+    }
     public void setNota(String nota) {
         this.nota = nota;
     }
@@ -54,12 +60,10 @@ public class Evidencia implements IJson<Evidencia> {
     //region IJSON
     public Evidencia jsonToThisClass(JSONObject jason) {
         Evidencia evidencia = new Evidencia();
-
         evidencia.setTipo(jason.getEnum(T_Material.class,"tipo"));
         evidencia.setParadero(jason.getString("paradero"));
         evidencia.setNota(jason.getString("analisis"));
         evidencia.setIdEvidencia(jason.getInt("id_evidencia"));
-
         return evidencia;
     }
     public JSONObject classToJson() {

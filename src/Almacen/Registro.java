@@ -31,6 +31,13 @@ public abstract class Registro implements IJson<Registro> {
     public Integer getId() {
         return id;
     }
+    public static Integer getCont() {
+        return cont;
+    }
+
+    public static void setCont(Integer cont) {
+        Registro.cont = cont;
+    }
     protected void setId (Integer id) {
         this.id = id;
     }
@@ -56,6 +63,6 @@ public abstract class Registro implements IJson<Registro> {
 
     @Override
     public String toString() {
-        return listaModificaciones();
+        return '\n' + listaModificaciones();
     }
 }

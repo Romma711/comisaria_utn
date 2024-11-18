@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class JSONUtils <T>{
-    public static void guardarArchivo(JSONObject obj, String json){
+    public static void guardarArchivo(JSONObject obj, String json) {
         try{
             FileWriter file = new FileWriter(json);
             file.write(obj.toString());
@@ -19,7 +19,7 @@ public class JSONUtils <T>{
         }
     }
 
-    public static JSONObject leerArchivo(String json){
+    public static JSONObject leerArchivo(String json) {
         JSONTokener token=null;
         try{
             token= new JSONTokener(new FileReader(json));

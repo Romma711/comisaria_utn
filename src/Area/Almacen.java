@@ -57,19 +57,22 @@ public class Almacen implements IJson<Almacen> {
                 }
             }
         }
+        Registro.setCont(jason.getInt("contador_registro"));
+
+        Evidencia.setCont(jason.getInt("contador_evidencia"));
         return almacen;
     }
 
     public JSONObject classToJson() {
         JSONObject json = new JSONObject();
-        // Iterar sobre los valores del enum
-        for (T_Registro clave : T_Registro.values()) {
+        for (T_Registro clave : T_Registro.values()) { //Iterar sobre los valores del enum
             JSONArray arrayReg = new JSONArray();
-
             for (int i = 0; i < almacen.get(clave).size(); i++){
                 arrayReg.put(almacen.get(clave).get(i).classToJson());
             }
             json.put(clave.toString(),arrayReg);
+            json.put("contador_registro",Registro.getCont());
+            json.put("contador_evidencia",Evidencia.getCont());
         }
         return json;
     }
@@ -87,6 +90,14 @@ public class Almacen implements IJson<Almacen> {
                 listado = listado.concat("  " + i +"- ");
                 listado = listado.concat(reg.toString());
             }
+        }
+        return listado;
+    }
+
+    public String listar(T_Registro tipo) {
+        String listado = "";
+        for (Registro reg : almacen.get(tipo)) {
+            listado = listado.concat(reg.toString());
         }
         return listado;
     }

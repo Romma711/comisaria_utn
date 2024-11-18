@@ -11,17 +11,19 @@ public class Modificacion implements IJson<Modificacion> {
 
     ///region CONSTRUCTORES
     public Modificacion(Integer idOperador, String fechaModificacion, String comentario) {
+        idModificacion = UUID.randomUUID();
         this.idOperador = idOperador;
         this.fechaModificacion = fechaModificacion;
         this.razon = comentario;
     }
     public Modificacion() {
+        idModificacion = UUID.randomUUID();
     }
     ///endregion
 
     ///region GETTERS & SETTERS
-    private UUID getIdModificacion() {
-        return idModificacion;
+    private String getIdModificacion() {
+        return idModificacion.toString();
     }
     public Integer getIdOperador() {
         return idOperador;
@@ -69,8 +71,9 @@ public class Modificacion implements IJson<Modificacion> {
     @Override
     public String toString() {
         return "Modificacion:" +
+                "\nID: " + idModificacion +
                 "\nFecha de la modificacion: " + fechaModificacion +
-                "\nID del operador: " + idModificacion +
+                "\nID del operador: " + idOperador +
                 "\nRazón: " + razon + '\n';
     }
 }
