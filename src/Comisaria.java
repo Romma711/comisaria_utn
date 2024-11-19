@@ -5,7 +5,6 @@ import Enums.*;
 import Exceptions.NoEncontradoException;
 import Exceptions.YaExisteException;
 import utils.JSONUtils;
-import utils.Verificador;
 
 import java.time.LocalDateTime;
 import java.util.InputMismatchException;
@@ -227,7 +226,7 @@ public class Comisaria {
                 Denuncia denuncia = new Denuncia(idDenunciante,idDenunciado,declaracion);
                 denuncia.agregarMod(new Modificacion(idOperador,LocalDateTime.now().toString(),"Primera inserción de la denuncia."));
                 boolean flag = almacen.agregarAlAlmacen(T_Registro.DENUNCIAS,denuncia);
-                if (flag) {
+                if (!flag) {
                     System.out.println("SE PRESENTÓ UN PROBLEMA AL INGRESAR LOS DATOS...");
                 }
             }
@@ -252,7 +251,7 @@ public class Comisaria {
                 }
                 caso.agregarMod(new Modificacion(idOperador,LocalDateTime.now().toString(),"Primera inserción del caso."));
                 boolean flag = almacen.agregarAlAlmacen(T_Registro.CASO,caso);
-                if (flag) {
+                if (!flag) {
                     System.out.println("SE PRESENTÓ UN PROBLEMA AL INGRESAR LOS DATOS...");
                 }
             }
