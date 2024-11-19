@@ -65,7 +65,7 @@ public class Departamento implements IJson<Departamento> {
         for (int i = 0; i < listaDepartamentos.get(tipoDepto).size(); i++) {
             Personal personal = listaDepartamentos.get(tipoDepto).get(i);
             if (Objects.equals(personal.getLegajo(), data) && personal.isActivo()) {
-                return;
+                lugar = listaDepartamentos.get(tipoDepto).indexOf(personal);
             }
         }
         if(lugar == -1){
