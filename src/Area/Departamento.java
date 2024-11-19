@@ -206,10 +206,10 @@ public class Departamento implements IJson<Departamento> {
                     return listaDepartamentos.get(clave).get(posicion).getLegajo();
                 }catch (IndexOutOfBoundsException e){
                     e.getMessage();
-                    System.out.println("ERROR: el DNI del personal no existe");
                 }
             }
         }
+        System.out.println("ERROR: el DNI del personal no existe, volve a intentar:");
         return -1;
     }
 }
