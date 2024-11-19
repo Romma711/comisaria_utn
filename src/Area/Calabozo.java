@@ -27,12 +27,11 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
     @Override
     public boolean agregar(Procesado dato) {
         // Comprobación para evitar duplicados por ID
-        for (Procesado procesado : reclusos) {
-            if (procesado.equals(dato)) {
-                System.out.println("\nERROR: El recluso ya existe en el calabozo y no se puede agregar nuevamente.\n\n");
-                return false;
-            }
+        if (reclusos.contains(dato)) {
+            System.out.println("\nERROR: El recluso ya existe en el calabozo y no se puede agregar nuevamente.\n\n");
+            return false;
         }
+
         return reclusos.add(dato);
     }
     @Override
@@ -55,9 +54,7 @@ public class Calabozo implements ABML<Procesado>, IJson<Calabozo> {
             System.out.println("No hay reclusos en el calabozo.");
         } else {
             for (Procesado procesado : reclusos) {
-                if (procesado.getEstado()!=T_Estado.LIBERADO) {
-                    System.out.println(procesado.toString());
-                }
+                System.out.println(procesado.toString());
             }
         }
     }

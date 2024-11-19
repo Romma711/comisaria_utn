@@ -42,7 +42,7 @@ public class Procesado extends Ingresante {
     public void crearProcesado() {
         super.crearIngresante();
         Scanner scan = new Scanner(System.in);
-        System.out.println("Ingrese el estado del procesado 1.PROCESADO,\n" +
+        System.out.println("Ingrese el estado del procesado\n1.PROCESADO,\n" +
                 "2.INDULTADO,\n" +
                 "3.DETENIDO,\n" +
                 "4.MIGRADO\n");
@@ -52,6 +52,7 @@ public class Procesado extends Ingresante {
             case 3 -> estado = T_Estado.DETENIDO;
             case 4 -> estado = T_Estado.MIGRADO;
         }
+        fechaEgreso="Sigue en el calabozo";
     }
 
     @Override
